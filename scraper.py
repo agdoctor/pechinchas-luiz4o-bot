@@ -8,28 +8,49 @@ import json
 from typing import Dict, List, Any, Optional
 
 def clean_amazon_url(url: str) -> str:
-    """Limpa parâmetros de rastreio da Amazon para evitar bloqueios e URLs gigantes."""
-    if "amazon.com.br" not in url:
-        return url
-    
-    # Busca o padrão /dp/ASIN ou /gp/product/ASIN
+    """Limpa parâmetros de rastreio da Amazon."""
     match = re.search(r'/(?:dp|gp/product)/([A-Z0-9]{10})', url)
     if match:
         asin = match.group(1)
         return f"https://www.amazon.com.br/dp/{asin}"
     return url
 
+def clean_url(url: str) -> str:
+    """Limpa parâmetros de rastreio de diversas lojas para evitar bloqueios por WAF."""
+    if "amazon.com.br" in url:
+        return clean_amazon_url(url)
+    
+    if "kabum.com.br" in url:
+        # Padrão: /produto/ID/...
+        match = re.search(r'(kabum\.com\.br/produto/\d+)', url)
+        if match:
+            return "https://www." + match.group(1)
+            
+    if "mercadolivre.com.br" in url:
+        # Remove tudo após o código MLB ou o fim da URL do produto
+        if "?" in url:
+            return url.split("?")[0]
+
+    if "magazineluiza.com.br" in url or "magalu.com" in url:
+        if "?" in url: return url.split("?")[0]
+
+    # Fallback genérico: remove query params se forem muito longos
+    if len(url) > 200 and "?" in url:
+        return url.split("?")[0]
+        
+    return url
+
 def get_random_browser() -> str:
     """Retorna um perfil de navegador aleatório suportado pelo curl_cffi."""
-    return random.choice(["chrome110", "chrome116", "chrome120", "safari15_5"])
+    return random.choice(["chrome110", "chrome116", "chrome120", "chrome124", "safari15_5"])
 
 async def fetch_product_metadata(url: str) -> dict:
     """
     Acessa a URL e tenta extrair o título do produto e a imagem principal usando curl_cffi
     para personificação de TLS de navegadores reais (bypass robusto).
     """
-    url = clean_amazon_url(url)
-    print(f"🔍 [SmartScraper TLS] Iniciando extração: {url}")
+    url = clean_url(url)
+    print(f"🔍 [SmartScraper TLS] Iniciando extração (URL Limpa): {url}")
 
     max_retries = 3
     metadata = {
@@ -39,16 +60,32 @@ async def fetch_product_metadata(url: str) -> dict:
         "status_code": 200
     }
 
+    from curl_cffi.requests import AsyncSession
+
+    # Headers comuns para evitar 403 de WAFs como Cloudflare
+    common_headers = {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+        "Accept-Language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
+        "Cache-Control": "max-age=0",
+        "Upgrade-Insecure-Requests": "1",
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "none",
+        "Sec-Fetch-User": "?1",
+    }
+
     for attempt in range(max_retries):
         browser = get_random_browser()
         print(f"🔄 Tentativa {attempt + 1}/{max_retries} usando personificação: {browser}")
         
         try:
-            # curl_cffi.requests.get é síncrona, mas podemos usar run_in_executor ou a versão async se disponível
-            # A versão async do curl_cffi é AsyncSession
-            from curl_cffi.requests import AsyncSession
-            
-            async with AsyncSession(impersonate=browser) as s:
+            async with AsyncSession(impersonate=browser, headers=common_headers) as s:
+                # Referer ajuda em lojas como KaBuM/FastShop
+                if "kabum.com.br" in url:
+                    s.headers.update({"Referer": "https://www.google.com/"})
+                elif "amazon.com.br" in url:
+                    s.headers.update({"Referer": "https://www.amazon.com.br/"})
+
                 response = await s.get(url, timeout=20, allow_redirects=True)
                 metadata["status_code"] = response.status_code
                 
