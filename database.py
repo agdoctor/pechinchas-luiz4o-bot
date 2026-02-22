@@ -32,8 +32,9 @@ def init_db():
     
     # Inserir dados padrão baseados no seu .env só pra começar
     try:
-        c.execute("INSERT OR IGNORE INTO canais (nome_ou_link) VALUES ('promoexemplos')")
-        c.execute("INSERT OR IGNORE INTO canais (nome_ou_link) VALUES ('garimposdodepinho')")
+        from config import SOURCE_CHANNELS
+        for ch in SOURCE_CHANNELS:
+            c.execute("INSERT OR IGNORE INTO canais (nome_ou_link) VALUES (?)", (ch.strip(),))
         
         # Configs padrão
         c.execute("INSERT OR IGNORE INTO config (chave, valor) VALUES ('pausado', '0')")
@@ -41,6 +42,7 @@ def init_db():
         c.execute("INSERT OR IGNORE INTO config (chave, valor) VALUES ('preco_minimo', '0')")
         c.execute("INSERT OR IGNORE INTO config (chave, valor) VALUES ('delay_minutos', '0')")
         c.execute("INSERT OR IGNORE INTO config (chave, valor) VALUES ('assinatura', '')")
+        c.execute("INSERT OR IGNORE INTO config (chave, valor) VALUES ('cooldown_minutos', '60')")
 
         # --- NOVAS TABELAS ---
 
