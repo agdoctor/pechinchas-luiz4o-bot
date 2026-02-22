@@ -52,11 +52,14 @@ async def fetch_product_metadata(url: str) -> dict:
                 response = await s.get(url, timeout=20, allow_redirects=True)
                 metadata["status_code"] = response.status_code
                 
+                # Se não for 200, é falha imediata na tentativa
                 if response.status_code != 200:
                     print(f"⚠️ Status {response.status_code} na tentativa {attempt + 1}")
                     if attempt < max_retries - 1:
                         await asyncio.sleep(random.uniform(0.5, 1.5))
                         continue
+                    else:
+                        return metadata # Retorna com título vazio e status de erro
                 
                 soup = BeautifulSoup(response.text, 'html.parser')
                 title_tag = soup.find("title")
@@ -67,15 +70,15 @@ async def fetch_product_metadata(url: str) -> dict:
                 is_blocked = False
                 
                 # Keywords que indicam bloqueio REAL
-                block_keywords = ["robot check", "captcha", "503 - erro", "service unavailable", "indisponível", "acesso negado", "forbidden"]
+                block_keywords = ["robot check", "captcha", "503 - erro", "service unavailable", "indisponível", "acesso negado", "forbidden", "just a moment"]
                 if any(kw in low_title for kw in block_keywords):
                     is_blocked = True
                 
                 # Se o título for APENAS o nome da loja ou curto demais + nome da loja
                 if not is_blocked:
-                    generic_names = ["amazon.com.br", "mercado livre", "mercadolivre", "amazon"]
+                    generic_names = ["amazon.com.br", "mercado livre", "mercadolivre", "amazon", "kabum", "kabum!"]
                     # Bloqueia se o título for EXATAMENTE uma dessas palavras ou se for muito curto e contiver uma delas
-                    if low_title in generic_names or (len(low_title) < 20 and any(kw == low_title for kw in generic_names)):
+                    if low_title in generic_names or (len(low_title) < 25 and any(kw == low_title for kw in generic_names)):
                         is_blocked = True
 
                 if is_blocked:
@@ -85,7 +88,7 @@ async def fetch_product_metadata(url: str) -> dict:
                         continue
                     else:
                         metadata["title"] = ""
-                        break
+                        return metadata
                 
                 # Sucesso parcial: Tentar extrair dados
                 og_title = soup.find("meta", property="og:title")
@@ -93,37 +96,38 @@ async def fetch_product_metadata(url: str) -> dict:
                     metadata["title"] = og_title["content"]
                 elif raw_title:
                     # Limpa títulos da Amazon que vem com o sufixo da loja
-                    metadata["title"] = raw_title.split(" | Amazon.com.br")[0].split(": Amazon.com.br:")[0]
+                    metadata["title"] = raw_title.split(" | Amazon.com.br")[0].split(": Amazon.com.br:")[0].split(" | KaBuM!")[0]
 
                 # Valida se o título extraído é útil
                 extracted_title = str(metadata.get("title", ""))
-                if any(kw in extracted_title.lower() for kw in ["503 - erro", "service unavailable", "robot check", "amazon.com.br", "mercado livre", "mercadolivre"]):
+                if any(kw in extracted_title.lower() for kw in ["503 - erro", "service unavailable", "robot check", "amazon.com.br", "mercado livre", "mercadolivre", "kabum"]):
                     metadata["title"] = ""
                     if attempt < max_retries - 1: continue
-                    else: break
+                    else: return metadata
 
-                # Imagem
-                og_image = soup.find("meta", property="og:image")
-                if og_image and og_image.get("content"):
-                    metadata["image_url"] = str(og_image["content"])
-                
-                # Fallbacks Amazon para imagem
-                current_img = str(metadata.get("image_url", ""))
-                if not current_img or "captcha" in current_img.lower():
-                    img_tag = soup.find("img", id="landingImage") or soup.find("img", id="main-image")
-                    if img_tag:
-                        dyn_data = img_tag.get("data-a-dynamic-image")
-                        if dyn_data:
-                            try:
-                                dyn_img = json.loads(str(dyn_data))
-                                metadata["image_url"] = str(list(dyn_img.keys())[0]) if dyn_img else ""
-                            except: pass
-                        if not metadata.get("image_url"):
-                            metadata["image_url"] = str(img_tag.get("data-old-hires") or img_tag.get("src") or "")
-
-                if metadata.get("title") and not is_blocked:
+                if metadata.get("title"):
                     print(f"✅ Sucesso na tentativa {attempt + 1}!")
                     
+                    if metadata["image_url"] or True: # Tenta procurar imagem sempre se tiver título
+                        # Imagem
+                        og_image = soup.find("meta", property="og:image")
+                        if og_image and og_image.get("content"):
+                            metadata["image_url"] = str(og_image["content"])
+                        
+                        # Fallbacks Amazon para imagem
+                        current_img = str(metadata.get("image_url", ""))
+                        if not current_img or "captcha" in current_img.lower():
+                            img_tag = soup.find("img", id="landingImage") or soup.find("img", id="main-image")
+                            if img_tag:
+                                dyn_data = img_tag.get("data-a-dynamic-image")
+                                if dyn_data:
+                                    try:
+                                        dyn_img = json.loads(str(dyn_data))
+                                        metadata["image_url"] = str(list(dyn_img.keys())[0]) if dyn_img else ""
+                                    except: pass
+                                if not metadata.get("image_url"):
+                                    metadata["image_url"] = str(img_tag.get("data-old-hires") or img_tag.get("src") or "")
+
                     if metadata["image_url"]:
                         img_url = str(metadata["image_url"])
                         if img_url.startswith("//"): img_url = "https:" + img_url
