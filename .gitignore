@@ -7,3 +7,4 @@ downloads/
 venv/
 .vscode/
 *.pyc
+*.html
