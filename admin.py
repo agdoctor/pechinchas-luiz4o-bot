@@ -67,6 +67,14 @@ async def cmd_meuid(message: Message):
 async def cmd_enviar_shortcut(message: Message):
     await start_criar_oferta_msg(message)
 
+@dp.message(Command("reiniciar"))
+async def cmd_reiniciar(message: Message):
+    if not is_admin(message.from_user.id):
+        return
+    await message.answer("🔄 **Reiniciando o bot...**\nAguarde alguns instantes para que o sistema o inicie novamente.")
+    await asyncio.sleep(1)
+    os._exit(0)
+
 @dp.message(F.text == "🛠️ Abrir Painel Admin")
 async def btn_admin(message: Message):
     await cmd_start(message)
@@ -248,9 +256,10 @@ async def menu_config(callback: CallbackQuery):
     
     builder = InlineKeyboardBuilder()
     builder.button(text="Alternar Pausa", callback_data="toggle_pausa")
-    builder.button(text="Alternar Aprovação Manual", callback_data="toggle_aprovacao")
-    builder.button(text="Definir Preço Mínimo", callback_data="set_preco")
-    builder.button(text="Definir Assinatura", callback_data="set_assinatura")
+    builder.button(text="Alternar Aprovação", callback_data="toggle_aprovacao")
+    builder.button(text="Alterar Preço Mínimo", callback_data="set_preco_min")
+    builder.button(text="Alterar Assinatura", callback_data="set_assinatura")
+    builder.button(text="🔄 Reiniciar Bot", callback_data="reboot_bot")
     builder.button(text="🔙 Voltar", callback_data="voltar_main")
     builder.adjust(1)
     
@@ -284,6 +293,15 @@ async def ask_assinatura(callback: CallbackQuery):
     await callback.answer()
 
 # --- VOLTAR ---
+@dp.callback_query(F.data == "reboot_bot")
+async def handle_reboot_callback(callback: CallbackQuery):
+    if not is_admin(callback.from_user.id):
+        await callback.answer("❌ Sem permissão.")
+        return
+    await callback.message.answer("🔄 **Comando de reinicialização recebido.**\nO sistema irá reiniciar o processo agora.")
+    await asyncio.sleep(1)
+    os._exit(0)
+
 @dp.callback_query(F.data == "voltar_main")
 async def voltar_main(callback: CallbackQuery):
     user_states[callback.from_user.id] = None
