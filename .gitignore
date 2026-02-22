@@ -1,4 +1,5 @@
 .env
+square_env.txt
 # *.db (Comentado para subir o banco inicial)
 *.session
 *.session-journal
