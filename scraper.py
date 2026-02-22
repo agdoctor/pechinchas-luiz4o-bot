@@ -6,6 +6,7 @@ import asyncio
 import random
 import json
 from typing import Dict, List, Any, Optional
+from config import PROXY_URL
 
 def clean_amazon_url(url: str) -> str:
     """Limpa parâmetros de rastreio da Amazon."""
@@ -88,7 +89,8 @@ async def fetch_product_metadata(url: str) -> dict:
                 elif "aliexpress.com" in url:
                     s.headers.update({"Referer": "https://pt.aliexpress.com/"})
 
-                response = await s.get(url, timeout=30, allow_redirects=True)
+                proxy_dict = PROXY_URL if PROXY_URL else None
+                response = await s.get(url, timeout=30, allow_redirects=True, proxy=proxy_dict)
                 metadata["status_code"] = response.status_code
                 
                 if response.status_code != 200:
@@ -192,7 +194,7 @@ async def fetch_product_metadata(url: str) -> dict:
                         img_url = str(metadata["image_url"])
                         if img_url.startswith("//"): img_url = "https:" + img_url
                         try:
-                            img_res = await s.get(img_url, timeout=15)
+                            img_res = await s.get(img_url, timeout=15, proxy=proxy_dict)
                             if img_res.status_code == 200:
                                 if not os.path.exists("downloads"): os.makedirs("downloads")
                                 file_name = f"downloads/scraped_{random.randint(1000, 9999)}.jpg"
