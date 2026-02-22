@@ -49,7 +49,7 @@ async def fetch_product_metadata(url: str) -> dict:
             from curl_cffi.requests import AsyncSession
             
             async with AsyncSession(impersonate=browser) as s:
-                response = await s.get(url, timeout=20, follow_redirects=True)
+                response = await s.get(url, timeout=20, allow_redirects=True)
                 metadata["status_code"] = response.status_code
                 
                 if response.status_code != 200:
