@@ -96,7 +96,7 @@ async def fetch_product_metadata(url: str) -> dict:
                 if is_blocked:
                     print(f"🚫 Bloqueio detectado no título: '{raw_title}'")
                     if attempt < max_retries - 1:
-                        await asyncio.sleep(random.uniform(1.5, 4.0))
+                        await asyncio.sleep(random.uniform(0.5, 1.5))
                         continue
                     else:
                         # Se for a última tentativa e ainda estiver bloqueado, não define o título
