@@ -395,44 +395,6 @@ async def handle_text(message: Message):
     elif estado == "esperando_link_criacao":
         await processar_link_criacao(message, message.text.strip())
 
-async def processar_link_criacao(message: Message, link: str):
-    user_id = message.from_user.id
-    user_temp_data[user_id] = {"link": link}
-    
-    msg = await message.answer("🔍 Extraindo informações da página...")
-    
-    try:
-        from scraper import fetch_product_metadata
-        metadata = await fetch_product_metadata(link)
-        
-        user_temp_data[user_id]["titulo"] = metadata.get("title")
-        user_temp_data[user_id]["local_image_path"] = metadata.get("local_image_path")
-        
-        status = metadata.get("status_code", 200)
-        titulo_achado = metadata.get('title')
-        
-        is_generic_title = False
-        if titulo_achado:
-            low_title = titulo_achado.lower().strip()
-            if low_title in ["amazon.com.br", "mercado livre", "mercadolivre", "amazon"]:
-                is_generic_title = True
-
-        if status in [403, 503] or not titulo_achado or is_generic_title:
-            user_states[user_id] = "esperando_titulo_criacao"
-            warn_msg = "⚠️ **Bloqueio detectado ou falha na extração.**\nAmazon ou Mercado Livre bloqueou o acesso automático.\n\n"
-            retry_kb = InlineKeyboardMarkup(inline_keyboard=[
-                [InlineKeyboardButton(text="🔄 Tentar Novamente", callback_data="retry_scraping_initial")]
-            ])
-            await message.answer(f"{warn_msg}Por favor, **digite o nome do produto manualmente** para continuar:", reply_markup=retry_kb, parse_mode="Markdown")
-        else:
-            user_states[user_id] = "esperando_preco_criacao"
-            await message.answer(f"✅ Identifiquei: **{titulo_achado}**\n\nQual é o valor final da promoção? (Só números, ex: 150 ou 1500.50):")
-    finally:
-        try:
-            await msg.delete()
-        except:
-            pass
-
     elif estado == "esperando_titulo_criacao":
         user_temp_data[message.from_user.id]["titulo"] = message.text.strip()
         user_states[message.from_user.id] = "esperando_preco_criacao"
@@ -551,6 +513,44 @@ async def finalizar_criacao_manual(event_message: Message, user_id: int, modo_ai
             reply_markup=retry_kb,
             parse_mode="Markdown"
         )
+
+async def processar_link_criacao(message: Message, link: str):
+    user_id = message.from_user.id
+    user_temp_data[user_id] = {"link": link}
+    
+    msg = await message.answer("🔍 Extraindo informações da página...")
+    
+    try:
+        from scraper import fetch_product_metadata
+        metadata = await fetch_product_metadata(link)
+        
+        user_temp_data[user_id]["titulo"] = metadata.get("title")
+        user_temp_data[user_id]["local_image_path"] = metadata.get("local_image_path")
+        
+        status = metadata.get("status_code", 200)
+        titulo_achado = metadata.get('title')
+        
+        is_generic_title = False
+        if titulo_achado:
+            low_title = titulo_achado.lower().strip()
+            if low_title in ["amazon.com.br", "mercado livre", "mercadolivre", "amazon"]:
+                is_generic_title = True
+
+        if status in [403, 503] or not titulo_achado or is_generic_title:
+            user_states[user_id] = "esperando_titulo_criacao"
+            warn_msg = "⚠️ **Bloqueio detectado ou falha na extração.**\nAmazon ou Mercado Livre bloqueou o acesso automático.\n\n"
+            retry_kb = InlineKeyboardMarkup(inline_keyboard=[
+                [InlineKeyboardButton(text="🔄 Tentar Novamente", callback_data="retry_scraping_initial")]
+            ])
+            await message.answer(f"{warn_msg}Por favor, **digite o nome do produto manualmente** para continuar:", reply_markup=retry_kb, parse_mode="Markdown")
+        else:
+            user_states[user_id] = "esperando_preco_criacao"
+            await message.answer(f"✅ Identifiquei: **{titulo_achado}**\n\nQual é o valor final da promoção? (Só números, ex: 150 ou 1500.50):")
+    finally:
+        try:
+            await msg.delete()
+        except:
+            pass
 
 @dp.callback_query(F.data == "retry_scraping_initial")
 async def handle_retry_initial(callback: CallbackQuery):
