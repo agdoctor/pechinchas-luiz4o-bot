@@ -409,10 +409,25 @@ async def handle_text(message: Message):
         user_temp_data[message.from_user.id]["local_image_path"] = metadata.get("local_image_path")
         
         await msg.delete()
-        user_states[message.from_user.id] = "esperando_preco_criacao"
         
-        titulo_achado = metadata.get('title') or "Produto Desconhecido"
-        await message.answer(f"✅ Identifiquei: **{titulo_achado}**\n\nQual é o valor final da promoção? (Só números, ex: 150 ou 1500.50):")
+        status = metadata.get("status_code", 200)
+        titulo_achado = metadata.get('title')
+        
+        if status in [403, 503] or not titulo_achado:
+            user_states[message.from_user.id] = "esperando_titulo_criacao"
+            warn_msg = "⚠️ **Bloqueio detectado ou falha na extração.**\nAmazon ou Mercado Livre bloqueou o acesso automático.\n\n"
+            retry_kb = InlineKeyboardMarkup(inline_keyboard=[
+                [InlineKeyboardButton(text="🔄 Tentar Novamente", callback_data="retry_scraping_initial")]
+            ])
+            await message.answer(f"{warn_msg}Por favor, **digite o nome do produto manualmente** para continuar:", reply_markup=retry_kb, parse_mode="Markdown")
+        else:
+            user_states[message.from_user.id] = "esperando_preco_criacao"
+            await message.answer(f"✅ Identifiquei: **{titulo_achado}**\n\nQual é o valor final da promoção? (Só números, ex: 150 ou 1500.50):")
+
+    elif estado == "esperando_titulo_criacao":
+        user_temp_data[message.from_user.id]["titulo"] = message.text.strip()
+        user_states[message.from_user.id] = "esperando_preco_criacao"
+        await message.answer(f"✅ Título definido.\n\nQual é o valor final da promoção? (Só números, ex: 150 ou 1500.50):")
 
     elif estado == "esperando_preco_criacao":
         preco = message.text.strip()
@@ -527,6 +542,18 @@ async def finalizar_criacao_manual(event_message: Message, user_id: int, modo_ai
             reply_markup=retry_kb,
             parse_mode="Markdown"
         )
+
+@dp.callback_query(F.data == "retry_scraping_initial")
+async def handle_retry_initial(callback: CallbackQuery):
+    user_id = callback.from_user.id
+    link = user_temp_data.get(user_id, {}).get("link")
+    if link:
+        await callback.message.edit_text("🔄 Tentando extrair novamente...")
+        # Simula o recebimento do link de novo
+        callback.message.text = link
+        user_states[user_id] = "esperando_link_criacao"
+        await handle_text(callback.message)
+    await callback.answer()
 
 @dp.callback_query(F.data.startswith("retry_scraping_"))
 async def handle_retry_scraping(callback: CallbackQuery):
