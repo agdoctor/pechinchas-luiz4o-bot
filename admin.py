@@ -32,10 +32,6 @@ def get_main_keyboard():
     builder.adjust(1)
     return builder.as_markup()
 
-    builder.button(text="⚙️ Configurações Gerais", callback_data="menu_config")
-    builder.adjust(1)
-    return builder.as_markup()
-
 @dp.message(Command("start", "admin"))
 async def cmd_start(message: Message):
     user_id = message.from_user.id
@@ -408,12 +404,17 @@ async def handle_text(message: Message):
         user_temp_data[message.from_user.id]["titulo"] = metadata.get("title")
         user_temp_data[message.from_user.id]["local_image_path"] = metadata.get("local_image_path")
         
-        await msg.delete()
-        
         status = metadata.get("status_code", 200)
         titulo_achado = metadata.get('title')
         
-        if status in [403, 503] or not titulo_achado:
+        # Considera falha se o status for erro ou se o título for apenas o nome da loja
+        is_generic_title = False
+        if titulo_achado:
+            low_title = titulo_achado.lower().strip()
+            if low_title in ["amazon.com.br", "mercado livre", "mercadolivre", "amazon"]:
+                is_generic_title = True
+
+        if status in [403, 503] or not titulo_achado or is_generic_title:
             user_states[message.from_user.id] = "esperando_titulo_criacao"
             warn_msg = "⚠️ **Bloqueio detectado ou falha na extração.**\nAmazon ou Mercado Livre bloqueou o acesso automático.\n\n"
             retry_kb = InlineKeyboardMarkup(inline_keyboard=[

@@ -90,8 +90,8 @@ async def fetch_product_metadata(url: str) -> dict:
                 title_tag = soup.find("title")
                 raw_title = title_tag.text.strip() if title_tag else ""
                 
-                # Detecta bloqueio pelo conteúdo do título
-                is_blocked = any(kw in raw_title.lower() for kw in ["robot check", "captcha", "503 - erro", "service unavailable", "indisponível"])
+                # Detecta bloqueio pelo conteúdo do título (incluindo títulos genéricos)
+                is_blocked = any(kw in raw_title.lower() for kw in ["robot check", "captcha", "503 - erro", "service unavailable", "indisponível", "amazon.com.br", "mercado livre", "mercadolivre"])
                 
                 if is_blocked:
                     print(f"🚫 Bloqueio detectado no título: '{raw_title}'")
@@ -110,9 +110,9 @@ async def fetch_product_metadata(url: str) -> dict:
                 elif raw_title:
                     metadata["title"] = raw_title.split(" | Amazon.com.br")[0].split(": Amazon.com.br:")[0]
 
-                # Se o título extraído ainda parecer erro, limpa
+                # Se o título extraído ainda parecer erro ou genérico demais, limpa
                 extracted_title = str(metadata.get("title", ""))
-                if any(kw in extracted_title.lower() for kw in ["503 - erro", "service unavailable", "robot check"]):
+                if any(kw in extracted_title.lower() for kw in ["503 - erro", "service unavailable", "robot check", "amazon.com.br", "mercado livre", "mercadolivre"]):
                     metadata["title"] = ""
                     if attempt < max_retries - 1:
                         continue
