@@ -1,5 +1,5 @@
 .env
-*.db
+# *.db (Comentado para subir o banco inicial)
 *.session
 *.session-journal
 __pycache__/
