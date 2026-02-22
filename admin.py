@@ -471,6 +471,10 @@ async def finalizar_criacao_manual(event_message: Message, user_id: int, modo_ai
             # Usar texto manual fornecido pelo usuário
             texto_base = data.get("texto_manual", "Oferta sem descrição.")
 
+        # Garantir que o marcador de link existe no texto para manual creation
+        if "[LINK_" not in texto_base:
+            texto_base += "\n\n[LINK_0]"
+
         # Processar o link (Converter Amazon, expandir encurtados, etc)
         texto_com_placeholders, placeholder_map = await process_and_replace_links(texto_base, data.get('link'))
         

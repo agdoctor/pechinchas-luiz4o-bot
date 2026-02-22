@@ -21,7 +21,7 @@ def clean_amazon_url(url: str) -> str:
 
 def get_random_browser() -> str:
     """Retorna um perfil de navegador aleatório suportado pelo curl_cffi."""
-    return random.choice(["chrome110", "chrome116", "chrome120", "firefox104", "safari15_5"])
+    return random.choice(["chrome110", "chrome116", "chrome120", "safari15_5"])
 
 async def fetch_product_metadata(url: str) -> dict:
     """
