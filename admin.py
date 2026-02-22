@@ -680,6 +680,19 @@ async def tratar_aprovacao_manual(callback: CallbackQuery):
     # Marca como resolvido limpando a memoria
     ofertas_pendentes_admin[item_id] = None
 
+from aiogram.types.error_event import ErrorEvent
+import traceback
+
+@dp.error()
+async def global_error_handler(event: ErrorEvent):
+    """Captura erros globais do Aiogram e notifica o admin"""
+    print(f"⚠️ Erro Global Capturado: {event.exception}")
+    try:
+        error_msg = f"⚠️ **ALERTA DE SISTEMA: ERRO INTERNO** ⚠️\n\n**Tipo:** `{type(event.exception).__name__}`\n**Erro:** `{str(event.exception)[:500]}`\n\n*Detalhes no log do servidor.*"
+        await bot.send_message(chat_id=ADMIN_IDS[0], text=error_msg, parse_mode="Markdown")
+    except Exception as notify_err:
+        print(f"Não foi possível notificar o admin sobre o erro: {notify_err}")
+
 async def start_admin_bot():
     print("🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)")
     
@@ -689,4 +702,14 @@ async def start_admin_bot():
         BotCommand(command="enviar", description="Enviar Promoção via Link"),
     ])
     
+    # Enviar notificação de reinício
+    try:
+        await bot.send_message(
+            chat_id=ADMIN_IDS[0], 
+            text="🚀 **SISTEMA INICIADO / REINICIADO**\n\n✅ Bot ativo e monitorando grupos selecionados.",
+            parse_mode="Markdown"
+        )
+    except Exception as e:
+        print(f"Aviso: Não foi possível enviar notificação de startup: {e}")
+        
     await dp.start_polling(bot)
