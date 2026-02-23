@@ -97,6 +97,25 @@ async def cmd_start(message: Message):
 async def cmd_meuid(message: Message):
     await message.answer(f"Seu ID do Telegram é: <code>{message.from_user.id}</code>", parse_mode="HTML")
 
+@dp.message(Command("config"))
+async def cmd_config(message: Message):
+    if not is_admin(message.from_user.id): return
+    
+    args = message.text.split()
+    if len(args) == 1:
+        await message.answer("🛠️ **Uso do comando:** `/config chave valor`\n\nEx: `/config webapp_url https://seu-link.com`", parse_mode="Markdown")
+        return
+    
+    chave = args[1]
+    if len(args) == 2:
+        atual = get_config(chave)
+        await message.answer(f"ℹ️ O valor atual de `{chave}` é: `{atual or 'vazio'}`", parse_mode="Markdown")
+        return
+        
+    valor = " ".join(args[2:])
+    set_config(chave, valor)
+    await message.answer(f"✅ Configuração `{chave}` atualizada para: `{valor}`", parse_mode="Markdown")
+
 from aiogram.types import FSInputFile
 
 @dp.message(Command("log"))
