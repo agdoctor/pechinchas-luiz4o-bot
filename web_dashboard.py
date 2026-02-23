@@ -43,8 +43,10 @@ async def handle_index(request):
             }}
             #navbar {{
                 display: flex; background: var(--bg-sec); border-bottom: 1px solid var(--border);
-                overflow-x: auto; scrollbar-width: none; flex-shrink: 0; z-index: 100;
+                overflow-x: auto; flex-shrink: 0; z-index: 100;
             }}
+            #navbar::-webkit-scrollbar {{ height: 4px; }}
+            #navbar::-webkit-scrollbar-thumb {{ background: var(--border); border-radius: 10px; }}
             .nav-item {{
                 padding: 12px 15px; color: var(--text-dim); cursor: pointer; white-space: nowrap;
                 font-size: 14px; border-bottom: 2px solid transparent; transition: 0.2s;
@@ -225,10 +227,18 @@ async def handle_index(request):
                     const isA = x.k==='assinatura';
                     html += `
                         <p style="margin-bottom:5px; font-weight:bold; font-size:13px;">${{x.l}}:</p>
-                        ${{isA ? `<textarea id="set-${{x.k}}" oninput="updatePreview(this.value)" style="height:100px;">${{v.valor}}</textarea>
+                        ${{isA ? `
+                                 <div id="editor-toolbar" style="margin-bottom:5px; display:flex; gap:5px">
+                                    <button type="button" onclick="tag('b')" style="padding:2px 8px; font-size:12px"><b>B</b></button>
+                                    <button type="button" onclick="tag('i')" style="padding:2px 8px; font-size:12px"><i>I</i></button>
+                                    <button type="button" onclick="tag('u')" style="padding:2px 8px; font-size:12px"><u>U</u></button>
+                                    <button type="button" onclick="tag('a')" style="padding:2px 8px; font-size:12px">Link</button>
+                                    <button type="button" onclick="tag('code')" style="padding:2px 8px; font-size:12px">&lt;&gt;</button>
+                                 </div>
+                                 <textarea id="set-${{x.k}}" oninput="updatePreview(this.value)" style="height:120px; font-family:monospace; font-size:12px;">${{v.valor}}</textarea>
                                  <div id="html-preview" style="background:#000; padding:10px; border-radius:4px; margin:5px 0; font-size:12px; border:1px dashed var(--border)">
-                                    <small style="color:var(--text-dim);display:block;margin-bottom:5px">Preview Visual (HTML):</small>
-                                    <div id="preview-content">${{v.valor}}</div>
+                                    <small style="color:var(--text-dim);display:block;margin-bottom:5px">Preview Visual (Telegram HTML):</small>
+                                    <div id="preview-content" style="white-space: pre-wrap;">${{v.valor}}</div>
                                  </div>` 
                                : `<input id="set-${{x.k}}" value="${{v.valor}}">`
                         }}
@@ -241,6 +251,18 @@ async def handle_index(request):
             function updatePreview(val) {{
                 const p = document.getElementById('preview-content');
                 if(p) p.innerHTML = val;
+            }}
+            function tag(t) {{
+                const i = document.getElementById('set-assinatura');
+                const s = i.selectionStart, e = i.selectionEnd;
+                const txt = i.value;
+                const sel = txt.substring(s, e);
+                let rep = "";
+                if(t==='a') rep = `<a href="URL_AQUI">${{sel || "texto"}}</a>`;
+                else rep = `<${{t}}>${{sel}}</${{t}}>`;
+                i.value = txt.substring(0, s) + rep + txt.substring(e);
+                updatePreview(i.value);
+                i.focus();
             }}
             async function saveSet(k) {{ 
                 const val = document.getElementById('set-'+k).value;
@@ -259,7 +281,7 @@ async def handle_index(request):
                 }}
             }}
             if(window.Telegram && window.Telegram.WebApp) {{ Telegram.WebApp.ready(); Telegram.WebApp.expand(); }}
-            setInterval(()=>{{ if(currentTab==='logs') fetchLogs(); if(currentTab==='dashboard') loadStatus(); }}, 5000);
+            setInterval(()=>{{ if(currentTab==='logs') fetchLogs(); if(currentTab==='dashboard') loadStatus(); }}, 2000);
             loadStatus();
         </script>
     </body>
