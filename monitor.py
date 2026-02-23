@@ -284,12 +284,11 @@ async def start_monitoring():
                 source_url = f"https://t.me/c/{str(event.chat_id).replace('-100', '')}/{event.message.id}"
                 
             if admin_id_str:
-                pass
-                # try:
-                #     msg_info = f"🔎 **Nova oferta detectada!**\nCanal: `{event.chat.title or event.chat_id}`\n📥 [Postagem Original]({source_url})\n⏳ Processando publicação..."
-                #     await bot.send_message(chat_id=int(admin_id_str), text=msg_info, parse_mode="Markdown", disable_web_page_preview=True)
-                # except:
-                #     pass
+                try:
+                    msg_info = f"🔎 **Nova oferta detectada!**\nCanal: `{getattr(event.chat, 'title', None) or chat_id}`\n📥 [Postagem Original]({source_url})\n⏳ Processando publicação..."
+                    await bot.send_message(chat_id=int(admin_id_str), text=msg_info, parse_mode="Markdown", disable_web_page_preview=True)
+                except Exception as e:
+                    print(f"Erro ao notificar admin sobre detecção: {e}")
             
             media_path = None
             if event.message.media:
