@@ -7,16 +7,22 @@ async def main():
     print("🤖 Bot Pechinchas do Luiz4o - Sistema de Monitoramento + Controle")
     print("="*60)
     
-    try:
-        # Roda os dois processos (Userbot Telethon + Admin Aiogram) juntos assincronamente
-        await asyncio.gather(
-            start_monitoring(),
-            start_admin_bot()
-        )
-    except KeyboardInterrupt:
-        print("\nDesligando sistema...")
-    except Exception as e:
-        print(f"\nErro fatal: {e}")
+    while True:
+        try:
+            # Roda os dois processos (Userbot Telethon + Admin Aiogram) juntos assincronamente
+            await asyncio.gather(
+                start_monitoring(),
+                start_admin_bot()
+            )
+            # Se gather terminar (o que não deve ocorrer normalmente), quebra o loop
+            break
+        except KeyboardInterrupt:
+            print("\nDesligando sistema...")
+            break
+        except Exception as e:
+            print(f"\nErro fatal: {e}")
+            print("⏳ Tentando reconectar em 5 segundos...")
+            await asyncio.sleep(5)
 
 if __name__ == "__main__":
     asyncio.run(main())

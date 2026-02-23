@@ -80,6 +80,16 @@ async def cmd_reiniciar(message: Message):
         return
     await message.answer("🔄 **Reiniciando o bot...**\nAguarde alguns instantes para que o sistema o inicie novamente.")
     await asyncio.sleep(1)
+    
+    try:
+        from publisher import bot
+        await bot.session.close()
+    except: pass
+    try:
+        from monitor import client as userbot
+        await userbot.disconnect()
+    except: pass
+
     os.execv(sys.executable, ['python'] + sys.argv)
 
 @dp.message(F.text == "🛠️ Abrir Painel Admin")
@@ -321,6 +331,16 @@ async def handle_reboot_callback(callback: CallbackQuery):
         return
     await callback.message.answer("🔄 **Comando de reinicialização recebido.**\nO sistema irá reiniciar o processo agora.")
     await asyncio.sleep(1)
+    
+    try:
+        from publisher import bot
+        await bot.session.close()
+    except: pass
+    try:
+        from monitor import client as userbot
+        await userbot.disconnect()
+    except: pass
+    
     os.execv(sys.executable, ['python'] + sys.argv)
 
 @dp.callback_query(F.data == "voltar_main")
