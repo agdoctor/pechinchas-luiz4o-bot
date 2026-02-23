@@ -99,7 +99,9 @@ async def cmd_meuid(message: Message):
 
 @dp.message(Command("config"))
 async def cmd_config(message: Message):
-    if not is_admin(message.from_user.id): return
+    if not is_admin(message.from_user.id):
+        await message.answer("⚠️ Você não tem permissão de administrador para usar este comando.")
+        return
     
     args = message.text.split()
     if len(args) == 1:
