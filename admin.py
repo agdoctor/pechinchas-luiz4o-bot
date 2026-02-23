@@ -70,6 +70,24 @@ async def cmd_start(message: Message):
 async def cmd_meuid(message: Message):
     await message.answer(f"Seu ID do Telegram é: <code>{message.from_user.id}</code>", parse_mode="HTML")
 
+from aiogram.types import FSInputFile
+
+@dp.message(Command("log"))
+async def cmd_log(message: Message):
+    if not is_admin(message.from_user.id):
+        return
+        
+    log_path = "bot.log"
+    if not os.path.exists(log_path):
+        await message.answer("⚠️ Nenhum arquivo de log encontrado até o momento.")
+        return
+        
+    try:
+        log_file = FSInputFile(log_path)
+        await message.answer_document(document=log_file, caption="📄 Arquivo de log atual do bot.")
+    except Exception as e:
+        await message.answer(f"❌ Erro ao enviar log: {e}")
+
 @dp.message(Command("enviar"))
 async def cmd_enviar_shortcut(message: Message):
     await start_criar_oferta_msg(message)
