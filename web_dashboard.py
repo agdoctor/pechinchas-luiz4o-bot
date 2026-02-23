@@ -15,7 +15,6 @@ async def handle_index(request):
 
     # Headers para permitir o Mini App abrir no Telegram Web sem bloqueios
     headers = {
-        'Content-Type': 'text/html',
         'Content-Security-Policy': "frame-ancestors https://web.telegram.org https://pwa.telegram.org https://desktop.telegram.org https://*.telegram.org;",
         'X-Frame-Options': 'ALLOWALL'
     }
