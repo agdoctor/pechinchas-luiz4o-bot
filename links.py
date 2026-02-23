@@ -35,7 +35,7 @@ def extract_urls(text: str) -> list[str]:
     """
     # Regex melhorada para pegar domínios conhecidos mesmo sem https
     # Regex melhorada: pega domínios conhecidos mas exclui pontuação final como (. , ! ?)
-    url_pattern = re.compile(r'(https?://[^\s!?,;]+|www\.[^\s!?,;]+|mercadolivre\.com[^\s!?,;]*|amzn\.to[^\s!?,;]+|amz\.run[^\s!?,;]+|shopee\.com\.br[^\s!?,;]+|is\.gd[^\s!?,;]+|bit\.ly[^\s!?,;]+|tinyurl\.com[^\s!?,;]+|cutt\.ly[^\s!?,;]+)')
+    url_pattern = re.compile(r'(https?://[^\s!?,;]+|www\.[^\s!?,;]+|mercadolivre\.com[^\s!?,;]*|meli\.la[^\s!?,;]+|amzn\.to[^\s!?,;]+|amz\.run[^\s!?,;]+|shopee\.com\.br[^\s!?,;]+|is\.gd[^\s!?,;]+|bit\.ly[^\s!?,;]+|tinyurl\.com[^\s!?,;]+|cutt\.ly[^\s!?,;]+)')
     urls = url_pattern.findall(text)
     
     # Normalizar adicionando https:// se faltar
