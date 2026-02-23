@@ -147,6 +147,7 @@ async def handle_index(request):
                 if(t==='canais') loadCanais(); if(t==='keywords') loadKeywords();
                 if(t==='admins') loadAdmins(); if(t==='sorteios') loadSorteios();
                 if(t==='settings') loadSettings(); if(t==='dashboard') loadStatus();
+                if(t==='logs') fetchLogs();
             }}
             async function api(p, m='GET', b=null) {{
                 const s = p.includes('?') ? '&' : '?';
@@ -246,7 +247,17 @@ async def handle_index(request):
                 await api('settings','POST',{{chave:k, valor:val}}); 
                 Telegram.WebApp.showAlert("Configuração '"+k+"' salva com sucesso!"); 
             }}
-            async function fetchLogs() {{ const d=await api('logs'); document.getElementById('terminal').textContent=d.logs; }}
+            async function fetchLogs() {{ 
+                const term = document.getElementById('terminal');
+                if(!term.textContent) term.textContent = "Carregando logs...";
+                const d = await api('logs'); 
+                if(d.logs) {{
+                    term.textContent = d.logs; 
+                    term.scrollTop = term.scrollHeight;
+                }} else if(d.error) {{
+                    term.textContent = "Erro: " + d.error;
+                }}
+            }}
             if(window.Telegram && window.Telegram.WebApp) {{ Telegram.WebApp.ready(); Telegram.WebApp.expand(); }}
             setInterval(()=>{{ if(currentTab==='logs') fetchLogs(); if(currentTab==='dashboard') loadStatus(); }}, 5000);
             loadStatus();
