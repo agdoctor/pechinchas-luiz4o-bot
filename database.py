@@ -95,11 +95,27 @@ def get_canais():
     conn.close()
     return canais
 
+def normalize_channel(nome: str) -> str:
+    """Extrai apenas o username de links ou remove o @."""
+    nome = nome.strip()
+    # Se for link do tipo https://t.me/username ou t.me/username
+    if "t.me/" in nome:
+        nome = nome.split("t.me/")[-1]
+    # Remove @ inicial se existir
+    if nome.startswith("@"):
+        nome = nome[1:]
+    # Remove barras finais se houver
+    nome = nome.split("/")[0]
+    return nome
+
 def add_canal(nome: str):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     try:
-        c.execute("INSERT INTO canais (nome_ou_link) VALUES (?)", (nome.strip(),))
+        nome_limpo = normalize_channel(nome)
+        if not nome_limpo:
+            return False
+        c.execute("INSERT INTO canais (nome_ou_link) VALUES (?)", (nome_limpo,))
         conn.commit()
         return True
     except sqlite3.IntegrityError:

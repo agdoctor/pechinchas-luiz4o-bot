@@ -4,7 +4,7 @@ import re
 import hashlib
 from telethon import TelegramClient, events
 from config import API_ID, API_HASH, TARGET_CHANNEL
-from database import get_canais, get_keywords, get_config, check_duplicate, add_to_history, get_negative_keywords
+from database import get_canais, get_keywords, get_config, check_duplicate, add_to_history, get_negative_keywords, normalize_channel
 
 from rewriter import reescrever_promocao
 from links import process_and_replace_links
@@ -110,9 +110,13 @@ async def start_monitoring():
             chat_id = str(event.chat_id)
             
             is_monitored = False
-            if chat_username and chat_username.lower() in [c.lower().replace('@', '') for c in source_channels]:
+            
+            # Normaliza a lista de canais do banco para comparação
+            monitored_list = [normalize_channel(c).lower() for c in source_channels]
+            
+            if chat_username and chat_username.lower() in monitored_list:
                 is_monitored = True
-            elif chat_id in source_channels or str(event.chat_id) in source_channels:
+            elif chat_id in monitored_list:
                 is_monitored = True
                 
             if not is_monitored:

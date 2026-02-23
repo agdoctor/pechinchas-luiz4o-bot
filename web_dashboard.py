@@ -214,7 +214,7 @@ async def handle_index(request):
                 const d = await api('canais');
                 const l = document.getElementById('list-canais');
                 let h = "";
-                d.canais.forEach(c => {{ h += `<li>@${{c}} <button class="danger" onclick="delCanal('${{c}}')">x</button></li>`; }});
+                d.canais.forEach(c => {{ h += `<li>${{c}} <button class="danger" onclick="delCanal('${{c}}')">x</button></li>`; }});
                 l.innerHTML = h || "<li>Nenhum canal monitorado.</li>";
             }}
             async function addCanal() {{ const i=document.getElementById('new-canal'); await api('canais','POST',{{canal:i.value}}); i.value=""; loadCanais(); }}
