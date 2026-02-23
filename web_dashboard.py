@@ -210,7 +210,7 @@ async def handle_index(request):
                 for(const x of f) {{
                     const v = await api('settings?key='+x.k);
                     const isA = x.k==='assinatura';
-                    c.innerHTML += `<p>\${{x.l}}:</p>\${{isA ? \`<textarea id="set-\${{x.k}}">\${{v.valor}}</textarea>\` : \`<input id="set-\${{x.k}}" value="\${{v.valor}}">\`}<button onclick="saveSet('\${{x.k}}')" class="primary" style="margin-top:5px;width:100%">Salvar</button>`;
+                    c.innerHTML += `<p>\${{x.l}}:</p>\${{isA ? \`<textarea id="set-\${{x.k}}">\${{v.valor}}</textarea>\` : \`<input id="set-\${{x.k}}" value="\${{v.valor}}">\`}}<button onclick="saveSet('\${{x.k}}')" class="primary" style="margin-top:5px;width:100%">Salvar</button>`;
                 }}
             }}
             async function saveSet(k) {{ await api('settings','POST',{{chave:k, valor:document.getElementById('set-'+k).value}}); Telegram.WebApp.showAlert("Salvo!"); }}
