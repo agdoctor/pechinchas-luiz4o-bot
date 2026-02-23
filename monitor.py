@@ -131,6 +131,14 @@ async def start_monitoring():
             if not mensagem_texto and not event.message.media:
                 return
                 
+            # Verifica as keywords (se a lista não for vazia)
+            keywords = get_keywords()
+            if keywords:
+                has_keyword = any(kw.lower() in mensagem_texto.lower() for kw in keywords)
+                if not has_keyword:
+                    print("⏭️ Ignorado: Nenhuma keyword configurada foi encontrada no texto.")
+                    return
+                
             # Verifica Preço Mínimo (Se houver $ / R$ no texto)
             preco_min = float(get_config("preco_minimo") or "0")
             if preco_min > 0:
@@ -236,14 +244,6 @@ async def start_monitoring():
             if oferta_duplicada:
                 return
 
-            # Verifica as keywords (se a lista não for vazia)
-            keywords = get_keywords()
-            if keywords:
-                has_keyword = any(kw.lower() in mensagem_texto.lower() for kw in keywords)
-                if not has_keyword:
-                    # Nenhuma keyword encontrada, ignorar mensagem
-                    return
-            
             # --- NOTIFICAÇÃO ADMIN ---
             admin_id_str = get_config("admin_id")
             if admin_id_str:
