@@ -8,6 +8,7 @@ from config import BOT_TOKEN
 import database
 from database import add_canal, get_canais, remove_canal, add_keyword, get_keywords, remove_keyword, get_config, set_config, is_admin, get_admins, add_admin, remove_admin
 import os
+import sys
 import asyncio
 import re
 
@@ -79,7 +80,7 @@ async def cmd_reiniciar(message: Message):
         return
     await message.answer("🔄 **Reiniciando o bot...**\nAguarde alguns instantes para que o sistema o inicie novamente.")
     await asyncio.sleep(1)
-    os._exit(0)
+    os.execv(sys.executable, ['python'] + sys.argv)
 
 @dp.message(F.text == "🛠️ Abrir Painel Admin")
 async def btn_admin(message: Message):
@@ -127,18 +128,32 @@ async def del_canal(callback: CallbackQuery):
 @dp.callback_query(F.data == "menu_keywords")
 async def menu_keywords(callback: CallbackQuery):
     kws = get_keywords()
+    
+    texto_kws = "\n".join([f"- {k}" for k in kws[:100]])
+    if len(kws) > 100:
+        texto_kws += f"\n... (e mais {len(kws)-100} palavras. Use a busca!)"
+        
     texto = "🔑 **Palavras-Chave:**\n*(Se a lista estiver vazia, ele encaminha TUDO)*\n\n" 
-    texto += "\n".join([f"- {k}" for k in kws])
-    texto += "\n\nPara remover, clique abaixo. Para adicionar, digite a(s) palavra(s) no chat (separe por vírgula se forem várias)."
+    texto += texto_kws
+    texto += "\n\nPara buscar, remover ou adicionar, use os botões abaixo ou digite no chat."
     
     builder = InlineKeyboardBuilder()
-    for k in kws:
+    builder.button(text="🔍 Buscar Keyword", callback_data="buscar_kw")
+    for k in kws[:90]:
         builder.button(text=f"❌ {k}", callback_data=f"delkw_{k}")
     builder.button(text="🔙 Voltar", callback_data="voltar_main")
-    builder.adjust(2)
+    
+    sizes = [1] + [2] * ((len(kws[:90]) + 1) // 2) + [1]
+    builder.adjust(*sizes)
     
     await callback.message.edit_text(texto, reply_markup=builder.as_markup(), parse_mode="Markdown")
     user_states[callback.from_user.id] = "esperando_kw"
+
+@dp.callback_query(F.data == "buscar_kw")
+async def btn_buscar_kw(callback: CallbackQuery):
+    user_states[callback.from_user.id] = "esperando_busca_kw"
+    await callback.message.edit_text("🔍 **Buscar Keyword**\n\nDigite a palavra (ou parte dela) que deseja procurar na sua lista:")
+    await callback.answer()
 
 @dp.callback_query(F.data.startswith("delkw_"))
 async def del_kw(callback: CallbackQuery):
@@ -306,7 +321,7 @@ async def handle_reboot_callback(callback: CallbackQuery):
         return
     await callback.message.answer("🔄 **Comando de reinicialização recebido.**\nO sistema irá reiniciar o processo agora.")
     await asyncio.sleep(1)
-    os._exit(0)
+    os.execv(sys.executable, ['python'] + sys.argv)
 
 @dp.callback_query(F.data == "voltar_main")
 async def voltar_main(callback: CallbackQuery):
@@ -370,15 +385,47 @@ async def handle_text(message: Message):
     elif estado == "esperando_kw":
         kws = [k.strip() for k in message.text.lower().split(",") if k.strip()]
         adicionadas = []
+        ja_existem = []
         for kw in kws:
             if add_keyword(kw):
                 adicionadas.append(kw)
+            else:
+                ja_existem.append(kw)
         
+        msg_parts = []
         if adicionadas:
-            await message.answer(f"✅ Keyword(s) adicionada(s): `{', '.join(adicionadas)}`\nO bot só filtrará mensagens que tenham essas palavras.")
-        else:
-            await message.answer("⚠️ Nenhuma keyword nova foi adicionada (talvez já existam).")
+            msg_parts.append(f"✅ Keyword(s) adicionada(s): `{', '.join(adicionadas)}`\nO bot só filtrará mensagens que tenham essas palavras.")
+        if ja_existem:
+            msg_parts.append(f"⚠️ Já cadastrada(s): `{', '.join(ja_existem)}`")
+            
+        if not msg_parts:
+            msg_parts.append("⚠️ Nenhuma keyword válida informada.")
+            
+        await message.answer("\n".join(msg_parts))
         user_states[message.from_user.id] = None
+
+    elif estado == "esperando_busca_kw":
+        busca = message.text.strip().lower()
+        kws = get_keywords()
+        resultados = [k for k in kws if busca in k.lower()]
+        
+        if resultados:
+            texto = f"🔍 **Resultados para:** `{busca}`\n\n" + "\n".join([f"- {k}" for k in resultados[:100]])
+            texto += "\n\nPara remover, clique abaixo. Para adicionar novas, digite no chat."
+        else:
+            texto = f"🔍 **Nenhum resultado para:** `{busca}`\n\nPara adicionar como nova keyword, basta digitar ela no chat."
+            
+        builder = InlineKeyboardBuilder()
+        builder.button(text="🔍 Nova Busca", callback_data="buscar_kw")
+        for k in resultados[:90]:
+            builder.button(text=f"❌ {k}", callback_data=f"delkw_{k}")
+        builder.button(text="🔙 Voltar p/ Keywords", callback_data="menu_keywords")
+        
+        sizes = [1] + [2] * ((len(resultados[:90]) + 1) // 2) + [1]
+        builder.adjust(*sizes)
+        
+        await message.answer(texto, reply_markup=builder.as_markup(), parse_mode="Markdown")
+        user_states[message.from_user.id] = "esperando_kw"
 
     elif estado == "esperando_id_admin":
         try:
