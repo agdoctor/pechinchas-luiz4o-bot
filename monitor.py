@@ -148,25 +148,41 @@ async def start_monitoring():
                         pass
                 
             # --- DEDUPLICAÇÃO (Cooldown 60 min) ---
-            # Extrai o link do produto ou título como fallback
+            # Extrai o link do produto para resgatar o título real
             link_match = re.search(r'(https?://[^\s]+)', mensagem_texto)
+            referencia = ""
+            titulo_real = ""
             if link_match:
                 referencia = link_match.group(1).split('?')[0] # Pega o link sem parâmetros para hash
-            else:
-                primeira_linha = mensagem_texto.split('\n')[0].strip()
-                referencia = re.sub(r'[^\w\s]', '', primeira_linha).strip().lower()[:50]
+                
+                # Tenta buscar o título real através do scraper
+                from scraper import fetch_product_metadata
+                try:
+                    metadata = await fetch_product_metadata(referencia)
+                    if metadata and metadata.get("title"):
+                        titulo_real = metadata["title"].strip()
+                except Exception as e:
+                    print(f"⚠️ Erro ao resgatar título real para deduplicação: {e}")
+            
+            # Se não conseguiu o título real, faz fallback para o link ou a primeira linha
+            if not titulo_real:
+                if referencia:
+                    titulo_real = referencia
+                else:
+                    primeira_linha = mensagem_texto.split('\n')[0].strip()
+                    titulo_real = re.sub(r'[^\w\s]', '', primeira_linha).strip().lower()[:50]
             
             # Pega o primeiro valor R$ achado (ou 0 se não houver)
             todos_precos = re.findall(r'R\$\s?(\d{1,3}(?:\.\d{3})*(?:,\d{2})?)', mensagem_texto)
             valor_referencia = todos_precos[0].replace('.', '').replace(',', '.') if todos_precos else "0"
             
-            # Cria o hash único (Referencia + Valor)
-            hash_str = f"{referencia}_{valor_referencia}"
+            # Cria o hash único (Titulo Real + Valor)
+            hash_str = f"{titulo_real}_{valor_referencia}"
             hash_id = hashlib.md5(hash_str.encode()).hexdigest()
-            print(f"🔍 Hash ID gerado para deduplicação: {hash_id} ({referencia} | R${valor_referencia})")
+            print(f"🔍 Hash ID gerado para deduplicação: {hash_id} ({titulo_real} | R${valor_referencia})")
             
             if check_duplicate(hash_id):
-                print(f"⏭️ Oferta duplicada detectada (Referência/Valor recente). Ignorando: {referencia} | R${valor_referencia}")
+                print(f"⏭️ Oferta duplicada detectada (Título Real/Valor recente). Ignorando: {titulo_real} | R${valor_referencia}")
                 return
             
             # Registra no histórico para as próximas checagens (cooldown de 60 min gerenciado no database.py)
