@@ -155,9 +155,9 @@ async def handle_index(request):
             async function loadStatus() {{
                 const d = await api('status');
                 document.getElementById('status-container').innerHTML = `
-                    <p>Monitorando: <b>\${{d.canais_count}} canais</b></p>
-                    <p>Keywords: <b>\${{d.kw_count}}</b> (+) / <b>\${{d.nkw_count}}</b> (-)</p>
-                    <p>Bot: <b>\${{d.pausado==='1' ? '⏸️ PAUSADO' : '▶️ ATIVO'}}</b></p>
+                    <p>Monitorando: <b>${{d.canais_count}} canais</b></p>
+                    <p>Keywords: <b>${{d.kw_count}}</b> (+) / <b>${{d.nkw_count}}</b> (-)</p>
+                    <p>Bot: <b>${{d.pausado==='1' ? '⏸️ PAUSADO' : '▶️ ATIVO'}}</b></p>
                 `;
                 document.getElementById('btn-pausa').textContent = d.pausado==='1' ? 'Retomar Bot' : 'Pausar Bot';
                 document.getElementById('check-only-admins').checked = d.only_admins==='1';
@@ -179,28 +179,28 @@ async def handle_index(request):
             async function loadCanais() {{
                 const d = await api('canais');
                 const l = document.getElementById('list-canais'); l.innerHTML = "";
-                d.canais.forEach(c => {{ l.innerHTML += `<li>@\${{c}} <button class="danger" onclick="delCanal('\${{c}}')">x</button></li>`; }});
+                d.canais.forEach(c => {{ l.innerHTML += `<li>@${{c}} <button class="danger" onclick="delCanal('${{c}}')">x</button></li>`; }});
             }}
             async function addCanal() {{ const i=document.getElementById('new-canal'); await api('canais','POST',{{canal:i.value}}); i.value=""; loadCanais(); }}
             async function delCanal(c) {{ await api('canais','DELETE',{{canal:c}}); loadCanais(); }}
             async function loadKeywords() {{
                 const k = await api('keywords'); const n = await api('neg_keywords');
                 const lk = document.getElementById('list-keywords'); lk.innerHTML = "";
-                k.keywords.forEach(x => {{ lk.innerHTML += `<li>\${{x}} <button class="danger" onclick="delKw('kw','\${{x}}')">x</button></li>`; }});
+                k.keywords.forEach(x => {{ lk.innerHTML += `<li>${{x}} <button class="danger" onclick="delKw('kw','${{x}}')">x</button></li>`; }});
                 const ln = document.getElementById('list-neg-keywords'); ln.innerHTML = "";
-                n.keywords.forEach(x => {{ ln.innerHTML += `<li>\${{x}} <button class="danger" onclick="delKw('nkw','\${{x}}')">x</button></li>`; }});
+                n.keywords.forEach(x => {{ ln.innerHTML += `<li>${{x}} <button class="danger" onclick="delKw('nkw','${{x}}')">x</button></li>`; }});
             }}
             async function delKw(t,x) {{ await api(t==='kw'?'keywords':'neg_keywords','DELETE',{{keyword:x}}); loadKeywords(); }}
             async function addKeyword(t) {{ const i=document.getElementById(t==='kw'?'new-kw':'new-nkw'); await api(t==='kw'?'keywords':'neg_keywords','POST',{{keyword:i.value}}); i.value=""; loadKeywords(); }}
             async function loadAdmins() {{
                 const d = await api('admins'); const l = document.getElementById('list-admins'); l.innerHTML = "";
-                d.admins.forEach(a => {{ l.innerHTML += `<li>\${{a[1]}} (\${{a[0]}}) <button class="danger" onclick="delAdmin('\${{a[0]}}')">x</button></li>`; }});
+                d.admins.forEach(a => {{ l.innerHTML += `<li>${{a[1]}} (${{a[0]}}) <button class="danger" onclick="delAdmin('${{a[0]}}')">x</button></li>`; }});
             }}
             async function addAdmin() {{ await api('admins','POST',{{user_id:document.getElementById('new-admin-id').value, username:document.getElementById('new-admin-name').value}}); loadAdmins(); }}
             async function delAdmin(id) {{ await api('admins','DELETE',{{user_id:id}}); loadAdmins(); }}
             async function loadSorteios() {{
                 const d = await api('sorteios'); const l = document.getElementById('list-sorteios'); l.innerHTML = "";
-                d.sorteios.forEach(s => {{ l.innerHTML += `<li>\${{s[1]}} <button onclick="closeSorteio('\${{s[0]}}')">Encerrar</button></li>`; }});
+                d.sorteios.forEach(s => {{ l.innerHTML += `<li>${{s[1]}} <button onclick="closeSorteio('${{s[0]}}')">Encerrar</button></li>`; }});
             }}
             async function addSorteio() {{ await api('sorteios','POST',{{premio:document.getElementById('new-premio').value}}); loadSorteios(); }}
             async function closeSorteio(id) {{ await api('sorteios','PATCH',{{id:id, winner_id:0, winner_name:'Ganhador'}}); loadSorteios(); }}
@@ -210,7 +210,7 @@ async def handle_index(request):
                 for(const x of f) {{
                     const v = await api('settings?key='+x.k);
                     const isA = x.k==='assinatura';
-                    c.innerHTML += `<p>\${{x.l}}:</p>\${{isA ? \`<textarea id="set-\${{x.k}}">\${{v.valor}}</textarea>\` : \`<input id="set-\${{x.k}}" value="\${{v.valor}}">\`}}<button onclick="saveSet('\${{x.k}}')" class="primary" style="margin-top:5px;width:100%">Salvar</button>`;
+                    c.innerHTML += `<p>${{x.l}}:</p>${{isA ? `<textarea id="set-${{x.k}}">${{v.valor}}</textarea>` : `<input id="set-${{x.k}}" value="${{v.valor}}">`}}<button onclick="saveSet('${{x.k}}')" class="primary" style="margin-top:5px;width:100%">Salvar</button>`;
                 }}
             }}
             async function saveSet(k) {{ await api('settings','POST',{{chave:k, valor:document.getElementById('set-'+k).value}}); Telegram.WebApp.showAlert("Salvo!"); }}
