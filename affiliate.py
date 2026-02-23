@@ -139,11 +139,16 @@ async def convert_aliexpress_to_affiliate(original_url: str) -> str:
     """
     from config import ALI_APP_KEY, ALI_APP_SECRET, ALI_TRACKING_ID
     
-    if not ALI_APP_KEY or not ALI_APP_SECRET or not ALI_TRACKING_ID:
-        print("⚠️ Credenciais do AliExpress não configuradas. Mantendo link original.")
-        return clean_tracking_params(original_url)
-
     clean_url = clean_tracking_params(original_url)
+    
+    if not ALI_APP_KEY or not ALI_APP_SECRET or not ALI_TRACKING_ID:
+        print("⚠️ Credenciais da API AliExpress não configuradas. Usando gerador genérico de deeplink.")
+        if ALI_TRACKING_ID:
+            import urllib.parse
+            encoded_url = urllib.parse.quote(clean_url, safe='')
+            return f"https://s.click.aliexpress.com/deep_link.htm?aff_short_key={ALI_TRACKING_ID}&dl_target_url={encoded_url}"
+        return clean_url
+
     
     # Parâmetros obrigatórios da API TopClient AliExpress
     params = {
