@@ -76,16 +76,16 @@ async def cmd_start(message: Message):
     # Gera URL para o Mini App
     url = f"{get_config('webapp_url')}?token={get_config('console_token')}"
     kb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="🖥️ ABRIR PAINEL DE CONTROLE", web_app=WebAppInfo(url=url))]
+        [InlineKeyboardButton(text="🖥️ ABRIR PAINEL DE CONTROLE", web_app=WebAppInfo(url=url))],
+        [InlineKeyboardButton(text="🚀 Enviar Promoção", callback_data="menu_criar_link")]
     ])
     
     await message.answer(
         "🛠️ **Painel de Controle Admins**\n\n"
-        "Toda a gestão do bot agora é feita pelo Mini App.",
+        "O que você deseja fazer agora?",
         reply_markup=kb,
         parse_mode="Markdown"
     )
-    await message.answer("⏳", reply_markup=ReplyKeyboardRemove()) # Limpa telado físico
 
 @dp.message(Command("meuid"))
 async def cmd_meuid(message: Message):
