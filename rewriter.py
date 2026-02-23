@@ -9,9 +9,8 @@ if GEMINI_API_KEY:
     print(f"🔑 Chave Gemini carregada (Início: {GEMINI_API_KEY[:4]}...{GEMINI_API_KEY[-4:]})")
 client = genai.Client(api_key=GEMINI_API_KEY)
 
-# Modelo estável confirmado para esta conta específica
-# Modelo estável (O usuário mostrou 2.5 no console, mas o SDK oficial costuma usar 1.5-flash ou 2.0-flash)
-MODEL_ID = 'gemini-1.5-flash'
+# Modelo exclusivo detectado (2.5-flash)
+MODEL_ID = 'gemini-2.5-flash'
 
 # Semaforo para evitar excesso de requisições simultâneas e garantir estabilidade
 gemini_semaphore = asyncio.Semaphore(1)
