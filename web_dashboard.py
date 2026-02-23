@@ -282,8 +282,12 @@ async def handle_index(request):
                     }};
                     if (body) options.body = JSON.stringify(body);
                     
-                    const res = await fetch(`/api/${{path}}?token=${{token}}`, options);
-                    return await res.json();
+                    const separator = path.includes('?') ? '&' : '?';
+                    const res = await fetch(`/api/${{path}}${{separator}}token=${{token}}`, options);
+                    const data = await res.json();
+                    
+                    if (!res.ok) return {{ error: data.error || "Erro no servidor" }};
+                    return data;
                 }} catch (e) {{
                     console.error("Erro API:", e);
                     return {{ error: "Erro de conexão" }};
@@ -465,41 +469,41 @@ async def check_token(request):
     return valid_token and token == valid_token
 
 async def handle_status_api(request):
-    if not await check_token(request): return web.json_response({{"error": "Unauthorized"}}, status=403)
+    if not await check_token(request): return web.json_response({"error": "Unauthorized"}, status=403)
     
-    return web.json_response({{
+    return web.json_response({
         "canais_count": len(get_canais()),
         "kw_count": len(get_keywords()),
         "nkw_count": len(get_negative_keywords()),
         "pausado": get_config("pausado"),
         "aprovacao": get_config("aprovacao_manual"),
-    }})
+    })
 
 async def handle_canais_api(request):
-    if not await check_token(request): return web.json_response({{"error": "Unauthorized"}}, status=403)
+    if not await check_token(request): return web.json_response({"error": "Unauthorized"}, status=403)
     
     if request.method == 'GET':
-        return web.json_response({{"canais": get_canais()}})
+        return web.json_response({"canais": get_canais()})
     
     elif request.method == 'POST':
         data = await request.json()
         canal = data.get('canal')
         if canal: add_canal(canal)
-        return web.json_response({{"success": True}})
+        return web.json_response({"success": True})
     
     elif request.method == 'DELETE':
         data = await request.json()
         canal = data.get('canal')
         if canal: remove_canal(canal)
-        return web.json_response({{"success": True}})
+        return web.json_response({"success": True})
 
 async def handle_keywords_api(request):
-    if not await check_token(request): return web.json_response({{"error": "Unauthorized"}}, status=403)
+    if not await check_token(request): return web.json_response({"error": "Unauthorized"}, status=403)
     is_neg = 'neg' in request.path
     
     if request.method == 'GET':
         kws = get_negative_keywords() if is_neg else get_keywords()
-        return web.json_response({{"keywords": kws}})
+        return web.json_response({"keywords": kws})
     
     elif request.method == 'POST':
         data = await request.json()
@@ -507,7 +511,7 @@ async def handle_keywords_api(request):
         if kw:
             if is_neg: add_negative_keyword(kw)
             else: add_keyword(kw)
-        return web.json_response({{"success": True}})
+        return web.json_response({"success": True})
     
     elif request.method == 'DELETE':
         data = await request.json()
@@ -515,34 +519,34 @@ async def handle_keywords_api(request):
         if kw:
             if is_neg: remove_negative_keyword(kw)
             else: remove_keyword(kw)
-        return web.json_response({{"success": True}})
+        return web.json_response({"success": True})
 
 async def handle_settings_api(request):
-    if not await check_token(request): return web.json_response({{"error": "Unauthorized"}}, status=403)
+    if not await check_token(request): return web.json_response({"error": "Unauthorized"}, status=403)
     
     if request.method == 'GET':
         key = request.query.get('key')
-        return web.json_response({{"valor": get_config(key)}})
+        return web.json_response({"valor": get_config(key)})
     
     elif request.method == 'POST':
         data = await request.json()
         chave = data.get('chave')
         valor = data.get('valor')
         if chave is not None: set_config(chave, str(valor))
-        return web.json_response({{"success": True}})
+        return web.json_response({"success": True})
 
 async def handle_logs_api(request):
-    if not await check_token(request): return web.json_response({{"error": "Unauthorized"}}, status=403)
+    if not await check_token(request): return web.json_response({"error": "Unauthorized"}, status=403)
     
     log_path = "bot.log"
-    if not os.path.exists(log_path): return web.json_response({{"logs": "Sem logs"}})
+    if not os.path.exists(log_path): return web.json_response({"logs": "Sem logs"})
     
     try:
         with open(log_path, "r", encoding="utf-8") as f:
             lines = f.readlines()
-            return web.json_response({{"logs": "".join(lines[-150:])}})
+            return web.json_response({"logs": "".join(lines[-150:])})
     except:
-        return web.json_response({{"error": "Erro ao ler logs"}}, status=500)
+        return web.json_response({"error": "Erro ao ler logs"}, status=500)
 
 async def start_web_server():
     if not get_config("console_token"):
