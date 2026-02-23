@@ -172,10 +172,13 @@ async def handle_index(request):
                 document.getElementById('check-aprovacao').checked = d.aprovacao==='1';
             }}
             async function restartBot() {{
-                if(!Telegram.WebApp.showConfirm("Deseja reiniciar o bot? O painel ficará offline por alguns segundos.")) return;
-                Telegram.WebApp.showScanQrPopup({{ text: "Reiniciando Bot..." }});
-                await api('restart', 'POST'); 
-                setTimeout(() => Telegram.WebApp.close(), 1500);
+                Telegram.WebApp.showConfirm("Deseja reiniciar o bot? O painel ficará offline por alguns segundos.", async (ok) => {{
+                    if(ok) {{
+                        await api('restart', 'POST'); 
+                        Telegram.WebApp.showAlert("Solicitação enviada! O bot irá reiniciar em instantes.");
+                        setTimeout(() => Telegram.WebApp.close(), 2000);
+                    }}
+                }});
             }}
             async function toggleOnlyAdmins() {{
                 const v = document.getElementById('check-only-admins').checked ? '1' : '0';
@@ -318,7 +321,7 @@ async def handle_status_api(request):
 async def handle_restart_api(request):
     if not await check_token(request): return web.json_response({"error": "Unauthorized"}, status=403)
     print("🔄 Reinicialização do Bot solicitada via Dashboard...")
-    asyncio.create_task(asyncio.sleep(1)).add_done_callback(lambda _: os._exit(0))
+    asyncio.get_event_loop().call_later(1.5, lambda: os._exit(0))
     return web.json_response({"success": True, "message": "Bot reiniciando..."})
 
 async def handle_canais_api(request):
