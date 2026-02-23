@@ -150,10 +150,11 @@ async def menu_keywords(callback: CallbackQuery):
     builder = InlineKeyboardBuilder()
     for k in kws[:90]:
         builder.button(text=f"❌ {k}", callback_data=f"delkw_{k}")
+    builder.button(text="➕ Adicionar Keyword", callback_data="add_kw_btn")
     builder.button(text="🔍 Buscar Keyword", callback_data="buscar_kw")
     builder.button(text="🔙 Voltar", callback_data="voltar_main")
     
-    sizes = [2] * ((len(kws[:90]) + 1) // 2) + [1, 1]
+    sizes = [2] * ((len(kws[:90]) + 1) // 2) + [1, 1, 1]
     builder.adjust(*sizes)
     
     await callback.message.edit_text(texto, reply_markup=builder.as_markup(), parse_mode="Markdown")
@@ -163,6 +164,12 @@ async def menu_keywords(callback: CallbackQuery):
 async def btn_buscar_kw(callback: CallbackQuery):
     user_states[callback.from_user.id] = "esperando_busca_kw"
     await callback.message.edit_text("🔍 **Buscar Keyword**\n\nDigite a palavra (ou parte dela) que deseja procurar na sua lista:")
+    await callback.answer()
+
+@dp.callback_query(F.data == "add_kw_btn")
+async def btn_add_kw(callback: CallbackQuery):
+    user_states[callback.from_user.id] = "esperando_kw"
+    await callback.message.edit_text("➕ **Adicionar Keyword**\n\nDigite a nova palavra-chave (ou várias separadas por vírgula) no chat:")
     await callback.answer()
 
 @dp.callback_query(F.data.startswith("delkw_"))
