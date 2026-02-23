@@ -65,7 +65,9 @@ async def handle_index(request):
             button.danger {{ background: var(--error); }}
             ul {{ list-style: none; padding: 0; }}
             li {{ display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }}
-            #terminal {{ background: #000; padding: 10px; font-size: 11px; height: 300px; overflow-y: auto; white-space: pre-wrap; color: #0f0; border-radius: 4px; }}
+            #terminal {{ background: #000; padding: 10px; font-size: 11px; height: 300px; transition: height 0.3s; overflow-y: auto; white-space: pre-wrap; color: #0f0; border-radius: 4px; border: 1px solid var(--border); }}
+            #terminal.expanded {{ height: 70vh; font-size: 12px; }}
+            .log-header {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }}
             .toggle-switch {{ display: flex; align-items: center; gap: 10px; margin-bottom: 10px; cursor: pointer; }}
             .toggle-switch input {{ width: auto; }}
         </style>
@@ -138,7 +140,17 @@ async def handle_index(request):
                 <div class="card"><div class="card-title">⚙️ Geral</div><div id="settings-form"></div></div>
             </div>
             <div id="tab-logs" class="tab-content">
-                <div class="card"><div class="card-title">📜 Logs</div><div id="terminal"></div><button onclick="fetchLogs()" style="margin-top:10px">🔄 Atualizar</button></div>
+                <div class="card">
+                    <div class="log-header">
+                        <div class="card-title" style="margin:0">📜 Logs</div>
+                        <small id="log-time" style="color:var(--text-dim)"></small>
+                    </div>
+                    <div id="terminal"></div>
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <button onclick="fetchLogs()" style="flex-grow: 1">🔄 Atualizar</button>
+                        <button onclick="toggleExpandLog()" id="btn-expand">↕️ Expandir</button>
+                    </div>
+                </div>
             </div>
         </main>
         <script>
@@ -284,14 +296,23 @@ async def handle_index(request):
             }}
             async function fetchLogs() {{ 
                 const term = document.getElementById('terminal');
+                const timeStr = document.getElementById('log-time');
                 if(!term.textContent) term.textContent = "Carregando logs...";
                 const d = await api('logs'); 
                 if(d.logs) {{
                     term.textContent = d.logs; 
                     term.scrollTop = term.scrollHeight;
+                    const now = new Date();
+                    timeStr.textContent = "Sincronizado: " + now.toLocaleDateString('pt-BR') + " " + now.toLocaleTimeString('pt-BR');
                 }} else if(d.error) {{
                     term.textContent = "Erro: " + d.error;
                 }}
+            }}
+            function toggleExpandLog() {{
+                const t = document.getElementById('terminal');
+                const b = document.getElementById('btn-expand');
+                t.classList.toggle('expanded');
+                b.textContent = t.classList.contains('expanded') ? '↕️ Reduzir' : '↕️ Expandir';
             }}
             if(window.Telegram && window.Telegram.WebApp) {{ Telegram.WebApp.ready(); Telegram.WebApp.expand(); }}
             setInterval(()=>{{ if(currentTab==='logs') fetchLogs(); if(currentTab==='dashboard') loadStatus(); }}, 2000);
