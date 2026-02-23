@@ -164,6 +164,13 @@ async def convert_aliexpress_to_affiliate(original_url: str) -> str:
             return f"https://s.click.aliexpress.com/deep_link.htm?aff_short_key={ALI_TRACKING_ID}&dl_target_url={encoded_url}"
         return clean_url
 
+    def get_fallback_url(url: str) -> str:
+        if ALI_TRACKING_ID:
+            import urllib.parse
+            encoded = urllib.parse.quote(url, safe='')
+            return f"https://s.click.aliexpress.com/deep_link.htm?aff_short_key={ALI_TRACKING_ID}&dl_target_url={encoded}"
+        return url
+
     
     # Parâmetros obrigatórios da API TopClient AliExpress
     params = {
@@ -202,7 +209,7 @@ async def convert_aliexpress_to_affiliate(original_url: str) -> str:
             
             if response.status_code != 200:
                 print(f"❌ Erro na API do AliExpress ({response.status_code}): {response.text}")
-                return clean_url
+                return get_fallback_url(clean_url)
                 
             data = response.json()
             
@@ -219,7 +226,7 @@ async def convert_aliexpress_to_affiliate(original_url: str) -> str:
                 resp_code = str(resp_result.get("resp_code", ""))
                 if resp_code != "200":
                     print(f"❌ API do AliExpress retornou erro na resposta interna: {resp_result}")
-                    return clean_url
+                    return get_fallback_url(clean_url)
                     
                 result = resp_result.get("result", {})
                 promotion_links = result.get("promotion_links", {}).get("promotion_link", [])
@@ -236,12 +243,12 @@ async def convert_aliexpress_to_affiliate(original_url: str) -> str:
                         
             except Exception as parse_err:
                 print(f"⚠️ Erro ao analisar resposta do AliExpress: {parse_err}. Retorno bruto: {data}")
-                return clean_url
+                return get_fallback_url(clean_url)
 
     except Exception as e:
         print(f"⚠️ Erro ao gerar link de afiliado AliExpress: {e}")
         
-    return clean_url
+    return get_fallback_url(clean_url)
 
 async def convert_to_affiliate(url: str) -> str:
     """
