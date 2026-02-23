@@ -11,6 +11,7 @@ from links import process_and_replace_links
 from publisher import publish_deal, bot
 from watermark import apply_watermark
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, FSInputFile
+from whatsapp_publisher import send_whatsapp_msg
 
 # O ADMIN_USER_ID agora é recuperado do banco de dados (chave 'admin_id')
 
@@ -68,6 +69,19 @@ async def worker_queue():
                     await bot.send_message(chat_id=int(admin_id_str), text=msg_conclusao, parse_mode="Markdown", disable_web_page_preview=True)
                 except Exception as e:
                     print(f"Aviso ao notificar admin na conclusao: {e}")
+            
+            # --- Envio para WhatsApp (Se habilitado) ---
+            try:
+                # O texto_final já está formatado como HTML para o Telegram.
+                # A Evolution API aceita texto simples ou Markdown básico.
+                # Vamos simplificar um pouco o texto para o WA (remover tags HTML básicas)
+                wa_text = texto_final.replace("<b>", "*").replace("</b>", "*")
+                wa_text = wa_text.replace("<i>", "_").replace("</i>", "_")
+                wa_text = re.sub(r'<a href=".*?">', '', wa_text).replace('</a>', '')
+                
+                await send_whatsapp_msg(wa_text, media_path)
+            except Exception as e:
+                print(f"Erro ao disparar para WhatsApp: {e}")
             
             # Limpar a mídia local depois de publicar de verdade
             if media_path and os.path.exists(media_path):
