@@ -1,6 +1,6 @@
 .env
 square_env.txt
-# *.db (Comentado para subir o banco inicial)
+*.db
 *.session
 *.session-journal
 __pycache__/
