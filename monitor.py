@@ -141,7 +141,8 @@ async def start_monitoring():
                     processed_grouped_ids.clear()
                 
             print("\n" + "="*50)
-            print("🚨 Nova mensagem identificada no canal fonte!")
+            channel_name = chat_username or chat_id
+            print(f"🚨 Nova mensagem identificada no canal fonte: {channel_name}")
             mensagem_texto = event.raw_text
             
             # Se a mensagem for só mídia ou mensagem vazia ignora
@@ -150,18 +151,20 @@ async def start_monitoring():
 
             # Verifica keywords negativas
             negative_keywords = get_negative_keywords()
-            if negative_keywords:
-                has_negative = any(n_kw.lower() in mensagem_texto.lower() for n_kw in negative_keywords)
-                if has_negative:
-                    print(f"🚫 Ignorado: A mensagem contém uma keyword negativa.")
-                    return
+            if negative_keywords and mensagem_texto:
+                for n_kw in negative_keywords:
+                    if n_kw.lower() in mensagem_texto.lower():
+                        print(f"🚫 Ignorado: A mensagem contém a keyword negativa: '{n_kw}'")
+                        print(f"📝 Texto analisado (trecho): {mensagem_texto[:100]}...")
+                        return
                 
             # Verifica as keywords (se a lista não for vazia)
             keywords = get_keywords()
-            if keywords:
+            if keywords and mensagem_texto:
                 has_keyword = any(kw.lower() in mensagem_texto.lower() for kw in keywords)
                 if not has_keyword:
-                    print("⏭️ Ignorado: Nenhuma keyword configurada foi encontrada no texto.")
+                    print(f"⏭️ Ignorado: Nenhuma keyword encontrada. (Configs: {', '.join(keywords)})")
+                    print(f"📝 Texto analisado (trecho): {mensagem_texto[:100]}...")
                     return
                 
             # Verifica Preço Mínimo (Se houver $ / R$ no texto)

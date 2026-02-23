@@ -253,6 +253,48 @@ async def convert_aliexpress_to_affiliate(original_url: str) -> str:
         
     return get_fallback_url(clean_url)
 
+async def convert_shopee_to_affiliate(original_url: str) -> str:
+    """
+    Converte um link da Shopee para link de afiliado usando o formato Universal Link.
+    Como não temos API, montamos a URL com os parâmetros de tracking do usuário.
+    """
+    import config
+    SHOPEE_AFFILIATE_ID = getattr(config, 'SHOPEE_AFFILIATE_ID', None)
+    SHOPEE_SOURCE_ID = getattr(config, 'SHOPEE_SOURCE_ID', None)
+    
+    if not SHOPEE_AFFILIATE_ID:
+        print("⚠️ SHOPEE_AFFILIATE_ID não configurado. Limpando apenas parâmetros.")
+        return clean_tracking_params(original_url)
+
+    # Extrair Shop ID e Item ID
+    # Padrao 1: shopee.com.br/product/123/456
+    # Padrao 2: shopee.com.br/nome-do-produto-i.123.456
+    
+    shop_id = None
+    item_id = None
+    
+    match1 = re.search(r'shopee\.com\.br/product/(\d+)/(\d+)', original_url)
+    if match1:
+        shop_id = match1.group(1)
+        item_id = match1.group(2)
+    else:
+        match2 = re.search(r'-i\.(\d+)\.(\d+)', original_url)
+        if match2:
+            shop_id = match2.group(1)
+            item_id = match2.group(2)
+            
+    if shop_id and item_id:
+        source_id = SHOPEE_SOURCE_ID if SHOPEE_SOURCE_ID else "python_bot"
+        # Formato Universal Link para abertura direta no APP com tracking
+        aff_url = (
+            f"https://shopee.com.br/universal-link/product/{shop_id}/{item_id}"
+            f"?utm_medium=affiliates&utm_source=an_{source_id}&utm_campaign=-&utm_content={SHOPEE_AFFILIATE_ID}"
+        )
+        print(f"✅ Link Shopee convertido via Universal Link: {aff_url}")
+        return aff_url
+        
+    return clean_tracking_params(original_url)
+
 async def convert_to_affiliate(url: str) -> str:
     """
     Identifica a loja e aplica a lógica de conversão correspondente.
@@ -266,7 +308,7 @@ async def convert_to_affiliate(url: str) -> str:
         return url
 
     # Mercado Livre
-    if 'mercadolivre.com.br' in domain or 'mercadolibre.com' in domain:
+    if 'mercadolivre.com' in domain or 'mercadolibre.com' in domain:
         return await convert_ml_to_affiliate(url)
     
     # Amazon
@@ -296,7 +338,11 @@ async def convert_to_affiliate(url: str) -> str:
     # AliExpress
     if 'aliexpress.com' in domain or 'aliexpress.us' in domain or 'aliexpress.ru' in domain or 's.click.aliexpress' in domain:
         return await convert_aliexpress_to_affiliate(url)
+    
+    # Shopee
+    if 'shopee.com.br' in domain or 'shopee.com' in domain:
+        return await convert_shopee_to_affiliate(url)
         
-    # Futuramente: Shopee, Magalu...
+    # Futuramente: Magalu...
     
     return clean_tracking_params(url)

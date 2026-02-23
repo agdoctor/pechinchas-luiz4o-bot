@@ -4,18 +4,26 @@ from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 
 async def expand_url(short_url: str) -> str:
     """
-    Função assíncrona que acessa a URL curta e retorna a URL de destino final (após os redirecionamentos).
+    Função assíncrona que acessa a URL curta e retorna a URL de destino final.
+    Usa curl_cffi para personificação de TLS se disponível (bypass robusto).
     """
     try:
-        # Usamos follow_redirects=True para acompanhar toda a cadeia até o link final da loja
-        # O User-Agent previne que bloqueios automáticos do Mercado Livre ou Amazon rejeitem a conexão
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-        }
-        async with httpx.AsyncClient(follow_redirects=True, timeout=15.0, headers=headers) as client:
-            response = await client.get(short_url)
-            # A URL final
-            return str(response.url)
+        # Tenta usar curl_cffi para bypass de WAF/Anti-bot
+        try:
+            from curl_cffi.requests import AsyncSession
+            print(f"🔍 [Expand TLS] Usando curl_cffi para expandir: {short_url}")
+            async with AsyncSession(impersonate="chrome120") as s:
+                response = await s.get(short_url, timeout=15, allow_redirects=True)
+                return str(response.url)
+        except ImportError:
+            # Fallback para httpx
+            print(f"⚠️ [Expand] curl_cffi não disponível, usando httpx: {short_url}")
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+            }
+            async with httpx.AsyncClient(follow_redirects=True, timeout=15.0, headers=headers) as client:
+                response = await client.get(short_url)
+                return str(response.url)
     except Exception as e:
         print(f"Erro ao expandir URL {short_url}: {e}")
         return short_url
@@ -26,7 +34,8 @@ def extract_urls(text: str) -> list[str]:
     Pega links com ou sem https:// (ex: mercadolivre.com/sec/123).
     """
     # Regex melhorada para pegar domínios conhecidos mesmo sem https
-    url_pattern = re.compile(r'(https?://\S+|www\.\S+|mercadolivre\.com\S+|amzn\.to\S+|amz\.run\S+|shopee\.com\.br\S+|is\.gd\S+|bit\.ly\S+|tinyurl\.com\S+|cutt\.ly\S+)')
+    # Regex melhorada: pega domínios conhecidos mas exclui pontuação final como (. , ! ?)
+    url_pattern = re.compile(r'(https?://[^\s!?,;]+|www\.[^\s!?,;]+|mercadolivre\.com[^\s!?,;]*|amzn\.to[^\s!?,;]+|amz\.run[^\s!?,;]+|shopee\.com\.br[^\s!?,;]+|is\.gd[^\s!?,;]+|bit\.ly[^\s!?,;]+|tinyurl\.com[^\s!?,;]+|cutt\.ly[^\s!?,;]+)')
     urls = url_pattern.findall(text)
     
     # Normalizar adicionando https:// se faltar
