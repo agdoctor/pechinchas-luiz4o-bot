@@ -32,12 +32,16 @@ async def worker_queue():
         try:
             item = await post_queue.get()
             
-            # Suporta tanto (texto, media) quanto (texto, media, markup)
-            if len(item) == 3:
+            # Suporta diferentes tamanhos da tupla
+            if len(item) == 4:
+                texto_final, media_path, reply_markup, source_url = item
+            elif len(item) == 3:
                 texto_final, media_path, reply_markup = item
+                source_url = None
             else:
                 texto_final, media_path = item
                 reply_markup = None
+                source_url = None
             
             delay_str = get_config("delay_minutos") or "0"
             try:
@@ -50,7 +54,20 @@ async def worker_queue():
                 await asyncio.sleep(delay_mins * 60)
             
             print("📤 Worker publicando oferta da fila...")
-            await publish_deal(texto_final, media_path, reply_markup=reply_markup)
+            target_url = await publish_deal(texto_final, media_path, reply_markup=reply_markup)
+            
+            # --- Notificação de Conclusão ---
+            admin_id_str = get_config("admin_id")
+            if admin_id_str and target_url:
+                try:
+                    msg_conclusao = "✅ **Oferta Publicada com Sucesso!**\n\n"
+                    if source_url:
+                        msg_conclusao += f"📥 [Fonte Original]({source_url})\n"
+                    msg_conclusao += f"📤 [Postagem no Canal]({target_url})"
+                    
+                    await bot.send_message(chat_id=int(admin_id_str), text=msg_conclusao, parse_mode="Markdown", disable_web_page_preview=True)
+                except Exception as e:
+                    print(f"Aviso ao notificar admin na conclusao: {e}")
             
             # Limpar a mídia local depois de publicar de verdade
             if media_path and os.path.exists(media_path):
@@ -246,10 +263,19 @@ async def start_monitoring():
 
             # --- NOTIFICAÇÃO ADMIN ---
             admin_id_str = get_config("admin_id")
+            
+            # Tenta gerar o link da postagem original
+            source_url = ""
+            chat_username_for_link = getattr(event.chat, 'username', None)
+            if chat_username_for_link:
+                source_url = f"https://t.me/{chat_username_for_link}/{event.message.id}"
+            else:
+                source_url = f"https://t.me/c/{str(event.chat_id).replace('-100', '')}/{event.message.id}"
+                
             if admin_id_str:
                 try:
-                    msg_info = f"🔎 **Nova oferta detectada!**\nCanal: `{event.chat.title or event.chat_id}`\nProduzindo publicação agora..."
-                    await bot.send_message(chat_id=int(admin_id_str), text=msg_info, parse_mode="Markdown")
+                    msg_info = f"🔎 **Nova oferta detectada!**\nCanal: `{event.chat.title or event.chat_id}`\n📥 [Postagem Original]({source_url})\n⏳ Processando publicação..."
+                    await bot.send_message(chat_id=int(admin_id_str), text=msg_info, parse_mode="Markdown", disable_web_page_preview=True)
                 except:
                     pass
             
@@ -303,7 +329,7 @@ async def start_monitoring():
                 print("⚠️ Admin ID não configurado no banco. O administrador precisa dar /start no bot.")
                 # Se não tem admin mas o bot deveria postar, vamos colocar na fila apenas se NÃO for manual
                 if get_config("aprovacao_manual") != "1":
-                    await post_queue.put((texto_final, media_path, None))
+                    await post_queue.put((texto_final, media_path, None, source_url))
                 return
 
             admin_id = int(admin_id_str)
@@ -314,7 +340,7 @@ async def start_monitoring():
                 print(f"⚖️ Modo Aprovação Manual ativado. Enviando para o Admin {admin_id}...")
                 
                 # Salva a oferta para aprovação futura
-                ofertas_pendentes_admin.append({"texto": texto_final, "media": media_path})
+                ofertas_pendentes_admin.append({"texto": texto_final, "media": media_path, "source_url": source_url})
                 item_id = len(ofertas_pendentes_admin) - 1
                 
                 markup = InlineKeyboardMarkup(inline_keyboard=[
@@ -338,7 +364,7 @@ async def start_monitoring():
             else:
                 # Automático, joga na fila, o Worker dá o delay e posta
                 print("📥 Enviando oferta para a fila de publicação...")
-                await post_queue.put((texto_final, media_path, None))
+                await post_queue.put((texto_final, media_path, None, source_url))
             
         except Exception as e:
             print(f"❌ Erro ao processar mensagem: {e}")
