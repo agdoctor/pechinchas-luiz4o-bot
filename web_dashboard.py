@@ -13,6 +13,13 @@ async def handle_index(request):
     if not valid_token or token != valid_token:
         return web.Response(text="<h1>403 Forbidden</h1><p>Acesso negado. Token inválido.</p>", status=403, content_type='text/html')
 
+    # Headers para permitir o Mini App abrir no Telegram Web sem bloqueios
+    headers = {
+        'Content-Type': 'text/html',
+        'Content-Security-Policy': "frame-ancestors https://web.telegram.org https://pwa.telegram.org https://desktop.telegram.org https://*.telegram.org;",
+        'X-Frame-Options': 'ALLOWALL'
+    }
+
     html_content = f"""
     <!DOCTYPE html>
     <html lang="pt-br">
@@ -159,7 +166,7 @@ async def handle_index(request):
     </body>
     </html>
     """
-    return web.Response(text=html_content, content_type='text/html')
+    return web.Response(text=html_content, content_type='text/html', headers=headers)
 
 async def handle_logs_api(request):
     # Verifica Token de Segurança
