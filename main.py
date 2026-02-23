@@ -9,14 +9,30 @@ class LoggerWriter:
     def __init__(self, filename):
         self.terminal = sys.stdout
         self.log = open(filename, "a", encoding="utf-8")
+        self.at_start_of_line = True
 
     def write(self, message):
-        self.terminal.write(message)
-        self.log.write(message)
+        if not message: return
+        from datetime import datetime
+        
+        lines = message.splitlines(keepends=True)
+        for line in lines:
+            if self.at_start_of_line and line.strip():
+                now = datetime.now().strftime("[%d/%m %H:%M:%S] ")
+                self.terminal.write(now)
+                self.log.write(now)
+                self.at_start_of_line = False
+            
+            self.terminal.write(line)
+            self.log.write(line)
+            
+            if line.endswith('\n'):
+                self.at_start_of_line = True
+                
         self.log.flush()
 
     def flush(self):
-        self.terminal.flush()
+        if hasattr(self.terminal, "flush"): self.terminal.flush()
         self.log.flush()
 
 sys.stdout = LoggerWriter("bot.log")
