@@ -45,8 +45,13 @@ async def handle_index(request):
                 display: flex; background: var(--bg-sec); border-bottom: 1px solid var(--border);
                 overflow-x: auto; flex-shrink: 0; z-index: 100;
             }}
-            #navbar::-webkit-scrollbar {{ height: 4px; }}
-            #navbar::-webkit-scrollbar-thumb {{ background: var(--border); border-radius: 10px; }}
+            #navbar::-webkit-scrollbar {{ height: 8px; }}
+            #navbar::-webkit-scrollbar-thumb {{ background: var(--accent); border-radius: 10px; }}
+            /* Global Scrollbar */
+            ::-webkit-scrollbar {{ width: 10px; height: 10px; }}
+            ::-webkit-scrollbar-track {{ background: var(--bg-main); }}
+            ::-webkit-scrollbar-thumb {{ background: var(--accent); border-radius: 10px; border: 2px solid var(--bg-main); }}
+            ::-webkit-scrollbar-thumb:hover {{ background: #79b6ff; }}
             .nav-item {{
                 padding: 12px 15px; color: var(--text-dim); cursor: pointer; white-space: nowrap;
                 font-size: 14px; border-bottom: 2px solid transparent; transition: 0.2s;
