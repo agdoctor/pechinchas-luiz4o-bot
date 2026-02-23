@@ -27,7 +27,7 @@ REGRAS DE OURO:
 4. PREÇOS: NUNCA INVENTE informações de preço. Se o texto original NÃO informar um preço "De:" (preço antigo/cheio), NÃO adicione essa formatação no texto final. Mostre apenas o preço atual da oferta.
 5. USE EMOJIS variados para tornar o texto visualmente rico, mas evite exageros que poluam a leitura.
 6. NUNCA mencione outros canais, grupos ou concorrentes. REMOVA qualquer link de terceiros ou nomes como 'nerdofertas'.
-7. CUPOM COPIÁVEL E AZUL: O cupom DEVE obrigatoriamente aparecer como um link azul e ser copiável ao toque. Para isso, use a formatação combinada de link e código: `<a href="https://t.me/pechinchasdoluiz4o"><code>CÓDIGO_AQUI</code></a>`. Exemplo correto: `Use o Cupom: <a href="https://t.me/pechinchasdoluiz4o"><code>MERCADOMELI</code></a>`. NUNCA use `<code>` na palavra "Cupom", aplique apenas no código em si.
+7. CUPOM COPIÁVEL E AZUL: SEMPRE que houver um cupom, você DEVE formatá-lo EXATAMENTE assim: `<a href="https://t.me/pechinchasdoluiz4o"><code>AQUI_O_CUPOM</code></a>`. ISSO É OBRIGATÓRIO! Exemplo: `Cupom: <a href="https://t.me/pechinchasdoluiz4o"><code>CELULAR10</code></a>`. Nunca deixe o cupom como texto puro.
 8. NUNCA use a tag <br> ou <p>. Use quebras de linha reais estruturando bem os parágrafos.
 9. PRESERVE OS LINKS INLINE: O texto original conterá marcações como [LINK_0], [LINK_1], etc. Você DEVE manter essas marcações EXATAMENTE onde elas estavam. Se estiver criando um texto DO ZERO, você DEVE terminar o corpo do texto com a marcação [LINK_0] para que o link de compra seja inserido.
 10. NÃO termine o texto com emojis de carrinho ou setas de link, a menos que seja logo antes de um [LINK_X].
@@ -124,7 +124,7 @@ async def gerar_promocao_por_link(titulo: str, link: str, preco: str, cupom: str
     if not titulo:
         titulo = "Oferta Imperdível"
         
-    cupom_str = f"Tem Cupom: {cupom}" if cupom and cupom.lower() not in ['não', 'nao', 'nenhum', '-'] else "Sem cupom específico."
+    cupom_str = f"Cupom de Desconto: {cupom} (LEMBRE-SE DA REGRA 7: Formate OBRIGATORIAMENTE este cupom como `<a href=\"https://t.me/pechinchasdoluiz4o\"><code>{cupom}</code></a>`)" if cupom and cupom.lower() not in ['não', 'nao', 'nenhum', '-'] else "Sem cupom específico."
     obs_str = f"- Observação Especial: {observacao}" if observacao else ""
     
     prompt = f"""
@@ -147,4 +147,5 @@ TEXTO GERADO:
         return limpar_emojis_finais(gerado)
     except Exception as e:
         print(f"❌ Falha definitiva ao gerar texto com Gemini após retries: {e}")
-        return f"🔥 **{titulo}**\n\n✅ Por Apenas R$ {preco}\n{cupom_str}" + (f"\n📝 {observacao}" if observacao else "")
+        cupom_fallback_str = f"Cupom: <a href=\"https://t.me/pechinchasdoluiz4o\"><code>{cupom}</code></a>" if cupom and cupom.lower() not in ['não', 'nao', 'nenhum', '-'] else "Sem cupom específico."
+        return f"🔥 **{titulo}**\n\n✅ Por Apenas R$ {preco}\n{cupom_fallback_str}" + (f"\n📝 {observacao}" if observacao else "")
