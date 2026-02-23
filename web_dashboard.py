@@ -199,7 +199,16 @@ async def start_web_server():
     site = web.TCPSite(runner, '0.0.0.0', port)
     
     print(f"🌐 Servidor Web do Console iniciado na porta {port}")
-    await site.start()
+    try:
+        await site.start()
+    except OSError as e:
+        if e.errno == 98 or e.errno == 10048:
+            print(f"⚠️ A porta {port} já está em uso. O Console Web não pôde ser iniciado agora.")
+            print(f"💡 Dica: Verifique se outra instância do bot está rodando.")
+            # Não Mata o bot, apenas encerra esta task
+            return
+        else:
+            raise e
     
     # Mantém rodando
     while True:
