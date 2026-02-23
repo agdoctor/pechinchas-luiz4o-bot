@@ -194,17 +194,25 @@ async def convert_aliexpress_to_affiliate(original_url: str) -> str:
             try:
                 base_resp = data.get("aliexpress_affiliate_link_generate_response", {})
                 resp_result = base_resp.get("resp_result", {})
-                if resp_result.get("resp_code") != 200:
+                
+                # O resp_code pode vir como int ou str
+                resp_code = str(resp_result.get("resp_code", ""))
+                if resp_code != "200":
                     print(f"❌ API do AliExpress retornou erro na resposta interna: {resp_result}")
                     return clean_url
                     
                 result = resp_result.get("result", {})
-                promoted_link_list = result.get("promoted_links", {}).get("promoted_link", [])
+                promotion_links = result.get("promotion_links", {}).get("promotion_link", [])
                 
-                if promoted_link_list and len(promoted_link_list) > 0:
-                    short_url = promoted_link_list[0].get("promotion_link")
+                if promotion_links and len(promotion_links) > 0:
+                    item_info = promotion_links[0]
+                    short_url = item_info.get("promotion_link")
                     if short_url:
                         return short_url
+                    else:
+                        print(f"⚠️ Erro ao converter item no AliExpress: {item_info.get('message', 'Desconhecido')}")
+                else:
+                    print(f"⚠️ Módulo promotion_links vazio na resposta.")
                         
             except Exception as parse_err:
                 print(f"⚠️ Erro ao analisar resposta do AliExpress: {parse_err}. Retorno bruto: {data}")
