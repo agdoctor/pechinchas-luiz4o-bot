@@ -1,5 +1,9 @@
 from aiohttp import web
-from database import get_config, set_config
+from database import (
+    get_config, set_config, get_canais, add_canal, remove_canal,
+    get_keywords, add_keyword, remove_keyword,
+    get_negative_keywords, add_negative_keyword, remove_negative_keyword
+)
 import secrets
 import os
 import json
@@ -25,197 +29,545 @@ async def handle_index(request):
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Bot Console - Pechinchas</title>
+        <title>Pechinchas - Admin Dashboard</title>
         <script src="https://telegram.org/js/telegram-web-app.js"></script>
         <style>
-            /* (estilos omitidos para brevidade, herdar o resto) */
+            :root {{
+                --bg-main: #0d1117;
+                --bg-sec: #161b22;
+                --bg-card: #21262d;
+                --border: #30363d;
+                --text: #e6edf3;
+                --text-dim: #8b949e;
+                --accent: #58a6ff;
+                --success: #238636;
+                --error: #da3633;
+                --warning: #d29945;
+            }}
+
             body {{
-                background-color: #0d1117;
-                color: #e6edf3;
-                font-family: 'Cascadia Code', 'Courier New', Courier, monospace;
+                background-color: var(--bg-main);
+                color: var(--text);
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
                 margin: 0;
-                padding: 10px;
+                padding: 0;
                 display: flex;
                 flex-direction: column;
                 height: 100vh;
-                box-sizing: border-box;
+                overflow: hidden;
             }}
-            #header {{
+
+            #navbar {{
+                display: flex;
+                background: var(--bg-sec);
+                border-bottom: 1px solid var(--border);
+                padding: 0 10px;
+                overflow-x: auto;
+                scrollbar-width: none;
+            }}
+            #navbar::-webkit-scrollbar {{ display: none; }}
+            
+            .nav-item {{
+                padding: 12px 15px;
+                color: var(--text-dim);
+                cursor: pointer;
+                white-space: nowrap;
+                font-size: 14px;
+                font-weight: 500;
+                border-bottom: 2px solid transparent;
+                transition: 0.2s;
+            }}
+            .nav-item.active {{
+                color: var(--text);
+                border-bottom-color: var(--accent);
+            }}
+
+            main {{
+                flex-grow: 1;
+                overflow-y: auto;
+                padding: 15px;
+            }}
+
+            .tab-content {{ display: none; }}
+            .tab-content.active {{ display: block; }}
+
+            /* Cards & Groups */
+            .card {{
+                background: var(--bg-sec);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                padding: 15px;
+                margin-bottom: 15px;
+            }}
+            .card-title {{
+                font-size: 16px;
+                font-weight: bold;
+                margin-bottom: 12px;
+                color: var(--accent);
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }}
+
+            /* Inputs & Forms */
+            .input-group {{
+                display: flex;
+                gap: 8px;
+                margin-bottom: 10px;
+            }}
+            input {{
+                flex-grow: 1;
+                background: var(--bg-main);
+                border: 1px solid var(--border);
+                color: var(--text);
+                padding: 8px 12px;
+                border-radius: 6px;
+                outline: none;
+            }}
+            input:focus {{ border-color: var(--accent); }}
+            
+            button {{
+                background: var(--bg-card);
+                border: 1px solid var(--border);
+                color: var(--text);
+                padding: 8px 15px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 13px;
+                transition: 0.2s;
+            }}
+            button:hover {{ background: var(--border); }}
+            button.primary {{ background: var(--success); border-color: rgba(255,255,255,0.1); }}
+            button.danger {{ color: var(--error); }}
+
+            /* Lists */
+            ul {{ list-style: none; padding: 0; margin: 0; }}
+            li {{
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                border-bottom: 1px solid #30363d;
-                padding-bottom: 8px;
-                margin-bottom: 10px;
+                padding: 10px 0;
+                border-bottom: 1px solid var(--border);
             }}
+            li:last-child {{ border-bottom: none; }}
+
+            /* Terminal View */
             #terminal {{
-                flex-grow: 1;
-                overflow-y: auto;
-                background-color: #010409;
-                padding: 15px;
+                background: #010409;
+                border: 1px solid var(--border);
                 border-radius: 6px;
-                border: 1px solid #30363d;
-                line-height: 1.4;
-                font-size: 13px;
+                padding: 10px;
+                font-family: 'Cascadia Code', monospace;
+                font-size: 12px;
+                height: 400px;
+                overflow-y: auto;
                 white-space: pre-wrap;
-                word-wrap: break-word;
             }}
             .log-line {{ margin-bottom: 2px; }}
-            .error {{ color: #ff7b72; }}
-            .success {{ color: #3fb950; }}
-            .warning {{ color: #d29945; }}
-            .info {{ color: #58a6ff; }}
-            .highlight {{ color: #ffa657; }}
-            
-            #controls {{
-                margin-top: 10px;
-                display: flex;
-                gap: 10px;
+
+            /* Status Pills */
+            .badge {{
+                padding: 2px 8px;
+                border-radius: 10px;
+                font-size: 11px;
+                background: var(--border);
             }}
-            button {{
-                background-color: #21262d;
-                color: #c9d1d9;
-                border: 1px solid #30363d;
-                padding: 8px 16px;
-                border-radius: 6px;
-                cursor: pointer;
-                font-size: 12px;
-            }}
-            button:hover {{ background-color: #30363d; }}
-            button.active {{ background-color: #238636; color: white; border-color: #2ea043; }}
-            
-            ::-webkit-scrollbar {{ width: 8px; }}
-            ::-webkit-scrollbar-track {{ background: #010409; }}
-            ::-webkit-scrollbar-thumb {{ background: #30363d; border-radius: 4px; }}
+            .badge.success {{ background: #23863644; color: #3fb950; }}
+            .badge.error {{ background: #da363344; color: #ff7b72; }}
         </style>
     </head>
     <body>
-        <div id="header">
-            <span style="font-weight: bold; color: #58a6ff;">🚀 Pechinchas Console</span>
-            <span id="status" style="font-size: 11px;">Conectando...</span>
+        <div id="navbar">
+            <div class="nav-item active" onclick="showTab('dashboard')">🏠 Painel</div>
+            <div class="nav-item" onclick="showTab('canais')">📺 Canais</div>
+            <div class="nav-item" onclick="showTab('keywords')">🔑 Keywords</div>
+            <div class="nav-item" onclick="showTab('settings')">⚙️ Config</div>
+            <div class="nav-item" onclick="showTab('logs')">📜 Logs</div>
         </div>
-        <div id="terminal">Iniciando console...</div>
-        <div id="controls">
-            <button id="refreshBtn">🔄 Atualizar</button>
-            <button id="autoUpdateBtn" class="active">📡 Auto-Update: ON</button>
-            <button id="clearBtn">🧹 Limpar Tela</button>
-        </div>
+
+        <main>
+            <!-- TAB DASHBOARD -->
+            <div id="tab-dashboard" class="tab-content active">
+                <div class="card">
+                    <div class="card-title">🤖 Status do Sistema</div>
+                    <div id="status-container">Carregando...</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">🚀 Atalhos Rápidos</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <button onclick="togglePausa()" id="btn-pausa">Pausar Bot</button>
+                        <button onclick="toggleAprovacao()" id="btn-aprovacao">Aprovação Manual</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB CANAIS -->
+            <div id="tab-canais" class="tab-content">
+                <div class="card">
+                    <div class="card-title">📺 Canais Monitorados</div>
+                    <div class="input-group">
+                        <input type="text" id="new-canal" placeholder="Ex: promocoesdodia">
+                        <button class="primary" onclick="addCanal()">Adicionar</button>
+                    </div>
+                    <ul id="list-canais"></ul>
+                </div>
+            </div>
+
+            <!-- TAB KEYWORDS -->
+            <div id="tab-keywords" class="tab-content">
+                <div class="card">
+                    <div class="card-title">🔑 Keywords (Positivas)</div>
+                    <p style="font-size: 12px; color: var(--text-dim);">O bot só posta se encontrar alguma dessas:</p>
+                    <div class="input-group">
+                        <input type="text" id="new-kw" placeholder="Ex: iphone, ps5">
+                        <button class="primary" onclick="addKeyword('kw')">Add</button>
+                    </div>
+                    <ul id="list-keywords"></ul>
+                </div>
+                <div class="card">
+                    <div class="card-title">🚫 Keywords Negativas</div>
+                    <p style="font-size: 12px; color: var(--text-dim);">O bot ignora se encontrar alguma dessas:</p>
+                    <div class="input-group">
+                        <input type="text" id="new-nkw" placeholder="Ex: seminovo, usado">
+                        <button class="primary" onclick="addKeyword('nkw')">Add</button>
+                    </div>
+                    <ul id="list-neg-keywords"></ul>
+                </div>
+            </div>
+
+            <!-- TAB CONFIG -->
+            <div id="tab-settings" class="tab-content">
+                <div class="card">
+                    <div class="card-title">⚙️ Configurações Gerais</div>
+                    <div id="settings-form">Carregando...</div>
+                </div>
+            </div>
+
+            <!-- TAB LOGS -->
+            <div id="tab-logs" class="tab-content">
+                <div class="card">
+                    <div class="card-title">📜 Console de Logs em Tempo Real</div>
+                    <div id="terminal"></div>
+                    <div style="margin-top: 10px; display: flex; gap: 10px;">
+                        <button onclick="fetchLogs()">🔄 Atualizar</button>
+                        <button onclick="clearTerminal()">🧹 Limpar</button>
+                    </div>
+                </div>
+            </div>
+        </main>
 
         <script>
-            const terminal = document.getElementById('terminal');
-            const status = document.getElementById('status');
-            const refreshBtn = document.getElementById('refreshBtn');
-            const autoUpdateBtn = document.getElementById('autoUpdateBtn');
-            const clearBtn = document.getElementById('clearBtn');
-            
-            let autoUpdate = true;
-            let lastContent = "";
+            const token = "{token}";
+            let currentTab = 'dashboard';
 
-            function formatLine(line) {{
-                if (!line.trim()) return "";
-                let className = "";
-                if (line.includes("❌") || line.includes("Erro") || line.includes("fail")) className = "error";
-                if (line.includes("✅") || line.includes("Sucesso") || line.includes("publicada")) className = "success";
-                if (line.includes("⚠️") || line.includes("Aviso") || line.includes("Warning")) className = "warning";
-                if (line.includes("🚨") || line.includes("Nova mensagem")) className = "highlight";
-                if (line.includes("🔍") || line.includes("Processando")) className = "info";
+            function showTab(tabId) {{
+                document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
                 
-                return `<div class="log-line ${{className}}">${{line}}</div>`;
+                document.getElementById('tab-' + tabId).classList.add('active');
+                event.target.classList.add('active');
+                currentTab = tabId;
+                
+                if (tabId === 'canais') loadCanais();
+                if (tabId === 'keywords') loadKeywords();
+                if (tabId === 'settings') loadSettings();
+                if (tabId === 'dashboard') loadStatus();
             }}
 
-            async function fetchLogs() {{
+            async function api(path, method = 'GET', body = null) {{
                 try {{
-                    // Passa o token também na chamada da API
-                    const response = await fetch('/api/logs?token={token}');
-                    const data = await response.json();
+                    const options = {{
+                        method,
+                        headers: {{ 'Content-Type': 'application/json' }}
+                    }};
+                    if (body) options.body = JSON.stringify(body);
                     
-                    if (data.logs !== lastContent) {{
-                        lastContent = data.logs;
-                        const lines = data.logs.split('\\n');
-                        terminal.innerHTML = lines.map(formatLine).join('');
-                        terminal.scrollTop = terminal.scrollHeight;
-                        status.textContent = "Atualizado: " + new Date().toLocaleTimeString();
-                        status.style.color = "#3fb950";
-                    }}
-                }} catch (err) {{
-                    status.textContent = "Erro na conexão";
-                    status.style.color = "#ff7b72";
+                    const res = await fetch(`/api/${{path}}?token=${{token}}`, options);
+                    return await res.json();
+                }} catch (e) {{
+                    console.error("Erro API:", e);
+                    return {{ error: "Erro de conexão" }};
                 }}
             }}
 
-            refreshBtn.onclick = fetchLogs;
-            clearBtn.onclick = () => {{ terminal.innerHTML = ""; lastContent = ""; }};
-            autoUpdateBtn.onclick = () => {{
-                autoUpdate = !autoUpdate;
-                autoUpdateBtn.classList.toggle('active');
-                autoUpdateBtn.textContent = "📡 Auto-Update: " + (autoUpdate ? "ON" : "OFF");
-            }};
+            /* DASHBOARD / STATUS */
+            async function loadStatus() {{
+                const data = await api('status');
+                const container = document.getElementById('status-container');
+                if (data.error) {{
+                    container.innerHTML = `<span class="badge error">Erro ao carregar dados</span>`;
+                    return;
+                }}
+                
+                container.innerHTML = `
+                    <div style="margin-bottom: 8px;">Monitorando: <b>${{data.canais_count}} canais</b></div>
+                    <div style="margin-bottom: 8px;">Keywords: <b>${{data.kw_count}}</b> (+), <b>${{data.nkw_count}}</b> (-)</div>
+                    <div>Status Bot: <span class="badge ${{data.pausado === '1' ? 'error' : 'success'}}">${{data.pausado === '1' ? '⏸️ PAUSADO' : '▶️ ATIVO'}}</span></div>
+                `;
+                
+                const btnPausa = document.getElementById('btn-pausa');
+                btnPausa.textContent = data.pausado === '1' ? 'Retomar Bot' : 'Pausar Bot';
+                btnPausa.className = data.pausado === '1' ? 'primary' : '';
 
-            setInterval(() => {{
-                if (autoUpdate) fetchLogs();
-            }}, 3000);
+                const btnAprov = document.getElementById('btn-aprovacao');
+                btnAprov.textContent = data.aprovacao === '1' ? 'Desativar Aprovação Manual' : 'Ativar Aprovação Manual';
+                btnAprov.className = data.aprovacao === '1' ? 'primary' : '';
+            }}
 
-            fetchLogs();
-            
+            async function togglePausa() {{
+                const data = await api('status');
+                const novoVal = data.pausado === '1' ? '0' : '1';
+                await api('settings', 'POST', {{ chave: 'pausado', valor: novoVal }});
+                loadStatus();
+            }}
+
+            async function toggleAprovacao() {{
+                const data = await api('status');
+                const novoVal = data.aprovacao === '1' ? '0' : '1';
+                await api('settings', 'POST', {{ chave: 'aprovacao_manual', valor: novoVal }});
+                loadStatus();
+            }}
+
+            /* CANAIS */
+            async function loadCanais() {{
+                const data = await api('canais');
+                const list = document.getElementById('list-canais');
+                list.innerHTML = "";
+                data.canais.forEach(c => {{
+                    const li = document.createElement('li');
+                    li.innerHTML = `<span>@${{c}}</span> <button class="danger" onclick="delCanal('${{c}}')">Remover</button>`;
+                    list.appendChild(li);
+                }});
+            }}
+
+            async function addCanal() {{
+                const input = document.getElementById('new-canal');
+                const val = input.value.trim().replace('@', '');
+                if (!val) return;
+                await api('canais', 'POST', {{ canal: val }});
+                input.value = "";
+                loadCanais();
+            }}
+
+            async function delCanal(c) {{
+                if (!confirm("Remover "+c+"?")) return;
+                await api('canais', 'DELETE', {{ canal: c }});
+                loadCanais();
+            }}
+
+            /* KEYWORDS */
+            async function loadKeywords() {{
+                const kwData = await api('keywords');
+                const nkwData = await api('neg_keywords');
+                
+                const listKw = document.getElementById('list-keywords');
+                listKw.innerHTML = "";
+                kwData.keywords.forEach(k => {{
+                    const li = document.createElement('li');
+                    li.innerHTML = `<span>${{k}}</span> <button class="danger" onclick="delKeyword('kw', '${{k}}')">x</button>`;
+                    listKw.appendChild(li);
+                }});
+
+                const listNkw = document.getElementById('list-neg-keywords');
+                listNkw.innerHTML = "";
+                nkwData.keywords.forEach(k => {{
+                    const li = document.createElement('li');
+                    li.innerHTML = `<span>${{k}}</span> <button class="danger" onclick="delKeyword('nkw', '${{k}}')">x</button>`;
+                    listNkw.appendChild(li);
+                }});
+            }}
+
+            async function addKeyword(type) {{
+                const input = document.getElementById(type === 'kw' ? 'new-kw' : 'new-nkw');
+                const val = input.value.trim();
+                if (!val) return;
+                await api(type === 'kw' ? 'keywords' : 'neg_keywords', 'POST', {{ keyword: val }});
+                input.value = "";
+                loadKeywords();
+            }}
+
+            async function delKeyword(type, k) {{
+                await api(type === 'kw' ? 'keywords' : 'neg_keywords', 'DELETE', {{ keyword: k }});
+                loadKeywords();
+            }}
+
+            /* SETTINGS */
+            async function loadSettings() {{
+                // Simplificado para campos comuns
+                const fields = [
+                    {{ key: 'delay_minutos', label: 'Delay (minutos)', type: 'number' }},
+                    {{ key: 'preco_minimo', label: 'Preço Mínimo (R$)', type: 'number' }},
+                    {{ key: 'assinatura', label: 'Assinatura', type: 'text' }},
+                    {{ key: 'webapp_url', label: 'Mini App URL', type: 'text' }}
+                ];
+                
+                const container = document.getElementById('settings-form');
+                container.innerHTML = "";
+                
+                for (const f of fields) {{
+                    const val = await api('settings?key=' + f.key);
+                    const div = document.createElement('div');
+                    div.className = "card";
+                    div.style.padding = "10px";
+                    div.innerHTML = `
+                        <label style="display:block; font-size:12px; margin-bottom:5px;">${{f.label}}:</label>
+                        <div class="input-group">
+                            <input type="${{f.type}}" id="set-${{f.key}}" value="${{val.valor}}">
+                            <button onclick="saveSetting('${{f.key}}')">Salvar</button>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                }}
+            }}
+
+            async function saveSetting(key) {{
+                const val = document.getElementById('set-' + key).value;
+                await api('settings', 'POST', {{ chave: key, valor: val }});
+                Telegram.WebApp.showScanQrPopup({{ text: "Configuração salva!" }}); // Pequeno truque para feedback
+                setTimeout(() => Telegram.WebApp.closeScanQrPopup(), 1000);
+            }}
+
+            /* LOGS */
+            let lastLogContent = "";
+            async function fetchLogs() {{
+                const data = await api('logs');
+                const term = document.getElementById('terminal');
+                if (data.logs !== lastLogContent) {{
+                    lastLogContent = data.logs;
+                    term.textContent = data.logs;
+                    term.scrollTop = term.scrollHeight;
+                }}
+            }}
+            function clearTerminal() {{ document.getElementById('terminal').textContent = ""; lastLogContent = ""; }}
+
+            // Init
             if (window.Telegram && window.Telegram.WebApp) {{
                 Telegram.WebApp.ready();
                 Telegram.WebApp.expand();
             }}
+            setInterval(() => {{
+                if (currentTab === 'logs') fetchLogs();
+                if (currentTab === 'dashboard') loadStatus();
+            }}, 5000);
+            
+            loadStatus();
         </script>
     </body>
     </html>
     """
     return web.Response(text=html_content, content_type='text/html', headers=headers)
 
-async def handle_logs_api(request):
-    # Verifica Token de Segurança
+# --- API HANDLERS ---
+
+async def check_token(request):
     token = request.query.get('token')
     valid_token = get_config("console_token")
-    if not valid_token or token != valid_token:
-        return web.json_response({"error": "Unauthorized"}, status=403)
+    return valid_token and token == valid_token
 
+async def handle_status_api(request):
+    if not await check_token(request): return web.json_response({{"error": "Unauthorized"}}, status=403)
+    
+    return web.json_response({{
+        "canais_count": len(get_canais()),
+        "kw_count": len(get_keywords()),
+        "nkw_count": len(get_negative_keywords()),
+        "pausado": get_config("pausado"),
+        "aprovacao": get_config("aprovacao_manual"),
+    }})
+
+async def handle_canais_api(request):
+    if not await check_token(request): return web.json_response({{"error": "Unauthorized"}}, status=403)
+    
+    if request.method == 'GET':
+        return web.json_response({{"canais": get_canais()}})
+    
+    elif request.method == 'POST':
+        data = await request.json()
+        canal = data.get('canal')
+        if canal: add_canal(canal)
+        return web.json_response({{"success": True}})
+    
+    elif request.method == 'DELETE':
+        data = await request.json()
+        canal = data.get('canal')
+        if canal: remove_canal(canal)
+        return web.json_response({{"success": True}})
+
+async def handle_keywords_api(request):
+    if not await check_token(request): return web.json_response({{"error": "Unauthorized"}}, status=403)
+    is_neg = 'neg' in request.path
+    
+    if request.method == 'GET':
+        kws = get_negative_keywords() if is_neg else get_keywords()
+        return web.json_response({{"keywords": kws}})
+    
+    elif request.method == 'POST':
+        data = await request.json()
+        kw = data.get('keyword')
+        if kw:
+            if is_neg: add_negative_keyword(kw)
+            else: add_keyword(kw)
+        return web.json_response({{"success": True}})
+    
+    elif request.method == 'DELETE':
+        data = await request.json()
+        kw = data.get('keyword')
+        if kw:
+            if is_neg: remove_negative_keyword(kw)
+            else: remove_keyword(kw)
+        return web.json_response({{"success": True}})
+
+async def handle_settings_api(request):
+    if not await check_token(request): return web.json_response({{"error": "Unauthorized"}}, status=403)
+    
+    if request.method == 'GET':
+        key = request.query.get('key')
+        return web.json_response({{"valor": get_config(key)}})
+    
+    elif request.method == 'POST':
+        data = await request.json()
+        chave = data.get('chave')
+        valor = data.get('valor')
+        if chave is not None: set_config(chave, str(valor))
+        return web.json_response({{"success": True}})
+
+async def handle_logs_api(request):
+    if not await check_token(request): return web.json_response({{"error": "Unauthorized"}}, status=403)
+    
     log_path = "bot.log"
-    if not os.path.exists(log_path):
-        return web.json_response({"logs": "Arquivo de log ainda não criado."})
+    if not os.path.exists(log_path): return web.json_response({{"logs": "Sem logs"}})
     
     try:
         with open(log_path, "r", encoding="utf-8") as f:
-            # Pega as últimas 150 linhas
             lines = f.readlines()
-            last_lines = lines[-150:]
-            return web.json_response({"logs": "".join(last_lines)})
-    except Exception as e:
-        return web.json_response({"error": str(e)}, status=500)
+            return web.json_response({{"logs": "".join(lines[-150:])}})
+    except:
+        return web.json_response({{"error": "Erro ao ler logs"}}, status=500)
 
 async def start_web_server():
-    # Gera um token se não existir
     if not get_config("console_token"):
-        new_token = secrets.token_urlsafe(16)
-        set_config("console_token", new_token)
-        print(f"🔑 Novo Token de Segurança gerado para o Console.")
+        set_config("console_token", secrets.token_urlsafe(16))
 
     app = web.Application()
     app.router.add_get('/', handle_index)
+    app.router.add_get('/api/status', handle_status_api)
+    app.router.add_route('*', '/api/canais', handle_canais_api)
+    app.router.add_route('*', '/api/keywords', handle_keywords_api)
+    app.router.add_route('*', '/api/neg_keywords', handle_keywords_api)
+    app.router.add_route('*', '/api/settings', handle_settings_api)
     app.router.add_get('/api/logs', handle_logs_api)
     
-    # Pega porta do ambiente (padrão 8080 para SquareCloud)
     port = int(os.getenv("PORT", 8080))
     runner = web.AppRunner(app)
     await runner.setup()
     site = web.TCPSite(runner, '0.0.0.0', port)
     
-    print(f"🌐 Servidor Web do Console iniciado na porta {port}")
+    print(f"🌐 Servidor Web do Dashboard Admin iniciado na porta {{port}}")
     try:
         await site.start()
-    except OSError as e:
-        if e.errno == 98 or e.errno == 10048:
-            print(f"⚠️ A porta {port} já está em uso. O Console Web não pôde ser iniciado agora.")
-            print(f"💡 Dica: Verifique se outra instância do bot está rodando.")
-            # Não Mata o bot, apenas encerra esta task
-            return
-        else:
-            raise e
+    except Exception as e:
+        print(f"⚠️ Erro ao iniciar servidor web: {{e}}")
+        return
     
-    # Mantém rodando
     while True:
         await asyncio.sleep(3600)

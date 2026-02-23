@@ -24,25 +24,20 @@ user_temp_data = {}
 
 def get_main_keyboard():
     builder = InlineKeyboardBuilder()
-    builder.button(text="🔗 Criar Oferta via Link", callback_data="menu_criar_link")
-    builder.button(text="📺 Gerenciar Canais", callback_data="menu_canais")
-    builder.button(text="🔑 Gerenciar Keywords", callback_data="menu_keywords")
-    builder.button(text="🚫 Keywords Negativas", callback_data="menu_neg_keywords")
-    builder.button(text="👥 Gerenciar Admins", callback_data="menu_admins")
-    builder.button(text="🎉 Sorteios", callback_data="menu_sorteios")
-    builder.button(text="⚙️ Configurações Gerais", callback_data="menu_config")
     
-    # Adiciona o botão do Console (Mini App)
+    # Adiciona o botão do Painel Principal (Mini App) - PRIORIDADE
     webapp_url = get_config("webapp_url")
     console_token = get_config("console_token")
     
     if webapp_url and console_token:
-        # Garante que a URL não tenha barra no final antes de adicionar o parâmetro
         base_url = webapp_url.rstrip('/')
         full_url = f"{base_url}/?token={console_token}"
-        builder.button(text="🖥️ Abrir Console (Logs)", web_app=WebAppInfo(url=full_url))
+        builder.button(text="🖥️ ABRIR PAINEL DE CONTROLE", web_app=WebAppInfo(url=full_url))
         
+    builder.button(text="🔗 Criar Oferta via Link", callback_data="menu_criar_link")
+    builder.button(text="🎉 Ver Sorteios Ativos", callback_data="menu_sorteios")
     builder.button(text="🤖 Comandos Ativos", callback_data="mostrar_comandos")
+    
     builder.adjust(1)
     return builder.as_markup()
 
