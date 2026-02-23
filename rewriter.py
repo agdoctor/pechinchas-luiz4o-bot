@@ -63,6 +63,48 @@ async def _call_gemini_api(prompt: str) -> str:
         await asyncio.sleep(1)
         return response.text.strip()
 
+async def extrair_nome_produto(texto: str) -> str:
+    """Extrai apenas o nome curto e principal do produto de um texto promocional usando o Gemini."""
+    prompt = f"""
+Extraia APENAS o nome do produto principal deste texto promocional.
+Regras:
+1. Retorne apenas o NOME do produto (ex: Smartphone Samsung Galaxy S25, Caixa de Som Tribit StormBox).
+2. NÃO inclua adjetivos de promoção (ex: 'menor preço', 'promoção', 'barato').
+3. NÃO inclua o preço.
+4. Seja o mais breve e preciso possível (idealmente entre 2 a 6 palavras).
+5. Se não houver produto claro, retorne exatamente o texto "Oferta Desconhecida".
+
+Texto:
+{texto}
+"""
+    try:
+        resultado = await _call_gemini_api(prompt)
+        nome = resultado.strip()
+        # Fallback de segurança caso a IA ainda retorne um texto muito longo
+        if len(nome.split()) > 15:
+            nome = " ".join(nome.split()[:7])
+        return nome
+    except Exception as e:
+        print(f"⚠️ Erro ao extrair nome do produto com Gemini: {e}")
+        return ""
+
+@retry(
+    wait=wait_exponential(multiplier=1, min=5, max=20),
+    stop=stop_after_attempt(3),
+    before_sleep=log_retry,
+    reraise=True
+)
+async def _call_gemini_api(prompt: str) -> str:
+    # Esta função interna permite o retry funcionar de verdade
+    async with gemini_semaphore:
+        response = await client.aio.models.generate_content(
+            model=MODEL_ID,
+            contents=prompt
+        )
+        # Pequeno intervalo para segurança
+        await asyncio.sleep(1)
+        return response.text.strip()
+
 async def reescrever_promocao(texto_original: str) -> str:
     """
     Envia o texto original para o Gemini de forma assíncrona e retorna a versão reescrita.

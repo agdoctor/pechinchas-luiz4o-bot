@@ -148,24 +148,27 @@ async def start_monitoring():
                         pass
                 
             # --- DEDUPLICAÇÃO NO CANAL DESTINO ---
-            # Extrai o link do produto para resgatar o título real
-            link_match = re.search(r'(https?://[^\s]+)', mensagem_texto)
-            referencia = ""
-            titulo_real = ""
-            if link_match:
-                referencia = link_match.group(1).split('?')[0] # Pega o link sem parâmetros para hash
-                
-                # Tenta buscar o título real através do scraper
-                from scraper import fetch_product_metadata
-                try:
-                    metadata = await fetch_product_metadata(referencia)
-                    if metadata and metadata.get("title"):
-                        titulo_real = metadata["title"].strip()
-                except Exception as e:
-                    print(f"⚠️ Erro ao resgatar título real para deduplicação: {e}")
+            # Tenta buscar o título exato via IA para evitar falsos positivos
+            from rewriter import extrair_nome_produto
+            titulo_real = await extrair_nome_produto(mensagem_texto)
             
-            # Se não conseguiu o título real, faz fallback para o link ou a primeira linha
-            if not titulo_real:
+            link_match = re.search(r'(https?://[^\s]+)', mensagem_texto)
+            referencia = link_match.group(1).split('?')[0] if link_match else ""
+            
+            # Se a IA por algum motivo falhou em extrair um título claro
+            if not titulo_real or titulo_real == "Oferta Desconhecida":
+                if referencia:
+                    # Se tiver link mas não tiver titulo, tenta resgatar por scraping em último caso
+                    from scraper import fetch_product_metadata
+                    try:
+                        metadata = await fetch_product_metadata(referencia)
+                        if metadata and metadata.get("title"):
+                            titulo_real = metadata["title"].strip()
+                    except Exception as e:
+                        print(f"⚠️ Erro no scraper de fallback: {e}")
+                
+            # Se ainda assim não tiver, vai pra primeira linha
+            if not titulo_real or titulo_real == "Oferta Desconhecida":
                 if referencia:
                     titulo_real = referencia
                 else:
