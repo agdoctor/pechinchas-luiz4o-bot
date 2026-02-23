@@ -1,4 +1,3 @@
-# Teste de regra de push automático
 from typing import Optional
 from aiogram import Bot, Dispatcher, F
 from aiogram.filters import Command
