@@ -118,9 +118,15 @@ async def cmd_test_ali(message: Message):
     try:
         import affiliate
         result = await affiliate.convert_aliexpress_to_affiliate(url)
-        await message.answer(f"✅ **Resultado da Conversão:**\n\n```text\n{result}\n```\n\n_Se o link começar com `s.click.aliexpress.com/e/...` a sua API funcionou! Se tiver `deep_link.htm`, caiu no fallback._", parse_mode="Markdown")
+        # Tira parse_mode "Markdown" para evitar erro quando o URL contiver muitos `_` ou `*`
+        await message.answer(
+            f"✅ Resultado da Conversão:\n\n"
+            f"{result}\n\n"
+            f"Se o link começar com s.click.aliexpress.com/e/... a sua API funcionou! "
+            f"Se tiver deep_link.htm, caiu no fallback de erro."
+        )
     except Exception as e:
-        await message.answer(f"❌ **Erro no teste:** {e}")
+        await message.answer(f"❌ Erro no teste: {e}")
 
 @dp.message(Command("enviar"))
 async def cmd_enviar_shortcut(message: Message):
