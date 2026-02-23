@@ -59,34 +59,33 @@ async def mostrar_comandos_handler(callback: CallbackQuery):
 async def cmd_start(message: Message):
     user_id = message.from_user.id
     
-    # Check if there are any admins. If none, the first one to use the bot becomes admin.
-    admins = get_admins()
-    if not admins:
-        add_admin(user_id, message.from_user.full_name or "Admin Principal")
-        await message.answer("👋 **Bem-vindo!** Como não havia nenhum administrador, você foi registrado como o primeiro admin do sistema.")
+    # Primeira vez? Registra como admin
+    if not get_admins():
+        add_admin(user_id, message.from_user.full_name or "Admin")
+        await message.answer("👋 **Bem-vindo!** Você foi registrado como o primeiro admin.")
     else:
+        # Verifica se 'somente admins' está ativo e se o usuário é admin
+        if get_config("only_admins") == "1" and not is_admin(user_id):
+            await message.answer("❌ **Acesso Negado.** Apenas administradores podem interagir com este bot.")
+            return
+        
         if not is_admin(user_id):
-            await message.answer("❌ **Acesso Negado.** Você não tem permissão para usar este bot.")
+            await message.answer("👋 Bem-vindo ao Bot Pechinchas!")
             return
 
-    # Salva o ID do admin no banco de dados para o monitor saber para quem mandar alertas
-    set_config("admin_id", str(user_id))
+    # Gera URL para o Mini App
+    url = f"{get_config('webapp_url')}?token={get_config('console_token')}"
+    kb = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="🖥️ ABRIR PAINEL DE CONTROLE", web_app=WebAppInfo(url=url))]
+    ])
     
     await message.answer(
-        "🛠️ **Painel de Controle - Pechinchas do Luiz4o**\n\n"
-        "O que você deseja gerenciar?",
-        reply_markup=get_main_keyboard(),
+        "🛠️ **Painel de Controle Admins**\n\n"
+        "Toda a gestão do bot agora é feita pelo Mini App.",
+        reply_markup=kb,
         parse_mode="Markdown"
     )
-    # Remove explicitamente qualquer teclado físico (ReplyKeyboard) antigo
-    # Enviamos uma mensagem temporária e apagamos na mesma hora para não poluir
-    msg = await message.answer("⏳", reply_markup=ReplyKeyboardRemove())
-    try:
-        await msg.delete()
-    except:
-        pass
-        
-    user_states[user_id] = None
+    await message.answer("⏳", reply_markup=ReplyKeyboardRemove()) # Limpa telado físico
 
 @dp.message(Command("meuid"))
 async def cmd_meuid(message: Message):
@@ -94,24 +93,14 @@ async def cmd_meuid(message: Message):
 
 @dp.message(Command("config"))
 async def cmd_config(message: Message):
-    if not is_admin(message.from_user.id):
-        await message.answer("⚠️ Você não tem permissão de administrador para usar este comando.")
-        return
-    
+    # Mantém apenas para emergências se o WebApp sumir
+    if not is_admin(message.from_user.id): return
     args = message.text.split()
-    if len(args) == 1:
-        await message.answer("🛠️ **Uso do comando:** `/config chave valor`\n\nEx: `/config webapp_url https://seu-link.com`", parse_mode="Markdown")
+    if len(args) < 3:
+        await message.answer("Uso: `/config chave valor`", parse_mode="Markdown")
         return
-    
-    chave = args[1]
-    if len(args) == 2:
-        atual = get_config(chave)
-        await message.answer(f"ℹ️ O valor atual de `{chave}` é: `{atual or 'vazio'}`", parse_mode="Markdown")
-        return
-        
-    valor = " ".join(args[2:])
-    set_config(chave, valor)
-    await message.answer(f"✅ Configuração `{chave}` atualizada para: `{valor}`", parse_mode="Markdown")
+    set_config(args[1], " ".join(args[2:]))
+    await message.answer(f"✅ `{args[1]}` atualizado.")
 
 from aiogram.types import FSInputFile
 
