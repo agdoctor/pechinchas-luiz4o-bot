@@ -5,10 +5,13 @@ from tenacity import retry, wait_exponential, stop_after_attempt, retry_if_excep
 import re
 
 # Configurar o cliente do Gemini (SDK novo)
+if GEMINI_API_KEY:
+    print(f"🔑 Chave Gemini carregada (Início: {GEMINI_API_KEY[:4]}...{GEMINI_API_KEY[-4:]})")
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 # Modelo estável confirmado para esta conta específica
-MODEL_ID = 'gemini-2.5-flash'
+# Modelo estável (O usuário mostrou 2.5 no console, mas o SDK oficial costuma usar 1.5-flash ou 2.0-flash)
+MODEL_ID = 'gemini-1.5-flash'
 
 # Semaforo para evitar excesso de requisições simultâneas e garantir estabilidade
 gemini_semaphore = asyncio.Semaphore(1)
@@ -88,22 +91,6 @@ Texto:
         print(f"⚠️ Erro ao extrair nome do produto com Gemini: {e}")
         return ""
 
-@retry(
-    wait=wait_exponential(multiplier=1, min=5, max=20),
-    stop=stop_after_attempt(3),
-    before_sleep=log_retry,
-    reraise=True
-)
-async def _call_gemini_api(prompt: str) -> str:
-    # Esta função interna permite o retry funcionar de verdade
-    async with gemini_semaphore:
-        response = await client.aio.models.generate_content(
-            model=MODEL_ID,
-            contents=prompt
-        )
-        # Pequeno intervalo para segurança
-        await asyncio.sleep(1)
-        return response.text.strip()
 
 async def reescrever_promocao(texto_original: str) -> str:
     """
