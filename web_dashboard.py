@@ -94,7 +94,11 @@ async def handle_index(request):
                     <div class="card-title">🔐 Segurança</div>
                     <label class="toggle-switch">
                         <input type="checkbox" id="check-only-admins" onchange="toggleOnlyAdmins()">
-                        Apenas Admins interagem com o Bot
+                        Bloquear Bot para não-admins
+                    </label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="check-aprovacao" onchange="toggleAprovacao()">
+                        Aprovação Manual de ofertas
                     </label>
                 </div>
             </div>
@@ -163,17 +167,23 @@ async def handle_index(request):
                     <p>Keywords: <b>${{d.kw_count}}</b> (+) / <b>${{d.nkw_count}}</b> (-)</p>
                     <p>Bot: <b>${{d.pausado==='1' ? '⏸️ PAUSADO' : '▶️ ATIVO'}}</b></p>
                 `;
-                document.getElementById('btn-pausa').textContent = d.pausado==='1' ? 'Retomar Bot' : 'Pausar Bot';
+                document.getElementById('btn-pausa').textContent = d.pausado==='1' ? '▶️ RETOMAR BOT' : '⏸️ PAUSAR BOT';
                 document.getElementById('check-only-admins').checked = d.only_admins==='1';
+                document.getElementById('check-aprovacao').checked = d.aprovacao==='1';
             }}
             async function restartBot() {{
-                if(!confirm("Deseja reiniciar o bot? O painel ficará offline por alguns segundos.")) return;
+                if(!Telegram.WebApp.showConfirm("Deseja reiniciar o bot? O painel ficará offline por alguns segundos.")) return;
+                Telegram.WebApp.showScanQrPopup({{ text: "Reiniciando Bot..." }});
                 await api('restart', 'POST'); 
-                Telegram.WebApp.close();
+                setTimeout(() => Telegram.WebApp.close(), 1500);
             }}
             async function toggleOnlyAdmins() {{
                 const v = document.getElementById('check-only-admins').checked ? '1' : '0';
                 await api('settings', 'POST', {{ chave: 'only_admins', valor: v }});
+            }}
+            async function toggleAprovacao() {{
+                const v = document.getElementById('check-aprovacao').checked ? '1' : '0';
+                await api('settings', 'POST', {{ chave: 'aprovacao_manual', valor: v }});
             }}
             async function togglePausa() {{
                 const d = await api('status');
