@@ -423,5 +423,5 @@ async def start_web_server():
     runner = web.AppRunner(app)
     await runner.setup()
     await web.TCPSite(runner, '0.0.0.0', port).start()
-    print(f"🌐 Dashboard rodando na porta {{port}}")
+    print(f"🌐 Dashboard rodando na porta {port}")
     while True: await asyncio.sleep(3600)

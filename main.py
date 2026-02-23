@@ -13,12 +13,13 @@ class LoggerWriter:
 
     def write(self, message):
         if not message: return
-        from datetime import datetime
+        from datetime import datetime, timedelta, timezone
         
         lines = message.splitlines(keepends=True)
         for line in lines:
             if self.at_start_of_line and line.strip():
-                now = datetime.now().strftime("[%d/%m %H:%M:%S] ")
+                # Forçar UTC-3 (Brasil) indepedente de onde o bot rode
+                now = (datetime.now(timezone.utc) - timedelta(hours=3)).strftime("[%d/%m %H:%M:%S] ")
                 self.terminal.write(now)
                 self.log.write(now)
                 self.at_start_of_line = False
