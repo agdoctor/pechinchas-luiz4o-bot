@@ -111,6 +111,52 @@ async def handle_index(request):
                     </label>
                 </div>
             </div>
+            <div id="tab-enviar" class="tab-content">
+                <div class="card" id="step-1">
+                    <div class="card-title">🔗 Colar Link</div>
+                    <p style="font-size:13px; color:var(--text-dim)">Cole o link do produto da Amazon, Mercado Livre, Shopee, etc.</p>
+                    <div class="input-group">
+                        <input type="text" id="promo-url" placeholder="https://www.amazon.com.br/dp/...">
+                        <button class="primary" onclick="startScrape()">Continuar ➔</button>
+                    </div>
+                </div>
+                
+                <div class="card" id="step-2" style="display:none">
+                    <div class="card-title">📝 Detalhes do Produto</div>
+                    <div style="text-align:center; margin-bottom:15px;">
+                        <img id="preview-img" style="max-width:150px; border-radius:8px; border:1px solid var(--border);">
+                    </div>
+                    <div class="input-group" style="flex-direction:column; gap:10px;">
+                        <label>Título:</label>
+                        <input type="text" id="preview-title">
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                            <div>
+                                <label>Preço:</label>
+                                <input type="text" id="preview-price" placeholder="R$ 0,00">
+                            </div>
+                            <div>
+                                <label>Cupom:</label>
+                                <input type="text" id="preview-coupon" placeholder="OPCIONAL">
+                            </div>
+                        </div>
+                        <label>Observação (Ex: 10x sem juros):</label>
+                        <input type="text" id="preview-obs">
+                    </div>
+                    <div style="display:flex; gap:10px; margin-top:15px;">
+                        <button onclick="backToStep(1)">⬅ Voltar</button>
+                        <button class="primary" onclick="generateText()" style="flex-grow:1">Gerar Texto com IA ✨</button>
+                    </div>
+                </div>
+
+                <div class="card" id="step-3" style="display:none">
+                    <div class="card-title">📤 Revisar e Postar</div>
+                    <textarea id="final-text" style="height:250px; margin-bottom:15px;"></textarea>
+                    <div style="display:flex; gap:10px;">
+                        <button onclick="backToStep(2)">⬅ Voltar</button>
+                        <button class="primary" onclick="postOffer()" style="flex-grow:1" id="btn-post">POSTAR AGORA 🚀</button>
+                    </div>
+                </div>
+            </div>
             <div id="tab-canais" class="tab-content">
                 <div class="card">
                     <div class="card-title">📺 Canais Monitorados</div>
@@ -187,6 +233,7 @@ async def handle_index(request):
                 if(t==='admins') loadAdmins(); if(t==='sorteios') loadSorteios();
                 if(t==='settings') loadSettings(); if(t==='dashboard') loadStatus();
                 if(t==='logs') fetchLogs(); if(t==='moldura') loadWatermark();
+                if(t==='enviar') backToStep(1);
             }}
             function loadWatermark() {{
                 const img = document.getElementById('wm-current-img');
