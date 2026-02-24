@@ -22,7 +22,13 @@ ofertas_pendentes_admin = []
 if not os.path.exists("downloads"):
     os.makedirs("downloads")
 
-client = TelegramClient('pechinchas_userbot', API_ID, API_HASH)
+from telethon.sessions import StringSession
+
+session_str = os.getenv("TELEGRAM_STRING_SESSION")
+if session_str:
+    client = TelegramClient(StringSession(session_str), API_ID, API_HASH)
+else:
+    client = TelegramClient('pechinchas_userbot', API_ID, API_HASH)
 
 # Fila para gerenciar o delay e as postagens
 post_queue = asyncio.Queue()
