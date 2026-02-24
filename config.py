@@ -26,12 +26,11 @@ SHOPEE_SOURCE_ID = os.getenv("SHOPEE_SOURCE_ID")
 # Proxy Configuration (Opcional - Recomendado para evitar 403)
 PROXY_URL = os.getenv("PROXY_URL")
 
-# WhatsApp (Evolution API)
+# WhatsApp (Green-API - Lightweight)
 WHATSAPP_ENABLED = os.getenv("WHATSAPP_ENABLED", "false").lower() == "true"
-WHATSAPP_API_URL = os.getenv("WHATSAPP_API_URL")
-WHATSAPP_API_KEY = os.getenv("WHATSAPP_API_KEY")
-WHATSAPP_INSTANCE = os.getenv("WHATSAPP_INSTANCE", "pechinchas_bot")
-WHATSAPP_DESTINATION = os.getenv("WHATSAPP_DESTINATION")
+GREEN_API_INSTANCE_ID = os.getenv("GREEN_API_INSTANCE_ID")
+GREEN_API_TOKEN = os.getenv("GREEN_API_TOKEN")
+WHATSAPP_DESTINATION = os.getenv("WHATSAPP_DESTINATION") # ID do Grupo ou Comunidade
 
 # Tratar os canais, permitindo múltiplos separados por vírgula no futuro
 SOURCE_CHANNELS = [c.strip() for c in os.getenv("SOURCE_CHANNELS", "").split(',') if c.strip()]

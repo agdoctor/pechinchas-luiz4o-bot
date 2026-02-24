@@ -1,0 +1,1731 @@
+[24/02 10:22:19] ============================================================
+[24/02 10:22:19] Traceback (most recent call last):
+[24/02 10:22:19]   File "C:\Users\luizh\.gemini\antigravity\pechinchasdoluiz4o\pechinchas_bot\main.py", line 66, in <module>
+[24/02 10:22:19]     asyncio.run(main())
+[24/02 10:22:19]     ~~~~~~~~~~~^^^^^^^^
+[24/02 10:22:19]   File "C:\Users\luizh\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\runners.py", line 204, in run
+[24/02 10:22:19]     return runner.run(main)
+[24/02 10:22:19]            ~~~~~~~~~~^^^^^^
+[24/02 10:22:19]   File "C:\Users\luizh\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\runners.py", line 127, in run
+[24/02 10:22:19]     return self._loop.run_until_complete(task)
+[24/02 10:22:19]            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+[24/02 10:22:19]   File "C:\Users\luizh\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\base_events.py", line 719, in run_until_complete
+[24/02 10:22:19]     return future.result()
+[24/02 10:22:19]            ~~~~~~~~~~~~~^^
+[24/02 10:22:19]   File "C:\Users\luizh\.gemini\antigravity\pechinchasdoluiz4o\pechinchas_bot\main.py", line 44, in main
+[24/02 10:22:19] Traceback (most recent call last):
+[24/02 10:22:19]   File "C:\Users\luizh\.gemini\antigravity\pechinchasdoluiz4o\pechinchas_bot\main.py", line 66, in <module>
+    [24/02 10:22:19] asyncio.run(main())
+[24/02 10:22:19]   File "C:\Users\luizh\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\runners.py", line 204, in run
+    [24/02 10:22:19] return runner.run(main)
+[24/02 10:22:19]   File "C:\Users\luizh\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\runners.py", line 127, in run
+    [24/02 10:22:19] return self._loop.run_until_complete(task)
+[24/02 10:22:19]   File "C:\Users\luizh\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\base_events.py", line 719, in run_until_complete
+    [24/02 10:22:19] return future.result()
+[24/02 10:22:19]   File "C:\Users\luizh\.gemini\antigravity\pechinchasdoluiz4o\pechinchas_bot\main.py", line 44, in main
+    [24/02 10:22:19]   File "C:\Users\luizh\.gemini\antigravity\pechinchasdoluiz4o\pechinchas_bot\main.py", line 27, in write
+    [24/02 10:22:19] self.terminal.write(line)
+[24/02 10:22:19]   File "C:\Users\luizh\AppData\Local\Python\pythoncore-3.14-64\Lib\encodings\cp1252.py", line 19, in encode
+    [24/02 10:22:19] return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+[24/02 10:22:19] UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f916' in position 0: character maps to <undefined>
+[24/02 10:23:06] ============================================================
+[24/02 10:23:06] Traceback (most recent call last):
+[24/02 10:23:06]   File "C:\Users\luizh\.gemini\antigravity\pechinchasdoluiz4o\pechinchas_bot\main.py", line 66, in <module>
+[24/02 10:23:06]     asyncio.run(main())
+[24/02 10:23:06]     ~~~~~~~~~~~^^^^^^^^
+[24/02 10:23:06]   File "C:\Users\luizh\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\runners.py", line 204, in run
+[24/02 10:23:06]     return runner.run(main)
+[24/02 10:23:06]            ~~~~~~~~~~^^^^^^
+[24/02 10:23:06]   File "C:\Users\luizh\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\runners.py", line 127, in run
+[24/02 10:23:06]     return self._loop.run_until_complete(task)
+[24/02 10:23:06]            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+[24/02 10:23:06]   File "C:\Users\luizh\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\base_events.py", line 719, in run_until_complete
+[24/02 10:23:06]     return future.result()
+[24/02 10:23:06]            ~~~~~~~~~~~~~^^
+[24/02 10:23:06]   File "C:\Users\luizh\.gemini\antigravity\pechinchasdoluiz4o\pechinchas_bot\main.py", line 44, in main
+[24/02 10:23:06] Traceback (most recent call last):
+[24/02 10:23:06]   File "C:\Users\luizh\.gemini\antigravity\pechinchasdoluiz4o\pechinchas_bot\main.py", line 66, in <module>
+    [24/02 10:23:06] asyncio.run(main())
+[24/02 10:23:06]   File "C:\Users\luizh\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\runners.py", line 204, in run
+    [24/02 10:23:06] return runner.run(main)
+[24/02 10:23:06]   File "C:\Users\luizh\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\runners.py", line 127, in run
+    [24/02 10:23:06] return self._loop.run_until_complete(task)
+[24/02 10:23:06]   File "C:\Users\luizh\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\base_events.py", line 719, in run_until_complete
+    [24/02 10:23:06] return future.result()
+[24/02 10:23:06]   File "C:\Users\luizh\.gemini\antigravity\pechinchasdoluiz4o\pechinchas_bot\main.py", line 44, in main
+    [24/02 10:23:06]   File "C:\Users\luizh\.gemini\antigravity\pechinchasdoluiz4o\pechinchas_bot\main.py", line 27, in write
+    [24/02 10:23:06] self.terminal.write(line)
+[24/02 10:23:06]   File "C:\Users\luizh\AppData\Local\Python\pythoncore-3.14-64\Lib\encodings\cp1252.py", line 19, in encode
+    [24/02 10:23:06] return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+[24/02 10:23:06] UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f916' in position 0: character maps to <undefined>
+[24/02 10:24:01] ============================================================
+[24/02 10:24:01] Bot Pechinchas do Luiz4o - Sistema de Monitoramento + Controle
+[24/02 10:24:01] ============================================================
+[24/02 10:24:01] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:24:01] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:24:01] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:24:01] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:24:02] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:24:08] ============================================================
+[24/02 10:24:08] Bot Pechinchas do Luiz4o - Sistema de Monitoramento + Controle
+[24/02 10:24:08] ============================================================
+[24/02 10:24:08] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:24:08] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:24:08] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:24:08] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:24:09] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:24:13] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:24:13] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:24:13] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:24:13] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:24:13] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:24:18] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:24:18] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:24:18] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:24:18] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:24:18] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:24:23] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:24:23] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:24:23] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:24:23] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:24:23] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:24:28] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:24:28] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:24:28] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:24:28] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:24:28] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:24:33] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:24:33] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:24:33] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:24:33] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:24:33] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:24:38] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:24:38] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:24:38] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:24:38] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:24:38] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:24:43] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:24:43] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:24:43] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:24:43] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:24:43] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:24:48] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:24:48] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:24:48] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:24:48] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:24:48] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:24:53] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:24:53] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:24:53] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:24:53] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:24:53] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:24:58] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:24:58] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:24:58] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:24:58] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:24:58] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:25:03] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:25:03] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:25:03] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:25:03] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:25:03] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:25:08] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:25:08] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:25:08] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:25:08] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:25:08] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:25:13] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:25:13] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:25:13] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:25:13] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:25:13] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:25:18] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:25:18] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:25:18] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:25:18] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:25:18] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:25:23] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:25:23] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:25:23] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:25:23] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:25:23] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:25:28] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:25:28] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:25:28] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:25:28] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:25:28] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:25:33] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:25:33] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:25:33] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:25:33] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:25:33] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+
+[24/02 10:25:33] ==================================================
+[24/02 10:25:33] 🚨 Nova mensagem identificada no canal fonte: canalrodrigomoreira
+[24/02 10:25:33] ⏭️ Ignorado: Nenhuma keyword encontrada. (Configs: air fryer, alexa, apple watch, ar condicionado inverter, cadeira gamer, carregador gan, casa inteligente, cupom amazon, cupom kabum, cupom kabum!, cupom mercado livre, cupons mercado livre, câmera mirrorless, drone, echo dot, estabilizador de celular, fechadura eletrônica, fone de ouvido bluetooth, fonte modular, gabinete gamer, galaxy watch, google home mini, google nest, gopro, headset gamer, hub usb-c, intel core i5, intel core i7, ipad, iphone, jbl, kindle, lâmpada inteligente, macbook, memória ram, microfone usb, monitor 4k, monitor gamer, motorola, mouse gamer, nintendo switch, notebook, pc gamer, placa de vídeo, placa-mãe, playstation 5, power bank, processador, ps5, quest 3, ring light, robô aspirador, roteador wi-fi 6, rtx 4060, rtx 4070, rtx 4080, rx 7600, ryzen 5, ryzen 7, samsung galaxy, smart lamp, smart tv, smartphone, smartwatch, soundbar, ssd, tablet, teclado mecânico, tws, vr headset, water cooler, webcam 4k, xbox series x/s, xiaomi)
+[24/02 10:25:33] 📝 Texto analisado (trecho): ‼️ Tênis Nike Air Max Excee Masculino
+
+[24/02 10:25:33] Saindo a R$ 335 no pix
+
+[24/02 10:25:33] 🤑 Use o cupom: SUACHANCE
+
+[24/02 10:25:33] 🛒 COMPRE AQ...
+
+[24/02 10:25:33] ==================================================
+[24/02 10:25:33] 🚨 Nova mensagem identificada no canal fonte: canalrodrigomoreira
+[24/02 10:25:33] ⏭️ Ignorado: Nenhuma keyword encontrada. (Configs: air fryer, alexa, apple watch, ar condicionado inverter, cadeira gamer, carregador gan, casa inteligente, cupom amazon, cupom kabum, cupom kabum!, cupom mercado livre, cupons mercado livre, câmera mirrorless, drone, echo dot, estabilizador de celular, fechadura eletrônica, fone de ouvido bluetooth, fonte modular, gabinete gamer, galaxy watch, google home mini, google nest, gopro, headset gamer, hub usb-c, intel core i5, intel core i7, ipad, iphone, jbl, kindle, lâmpada inteligente, macbook, memória ram, microfone usb, monitor 4k, monitor gamer, motorola, mouse gamer, nintendo switch, notebook, pc gamer, placa de vídeo, placa-mãe, playstation 5, power bank, processador, ps5, quest 3, ring light, robô aspirador, roteador wi-fi 6, rtx 4060, rtx 4070, rtx 4080, rx 7600, ryzen 5, ryzen 7, samsung galaxy, smart lamp, smart tv, smartphone, smartwatch, soundbar, ssd, tablet, teclado mecânico, tws, vr headset, water cooler, webcam 4k, xbox series x/s, xiaomi)
+[24/02 10:25:33] 📝 Texto analisado (trecho): ‼️ Tênis Nike Air Max Excee Masculino
+
+[24/02 10:25:33] Saindo a R$ 335 no pix
+
+[24/02 10:25:33] 🤑 Use o cupom: SUACHANCE
+
+[24/02 10:25:33] 🛒 COMPRE AQ...
+
+[24/02 10:25:33] ==================================================
+[24/02 10:25:33] 🚨 Nova mensagem identificada no canal fonte: canalrodrigomoreira
+[24/02 10:25:33] ⏭️ Ignorado: Nenhuma keyword encontrada. (Configs: air fryer, alexa, apple watch, ar condicionado inverter, cadeira gamer, carregador gan, casa inteligente, cupom amazon, cupom kabum, cupom kabum!, cupom mercado livre, cupons mercado livre, câmera mirrorless, drone, echo dot, estabilizador de celular, fechadura eletrônica, fone de ouvido bluetooth, fonte modular, gabinete gamer, galaxy watch, google home mini, google nest, gopro, headset gamer, hub usb-c, intel core i5, intel core i7, ipad, iphone, jbl, kindle, lâmpada inteligente, macbook, memória ram, microfone usb, monitor 4k, monitor gamer, motorola, mouse gamer, nintendo switch, notebook, pc gamer, placa de vídeo, placa-mãe, playstation 5, power bank, processador, ps5, quest 3, ring light, robô aspirador, roteador wi-fi 6, rtx 4060, rtx 4070, rtx 4080, rx 7600, ryzen 5, ryzen 7, samsung galaxy, smart lamp, smart tv, smartphone, smartwatch, soundbar, ssd, tablet, teclado mecânico, tws, vr headset, water cooler, webcam 4k, xbox series x/s, xiaomi)
+[24/02 10:25:33] 📝 Texto analisado (trecho): ‼️ Tênis Nike Air Max Excee Masculino
+
+[24/02 10:25:33] Saindo a R$ 335 no pix
+
+[24/02 10:25:33] 🤑 Use o cupom: SUACHANCE
+
+[24/02 10:25:33] 🛒 COMPRE AQ...
+
+[24/02 10:25:33] ==================================================
+[24/02 10:25:33] 🚨 Nova mensagem identificada no canal fonte: canalrodrigomoreira
+[24/02 10:25:33] ⏭️ Ignorado: Nenhuma keyword encontrada. (Configs: air fryer, alexa, apple watch, ar condicionado inverter, cadeira gamer, carregador gan, casa inteligente, cupom amazon, cupom kabum, cupom kabum!, cupom mercado livre, cupons mercado livre, câmera mirrorless, drone, echo dot, estabilizador de celular, fechadura eletrônica, fone de ouvido bluetooth, fonte modular, gabinete gamer, galaxy watch, google home mini, google nest, gopro, headset gamer, hub usb-c, intel core i5, intel core i7, ipad, iphone, jbl, kindle, lâmpada inteligente, macbook, memória ram, microfone usb, monitor 4k, monitor gamer, motorola, mouse gamer, nintendo switch, notebook, pc gamer, placa de vídeo, placa-mãe, playstation 5, power bank, processador, ps5, quest 3, ring light, robô aspirador, roteador wi-fi 6, rtx 4060, rtx 4070, rtx 4080, rx 7600, ryzen 5, ryzen 7, samsung galaxy, smart lamp, smart tv, smartphone, smartwatch, soundbar, ssd, tablet, teclado mecânico, tws, vr headset, water cooler, webcam 4k, xbox series x/s, xiaomi)
+[24/02 10:25:33] 📝 Texto analisado (trecho): ‼️ Tênis Nike Air Max Excee Masculino
+
+[24/02 10:25:33] Saindo a R$ 335 no pix
+
+[24/02 10:25:33] 🤑 Use o cupom: SUACHANCE
+
+[24/02 10:25:33] 🛒 COMPRE AQ...
+
+[24/02 10:25:33] ==================================================
+[24/02 10:25:33] 🚨 Nova mensagem identificada no canal fonte: canalrodrigomoreira
+[24/02 10:25:33] ⏭️ Ignorado: Nenhuma keyword encontrada. (Configs: air fryer, alexa, apple watch, ar condicionado inverter, cadeira gamer, carregador gan, casa inteligente, cupom amazon, cupom kabum, cupom kabum!, cupom mercado livre, cupons mercado livre, câmera mirrorless, drone, echo dot, estabilizador de celular, fechadura eletrônica, fone de ouvido bluetooth, fonte modular, gabinete gamer, galaxy watch, google home mini, google nest, gopro, headset gamer, hub usb-c, intel core i5, intel core i7, ipad, iphone, jbl, kindle, lâmpada inteligente, macbook, memória ram, microfone usb, monitor 4k, monitor gamer, motorola, mouse gamer, nintendo switch, notebook, pc gamer, placa de vídeo, placa-mãe, playstation 5, power bank, processador, ps5, quest 3, ring light, robô aspirador, roteador wi-fi 6, rtx 4060, rtx 4070, rtx 4080, rx 7600, ryzen 5, ryzen 7, samsung galaxy, smart lamp, smart tv, smartphone, smartwatch, soundbar, ssd, tablet, teclado mecânico, tws, vr headset, water cooler, webcam 4k, xbox series x/s, xiaomi)
+[24/02 10:25:33] 📝 Texto analisado (trecho): ‼️ Tênis Nike Air Max Excee Masculino
+
+[24/02 10:25:33] Saindo a R$ 335 no pix
+
+[24/02 10:25:33] 🤑 Use o cupom: SUACHANCE
+
+[24/02 10:25:33] 🛒 COMPRE AQ...
+
+[24/02 10:25:33] ==================================================
+[24/02 10:25:33] 🚨 Nova mensagem identificada no canal fonte: canalrodrigomoreira
+[24/02 10:25:33] ⏭️ Ignorado: Nenhuma keyword encontrada. (Configs: air fryer, alexa, apple watch, ar condicionado inverter, cadeira gamer, carregador gan, casa inteligente, cupom amazon, cupom kabum, cupom kabum!, cupom mercado livre, cupons mercado livre, câmera mirrorless, drone, echo dot, estabilizador de celular, fechadura eletrônica, fone de ouvido bluetooth, fonte modular, gabinete gamer, galaxy watch, google home mini, google nest, gopro, headset gamer, hub usb-c, intel core i5, intel core i7, ipad, iphone, jbl, kindle, lâmpada inteligente, macbook, memória ram, microfone usb, monitor 4k, monitor gamer, motorola, mouse gamer, nintendo switch, notebook, pc gamer, placa de vídeo, placa-mãe, playstation 5, power bank, processador, ps5, quest 3, ring light, robô aspirador, roteador wi-fi 6, rtx 4060, rtx 4070, rtx 4080, rx 7600, ryzen 5, ryzen 7, samsung galaxy, smart lamp, smart tv, smartphone, smartwatch, soundbar, ssd, tablet, teclado mecânico, tws, vr headset, water cooler, webcam 4k, xbox series x/s, xiaomi)
+[24/02 10:25:33] 📝 Texto analisado (trecho): ‼️ Tênis Nike Air Max Excee Masculino
+
+[24/02 10:25:33] Saindo a R$ 335 no pix
+
+[24/02 10:25:33] 🤑 Use o cupom: SUACHANCE
+
+[24/02 10:25:33] 🛒 COMPRE AQ...
+
+[24/02 10:25:33] ==================================================
+[24/02 10:25:33] 🚨 Nova mensagem identificada no canal fonte: canalrodrigomoreira
+[24/02 10:25:33] ⏭️ Ignorado: Nenhuma keyword encontrada. (Configs: air fryer, alexa, apple watch, ar condicionado inverter, cadeira gamer, carregador gan, casa inteligente, cupom amazon, cupom kabum, cupom kabum!, cupom mercado livre, cupons mercado livre, câmera mirrorless, drone, echo dot, estabilizador de celular, fechadura eletrônica, fone de ouvido bluetooth, fonte modular, gabinete gamer, galaxy watch, google home mini, google nest, gopro, headset gamer, hub usb-c, intel core i5, intel core i7, ipad, iphone, jbl, kindle, lâmpada inteligente, macbook, memória ram, microfone usb, monitor 4k, monitor gamer, motorola, mouse gamer, nintendo switch, notebook, pc gamer, placa de vídeo, placa-mãe, playstation 5, power bank, processador, ps5, quest 3, ring light, robô aspirador, roteador wi-fi 6, rtx 4060, rtx 4070, rtx 4080, rx 7600, ryzen 5, ryzen 7, samsung galaxy, smart lamp, smart tv, smartphone, smartwatch, soundbar, ssd, tablet, teclado mecânico, tws, vr headset, water cooler, webcam 4k, xbox series x/s, xiaomi)
+[24/02 10:25:33] 📝 Texto analisado (trecho): ‼️ Tênis Nike Air Max Excee Masculino
+
+[24/02 10:25:33] Saindo a R$ 335 no pix
+
+[24/02 10:25:33] 🤑 Use o cupom: SUACHANCE
+
+[24/02 10:25:33] 🛒 COMPRE AQ...
+
+[24/02 10:25:33] ==================================================
+[24/02 10:25:33] 🚨 Nova mensagem identificada no canal fonte: canalrodrigomoreira
+[24/02 10:25:33] ⏭️ Ignorado: Nenhuma keyword encontrada. (Configs: air fryer, alexa, apple watch, ar condicionado inverter, cadeira gamer, carregador gan, casa inteligente, cupom amazon, cupom kabum, cupom kabum!, cupom mercado livre, cupons mercado livre, câmera mirrorless, drone, echo dot, estabilizador de celular, fechadura eletrônica, fone de ouvido bluetooth, fonte modular, gabinete gamer, galaxy watch, google home mini, google nest, gopro, headset gamer, hub usb-c, intel core i5, intel core i7, ipad, iphone, jbl, kindle, lâmpada inteligente, macbook, memória ram, microfone usb, monitor 4k, monitor gamer, motorola, mouse gamer, nintendo switch, notebook, pc gamer, placa de vídeo, placa-mãe, playstation 5, power bank, processador, ps5, quest 3, ring light, robô aspirador, roteador wi-fi 6, rtx 4060, rtx 4070, rtx 4080, rx 7600, ryzen 5, ryzen 7, samsung galaxy, smart lamp, smart tv, smartphone, smartwatch, soundbar, ssd, tablet, teclado mecânico, tws, vr headset, water cooler, webcam 4k, xbox series x/s, xiaomi)
+[24/02 10:25:33] 📝 Texto analisado (trecho): ‼️ Tênis Nike Air Max Excee Masculino
+
+[24/02 10:25:33] Saindo a R$ 335 no pix
+
+[24/02 10:25:33] 🤑 Use o cupom: SUACHANCE
+
+[24/02 10:25:33] 🛒 COMPRE AQ...
+
+[24/02 10:25:33] ==================================================
+[24/02 10:25:33] 🚨 Nova mensagem identificada no canal fonte: canalrodrigomoreira
+[24/02 10:25:33] ⏭️ Ignorado: Nenhuma keyword encontrada. (Configs: air fryer, alexa, apple watch, ar condicionado inverter, cadeira gamer, carregador gan, casa inteligente, cupom amazon, cupom kabum, cupom kabum!, cupom mercado livre, cupons mercado livre, câmera mirrorless, drone, echo dot, estabilizador de celular, fechadura eletrônica, fone de ouvido bluetooth, fonte modular, gabinete gamer, galaxy watch, google home mini, google nest, gopro, headset gamer, hub usb-c, intel core i5, intel core i7, ipad, iphone, jbl, kindle, lâmpada inteligente, macbook, memória ram, microfone usb, monitor 4k, monitor gamer, motorola, mouse gamer, nintendo switch, notebook, pc gamer, placa de vídeo, placa-mãe, playstation 5, power bank, processador, ps5, quest 3, ring light, robô aspirador, roteador wi-fi 6, rtx 4060, rtx 4070, rtx 4080, rx 7600, ryzen 5, ryzen 7, samsung galaxy, smart lamp, smart tv, smartphone, smartwatch, soundbar, ssd, tablet, teclado mecânico, tws, vr headset, water cooler, webcam 4k, xbox series x/s, xiaomi)
+[24/02 10:25:33] 📝 Texto analisado (trecho): ‼️ Tênis Nike Air Max Excee Masculino
+
+[24/02 10:25:33] Saindo a R$ 335 no pix
+
+[24/02 10:25:33] 🤑 Use o cupom: SUACHANCE
+
+[24/02 10:25:33] 🛒 COMPRE AQ...
+
+[24/02 10:25:33] ==================================================
+[24/02 10:25:33] 🚨 Nova mensagem identificada no canal fonte: canalrodrigomoreira
+[24/02 10:25:33] ⏭️ Ignorado: Nenhuma keyword encontrada. (Configs: air fryer, alexa, apple watch, ar condicionado inverter, cadeira gamer, carregador gan, casa inteligente, cupom amazon, cupom kabum, cupom kabum!, cupom mercado livre, cupons mercado livre, câmera mirrorless, drone, echo dot, estabilizador de celular, fechadura eletrônica, fone de ouvido bluetooth, fonte modular, gabinete gamer, galaxy watch, google home mini, google nest, gopro, headset gamer, hub usb-c, intel core i5, intel core i7, ipad, iphone, jbl, kindle, lâmpada inteligente, macbook, memória ram, microfone usb, monitor 4k, monitor gamer, motorola, mouse gamer, nintendo switch, notebook, pc gamer, placa de vídeo, placa-mãe, playstation 5, power bank, processador, ps5, quest 3, ring light, robô aspirador, roteador wi-fi 6, rtx 4060, rtx 4070, rtx 4080, rx 7600, ryzen 5, ryzen 7, samsung galaxy, smart lamp, smart tv, smartphone, smartwatch, soundbar, ssd, tablet, teclado mecânico, tws, vr headset, water cooler, webcam 4k, xbox series x/s, xiaomi)
+[24/02 10:25:33] 📝 Texto analisado (trecho): ‼️ Tênis Nike Air Max Excee Masculino
+
+[24/02 10:25:33] Saindo a R$ 335 no pix
+
+[24/02 10:25:33] 🤑 Use o cupom: SUACHANCE
+
+[24/02 10:25:33] 🛒 COMPRE AQ...
+
+[24/02 10:25:33] ==================================================
+[24/02 10:25:33] 🚨 Nova mensagem identificada no canal fonte: canalrodrigomoreira
+[24/02 10:25:33] ⏭️ Ignorado: Nenhuma keyword encontrada. (Configs: air fryer, alexa, apple watch, ar condicionado inverter, cadeira gamer, carregador gan, casa inteligente, cupom amazon, cupom kabum, cupom kabum!, cupom mercado livre, cupons mercado livre, câmera mirrorless, drone, echo dot, estabilizador de celular, fechadura eletrônica, fone de ouvido bluetooth, fonte modular, gabinete gamer, galaxy watch, google home mini, google nest, gopro, headset gamer, hub usb-c, intel core i5, intel core i7, ipad, iphone, jbl, kindle, lâmpada inteligente, macbook, memória ram, microfone usb, monitor 4k, monitor gamer, motorola, mouse gamer, nintendo switch, notebook, pc gamer, placa de vídeo, placa-mãe, playstation 5, power bank, processador, ps5, quest 3, ring light, robô aspirador, roteador wi-fi 6, rtx 4060, rtx 4070, rtx 4080, rx 7600, ryzen 5, ryzen 7, samsung galaxy, smart lamp, smart tv, smartphone, smartwatch, soundbar, ssd, tablet, teclado mecânico, tws, vr headset, water cooler, webcam 4k, xbox series x/s, xiaomi)
+[24/02 10:25:33] 📝 Texto analisado (trecho): ‼️ Tênis Nike Air Max Excee Masculino
+
+[24/02 10:25:33] Saindo a R$ 335 no pix
+
+[24/02 10:25:33] 🤑 Use o cupom: SUACHANCE
+
+[24/02 10:25:33] 🛒 COMPRE AQ...
+
+[24/02 10:25:33] ==================================================
+[24/02 10:25:33] 🚨 Nova mensagem identificada no canal fonte: canalrodrigomoreira
+[24/02 10:25:33] ⏭️ Ignorado: Nenhuma keyword encontrada. (Configs: air fryer, alexa, apple watch, ar condicionado inverter, cadeira gamer, carregador gan, casa inteligente, cupom amazon, cupom kabum, cupom kabum!, cupom mercado livre, cupons mercado livre, câmera mirrorless, drone, echo dot, estabilizador de celular, fechadura eletrônica, fone de ouvido bluetooth, fonte modular, gabinete gamer, galaxy watch, google home mini, google nest, gopro, headset gamer, hub usb-c, intel core i5, intel core i7, ipad, iphone, jbl, kindle, lâmpada inteligente, macbook, memória ram, microfone usb, monitor 4k, monitor gamer, motorola, mouse gamer, nintendo switch, notebook, pc gamer, placa de vídeo, placa-mãe, playstation 5, power bank, processador, ps5, quest 3, ring light, robô aspirador, roteador wi-fi 6, rtx 4060, rtx 4070, rtx 4080, rx 7600, ryzen 5, ryzen 7, samsung galaxy, smart lamp, smart tv, smartphone, smartwatch, soundbar, ssd, tablet, teclado mecânico, tws, vr headset, water cooler, webcam 4k, xbox series x/s, xiaomi)
+[24/02 10:25:33] 📝 Texto analisado (trecho): ‼️ Tênis Nike Air Max Excee Masculino
+
+[24/02 10:25:33] Saindo a R$ 335 no pix
+
+[24/02 10:25:33] 🤑 Use o cupom: SUACHANCE
+
+[24/02 10:25:33] 🛒 COMPRE AQ...
+
+[24/02 10:25:33] ==================================================
+[24/02 10:25:33] 🚨 Nova mensagem identificada no canal fonte: canalrodrigomoreira
+[24/02 10:25:33] ⏭️ Ignorado: Nenhuma keyword encontrada. (Configs: air fryer, alexa, apple watch, ar condicionado inverter, cadeira gamer, carregador gan, casa inteligente, cupom amazon, cupom kabum, cupom kabum!, cupom mercado livre, cupons mercado livre, câmera mirrorless, drone, echo dot, estabilizador de celular, fechadura eletrônica, fone de ouvido bluetooth, fonte modular, gabinete gamer, galaxy watch, google home mini, google nest, gopro, headset gamer, hub usb-c, intel core i5, intel core i7, ipad, iphone, jbl, kindle, lâmpada inteligente, macbook, memória ram, microfone usb, monitor 4k, monitor gamer, motorola, mouse gamer, nintendo switch, notebook, pc gamer, placa de vídeo, placa-mãe, playstation 5, power bank, processador, ps5, quest 3, ring light, robô aspirador, roteador wi-fi 6, rtx 4060, rtx 4070, rtx 4080, rx 7600, ryzen 5, ryzen 7, samsung galaxy, smart lamp, smart tv, smartphone, smartwatch, soundbar, ssd, tablet, teclado mecânico, tws, vr headset, water cooler, webcam 4k, xbox series x/s, xiaomi)
+[24/02 10:25:33] 📝 Texto analisado (trecho): ‼️ Tênis Nike Air Max Excee Masculino
+
+[24/02 10:25:33] Saindo a R$ 335 no pix
+
+[24/02 10:25:33] 🤑 Use o cupom: SUACHANCE
+
+[24/02 10:25:33] 🛒 COMPRE AQ...
+
+[24/02 10:25:33] ==================================================
+[24/02 10:25:33] 🚨 Nova mensagem identificada no canal fonte: canalrodrigomoreira
+[24/02 10:25:33] ⏭️ Ignorado: Nenhuma keyword encontrada. (Configs: air fryer, alexa, apple watch, ar condicionado inverter, cadeira gamer, carregador gan, casa inteligente, cupom amazon, cupom kabum, cupom kabum!, cupom mercado livre, cupons mercado livre, câmera mirrorless, drone, echo dot, estabilizador de celular, fechadura eletrônica, fone de ouvido bluetooth, fonte modular, gabinete gamer, galaxy watch, google home mini, google nest, gopro, headset gamer, hub usb-c, intel core i5, intel core i7, ipad, iphone, jbl, kindle, lâmpada inteligente, macbook, memória ram, microfone usb, monitor 4k, monitor gamer, motorola, mouse gamer, nintendo switch, notebook, pc gamer, placa de vídeo, placa-mãe, playstation 5, power bank, processador, ps5, quest 3, ring light, robô aspirador, roteador wi-fi 6, rtx 4060, rtx 4070, rtx 4080, rx 7600, ryzen 5, ryzen 7, samsung galaxy, smart lamp, smart tv, smartphone, smartwatch, soundbar, ssd, tablet, teclado mecânico, tws, vr headset, water cooler, webcam 4k, xbox series x/s, xiaomi)
+[24/02 10:25:33] 📝 Texto analisado (trecho): ‼️ Tênis Nike Air Max Excee Masculino
+
+[24/02 10:25:33] Saindo a R$ 335 no pix
+
+[24/02 10:25:33] 🤑 Use o cupom: SUACHANCE
+
+[24/02 10:25:33] 🛒 COMPRE AQ...
+
+[24/02 10:25:33] ==================================================
+[24/02 10:25:33] 🚨 Nova mensagem identificada no canal fonte: canalrodrigomoreira
+[24/02 10:25:33] ⏭️ Ignorado: Nenhuma keyword encontrada. (Configs: air fryer, alexa, apple watch, ar condicionado inverter, cadeira gamer, carregador gan, casa inteligente, cupom amazon, cupom kabum, cupom kabum!, cupom mercado livre, cupons mercado livre, câmera mirrorless, drone, echo dot, estabilizador de celular, fechadura eletrônica, fone de ouvido bluetooth, fonte modular, gabinete gamer, galaxy watch, google home mini, google nest, gopro, headset gamer, hub usb-c, intel core i5, intel core i7, ipad, iphone, jbl, kindle, lâmpada inteligente, macbook, memória ram, microfone usb, monitor 4k, monitor gamer, motorola, mouse gamer, nintendo switch, notebook, pc gamer, placa de vídeo, placa-mãe, playstation 5, power bank, processador, ps5, quest 3, ring light, robô aspirador, roteador wi-fi 6, rtx 4060, rtx 4070, rtx 4080, rx 7600, ryzen 5, ryzen 7, samsung galaxy, smart lamp, smart tv, smartphone, smartwatch, soundbar, ssd, tablet, teclado mecânico, tws, vr headset, water cooler, webcam 4k, xbox series x/s, xiaomi)
+[24/02 10:25:33] 📝 Texto analisado (trecho): ‼️ Tênis Nike Air Max Excee Masculino
+
+[24/02 10:25:33] Saindo a R$ 335 no pix
+
+[24/02 10:25:33] 🤑 Use o cupom: SUACHANCE
+
+[24/02 10:25:33] 🛒 COMPRE AQ...
+
+[24/02 10:25:33] ==================================================
+[24/02 10:25:33] 🚨 Nova mensagem identificada no canal fonte: canalrodrigomoreira
+[24/02 10:25:33] ⏭️ Ignorado: Nenhuma keyword encontrada. (Configs: air fryer, alexa, apple watch, ar condicionado inverter, cadeira gamer, carregador gan, casa inteligente, cupom amazon, cupom kabum, cupom kabum!, cupom mercado livre, cupons mercado livre, câmera mirrorless, drone, echo dot, estabilizador de celular, fechadura eletrônica, fone de ouvido bluetooth, fonte modular, gabinete gamer, galaxy watch, google home mini, google nest, gopro, headset gamer, hub usb-c, intel core i5, intel core i7, ipad, iphone, jbl, kindle, lâmpada inteligente, macbook, memória ram, microfone usb, monitor 4k, monitor gamer, motorola, mouse gamer, nintendo switch, notebook, pc gamer, placa de vídeo, placa-mãe, playstation 5, power bank, processador, ps5, quest 3, ring light, robô aspirador, roteador wi-fi 6, rtx 4060, rtx 4070, rtx 4080, rx 7600, ryzen 5, ryzen 7, samsung galaxy, smart lamp, smart tv, smartphone, smartwatch, soundbar, ssd, tablet, teclado mecânico, tws, vr headset, water cooler, webcam 4k, xbox series x/s, xiaomi)
+[24/02 10:25:33] 📝 Texto analisado (trecho): ‼️ Tênis Nike Air Max Excee Masculino
+
+[24/02 10:25:33] Saindo a R$ 335 no pix
+
+[24/02 10:25:33] 🤑 Use o cupom: SUACHANCE
+
+[24/02 10:25:33] 🛒 COMPRE AQ...
+
+[24/02 10:25:33] ==================================================
+[24/02 10:25:33] 🚨 Nova mensagem identificada no canal fonte: canalrodrigomoreira
+[24/02 10:25:33] ⏭️ Ignorado: Nenhuma keyword encontrada. (Configs: air fryer, alexa, apple watch, ar condicionado inverter, cadeira gamer, carregador gan, casa inteligente, cupom amazon, cupom kabum, cupom kabum!, cupom mercado livre, cupons mercado livre, câmera mirrorless, drone, echo dot, estabilizador de celular, fechadura eletrônica, fone de ouvido bluetooth, fonte modular, gabinete gamer, galaxy watch, google home mini, google nest, gopro, headset gamer, hub usb-c, intel core i5, intel core i7, ipad, iphone, jbl, kindle, lâmpada inteligente, macbook, memória ram, microfone usb, monitor 4k, monitor gamer, motorola, mouse gamer, nintendo switch, notebook, pc gamer, placa de vídeo, placa-mãe, playstation 5, power bank, processador, ps5, quest 3, ring light, robô aspirador, roteador wi-fi 6, rtx 4060, rtx 4070, rtx 4080, rx 7600, ryzen 5, ryzen 7, samsung galaxy, smart lamp, smart tv, smartphone, smartwatch, soundbar, ssd, tablet, teclado mecânico, tws, vr headset, water cooler, webcam 4k, xbox series x/s, xiaomi)
+[24/02 10:25:33] 📝 Texto analisado (trecho): ‼️ Tênis Nike Air Max Excee Masculino
+
+[24/02 10:25:33] Saindo a R$ 335 no pix
+
+[24/02 10:25:33] 🤑 Use o cupom: SUACHANCE
+
+[24/02 10:25:33] 🛒 COMPRE AQ...
+
+[24/02 10:25:33] ==================================================
+[24/02 10:25:33] 🚨 Nova mensagem identificada no canal fonte: canalrodrigomoreira
+[24/02 10:25:33] ⏭️ Ignorado: Nenhuma keyword encontrada. (Configs: air fryer, alexa, apple watch, ar condicionado inverter, cadeira gamer, carregador gan, casa inteligente, cupom amazon, cupom kabum, cupom kabum!, cupom mercado livre, cupons mercado livre, câmera mirrorless, drone, echo dot, estabilizador de celular, fechadura eletrônica, fone de ouvido bluetooth, fonte modular, gabinete gamer, galaxy watch, google home mini, google nest, gopro, headset gamer, hub usb-c, intel core i5, intel core i7, ipad, iphone, jbl, kindle, lâmpada inteligente, macbook, memória ram, microfone usb, monitor 4k, monitor gamer, motorola, mouse gamer, nintendo switch, notebook, pc gamer, placa de vídeo, placa-mãe, playstation 5, power bank, processador, ps5, quest 3, ring light, robô aspirador, roteador wi-fi 6, rtx 4060, rtx 4070, rtx 4080, rx 7600, ryzen 5, ryzen 7, samsung galaxy, smart lamp, smart tv, smartphone, smartwatch, soundbar, ssd, tablet, teclado mecânico, tws, vr headset, water cooler, webcam 4k, xbox series x/s, xiaomi)
+[24/02 10:25:33] 📝 Texto analisado (trecho): ‼️ Tênis Nike Air Max Excee Masculino
+
+[24/02 10:25:33] Saindo a R$ 335 no pix
+
+[24/02 10:25:33] 🤑 Use o cupom: SUACHANCE
+
+[24/02 10:25:33] 🛒 COMPRE AQ...
+[24/02 10:25:38] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:25:38] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:25:38] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:25:38] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:25:38] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:25:43] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:25:43] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:25:43] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:25:43] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:25:43] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:25:48] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:25:48] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:25:48] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:25:48] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:25:48] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:25:53] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:25:53] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:25:53] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:25:53] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:25:53] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:25:58] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:25:58] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:25:58] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:25:58] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:25:58] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:26:03] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:26:03] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:26:03] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:26:03] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:26:03] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:26:08] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:26:08] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:26:08] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:26:08] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:26:08] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:26:13] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:26:13] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:26:13] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:26:13] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:26:13] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:26:18] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:26:18] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:26:18] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:26:18] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:26:18] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:26:23] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:26:23] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:26:23] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:26:23] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:26:23] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:26:28] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:26:28] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:26:28] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:26:28] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:26:28] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:26:33] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:26:33] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:26:33] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:26:33] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:26:33] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:26:38] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:26:38] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:26:38] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:26:38] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:26:38] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:26:43] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:26:43] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:26:43] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:26:43] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:26:43] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:26:48] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:26:48] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:26:48] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:26:48] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:26:48] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:26:53] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:26:53] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:26:53] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:26:53] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:26:53] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:26:58] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:26:58] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:26:58] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:26:58] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:26:58] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:27:03] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:27:03] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:27:03] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:27:03] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:27:03] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:27:08] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:27:08] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:27:08] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:27:08] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:27:08] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:27:13] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:27:13] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:27:13] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:27:13] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:27:13] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:27:18] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:27:18] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:27:18] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:27:18] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:27:19] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:27:23] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:27:23] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:27:23] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:27:23] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:27:24] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:27:28] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:27:28] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:27:28] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:27:28] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:27:29] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:27:33] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:27:33] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:27:33] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:27:33] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:27:34] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:27:38] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:27:38] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:27:38] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:27:38] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:27:39] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:27:43] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:27:43] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:27:43] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:27:43] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:27:44] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:27:48] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:27:48] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:27:48] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:27:48] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:27:49] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:27:53] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:27:53] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:27:53] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:27:53] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:27:54] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:27:58] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:27:58] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:27:58] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:27:58] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:27:59] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:28:03] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:28:03] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:28:04] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:28:04] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:28:04] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:28:09] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:28:09] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:28:09] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:28:09] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:28:09] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:28:14] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:28:14] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:28:14] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:28:14] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:28:14] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:28:19] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:28:19] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:28:19] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:28:19] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:28:19] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:28:24] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:28:24] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:28:24] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:28:24] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:28:24] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:28:29] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:28:29] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:28:29] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:28:29] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:28:29] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:28:34] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:28:34] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:28:34] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:28:34] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:28:34] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:28:39] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:28:39] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:28:39] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:28:39] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:28:39] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:28:44] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:28:44] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:28:44] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:28:44] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:28:44] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:28:49] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:28:49] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:28:49] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:28:49] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:28:49] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:28:54] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:28:54] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:28:54] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:28:54] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:28:54] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:28:59] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:28:59] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:28:59] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:28:59] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:28:59] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:29:04] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:29:04] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:29:04] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:29:04] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:29:04] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:29:09] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:29:09] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:29:09] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:29:09] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:29:09] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:29:14] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:29:14] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:29:14] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:29:14] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:29:14] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:29:19] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:29:19] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:29:19] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:29:19] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:29:19] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:29:24] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:29:24] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:29:24] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:29:24] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:29:24] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:29:29] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:29:29] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:29:29] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:29:29] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:29:29] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:29:34] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:29:34] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:29:34] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:29:34] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:29:34] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:29:39] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:29:39] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:29:39] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:29:39] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:29:39] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:29:44] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:29:44] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:29:44] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:29:44] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:29:44] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:29:49] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:29:49] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:29:49] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:29:49] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:29:49] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:29:54] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:29:54] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:29:54] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:29:54] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:29:54] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:29:59] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:29:59] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:29:59] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:29:59] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:29:59] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:30:04] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:30:04] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:30:04] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:30:04] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:30:04] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:30:09] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:30:09] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:30:09] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:30:09] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:30:09] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:30:14] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:30:14] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:30:14] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:30:14] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:30:14] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:30:19] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:30:19] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:30:19] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:30:19] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:30:19] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:30:24] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:30:24] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:30:24] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:30:24] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:30:24] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:30:29] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:30:29] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:30:29] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:30:29] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:30:29] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:30:30] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:30:30] Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8296324698)
+[24/02 10:30:34] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:30:34] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:30:34] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:30:34] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:30:34] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:30:35] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:30:35] Sleep for 1.337725 seconds and try again... (tryings = 1, bot id = 8296324698)
+[24/02 10:30:39] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:30:39] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:30:39] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:30:39] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:30:39] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:30:41] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:30:41] Sleep for 1.710159 seconds and try again... (tryings = 2, bot id = 8296324698)
+[24/02 10:30:44] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:30:44] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:30:44] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:30:44] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:30:44] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:30:48] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:30:48] Sleep for 2.182923 seconds and try again... (tryings = 3, bot id = 8296324698)
+[24/02 10:30:49] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:30:49] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:30:49] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:30:49] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:30:49] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:30:54] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:30:54] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:30:54] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:30:54] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:30:54] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:30:58] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:30:58] Sleep for 2.918646 seconds and try again... (tryings = 4, bot id = 8296324698)
+[24/02 10:30:59] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:30:59] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:30:59] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:30:59] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:30:59] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:31:04] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:31:04] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:31:04] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:31:04] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:31:04] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:31:05] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:31:05] Sleep for 3.685450 seconds and try again... (tryings = 5, bot id = 8296324698)
+[24/02 10:31:09] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:31:09] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:31:09] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:31:09] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:31:09] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:31:13] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:31:13] Sleep for 4.871527 seconds and try again... (tryings = 6, bot id = 8296324698)
+[24/02 10:31:14] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:31:14] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:31:14] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:31:14] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:31:14] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:31:19] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:31:19] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:31:19] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:31:19] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:31:19] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:31:23] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:31:23] Sleep for 5.008418 seconds and try again... (tryings = 7, bot id = 8296324698)
+[24/02 10:31:24] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:31:24] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:31:24] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:31:24] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:31:24] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:31:29] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:31:29] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:31:29] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:31:29] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:31:29] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:31:33] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:31:33] Sleep for 4.956586 seconds and try again... (tryings = 8, bot id = 8296324698)
+[24/02 10:31:34] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:31:34] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:31:34] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:31:34] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:31:34] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:31:39] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:31:39] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:31:39] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:31:39] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:31:39] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:31:44] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:31:44] Sleep for 4.887111 seconds and try again... (tryings = 9, bot id = 8296324698)
+[24/02 10:31:44] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:31:44] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:31:44] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:31:44] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:31:44] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:31:49] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:31:49] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:31:49] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:31:49] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:31:49] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:31:52] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:31:52] Sleep for 5.110369 seconds and try again... (tryings = 10, bot id = 8296324698)
+[24/02 10:31:54] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:31:54] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:31:54] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:31:54] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:31:54] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:31:59] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:31:59] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:31:59] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:31:59] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:31:59] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:32:02] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:32:02] Sleep for 5.196581 seconds and try again... (tryings = 11, bot id = 8296324698)
+[24/02 10:32:04] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:32:04] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:32:04] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:32:04] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:32:04] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:32:09] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:32:09] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:32:09] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:32:09] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:32:09] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:32:12] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:32:12] Sleep for 4.913338 seconds and try again... (tryings = 12, bot id = 8296324698)
+[24/02 10:32:14] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:32:14] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:32:14] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:32:14] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:32:14] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:36:49] ============================================================
+[24/02 10:36:49] Bot Pechinchas do Luiz4o - Sistema de Monitoramento + Controle
+[24/02 10:36:49] ============================================================
+[24/02 10:36:49] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:36:49] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 10:36:49] 🌐 Dashboard rodando na porta 8080
+[24/02 10:36:50] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+
+[24/02 10:36:51] Erro fatal: Telegram server says - Flood control exceeded on method 'SetMyCommands'. Retry in 133 seconds.
+[24/02 10:36:51] Original description: Too Many Requests: retry after 133
+[24/02 10:36:51] (background on this error at: https://core.telegram.org/bots/faq#my-bot-is-hitting-limits-how-do-i-avoid-this)
+[24/02 10:36:51] ⏳ Cancelando processos em segundo plano...
+[24/02 10:36:51] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:36:56] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:36:56] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:36:56] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:36:56] ⏳ Cancelando processos em segundo plano...
+[24/02 10:36:56] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:37:01] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:37:01] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:37:01] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:37:01] ⏳ Cancelando processos em segundo plano...
+[24/02 10:37:01] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:37:06] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:37:06] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:37:06] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:37:06] ⏳ Cancelando processos em segundo plano...
+[24/02 10:37:06] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:37:11] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:37:11] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:37:11] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:37:11] ⏳ Cancelando processos em segundo plano...
+[24/02 10:37:11] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:37:16] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:37:16] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:37:16] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:37:16] ⏳ Cancelando processos em segundo plano...
+[24/02 10:37:16] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:37:21] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:37:21] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:37:21] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:37:21] ⏳ Cancelando processos em segundo plano...
+[24/02 10:37:21] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:37:26] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:37:26] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:37:26] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:37:26] ⏳ Cancelando processos em segundo plano...
+[24/02 10:37:26] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:37:31] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:37:31] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:37:31] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:37:31] ⏳ Cancelando processos em segundo plano...
+[24/02 10:37:31] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:37:36] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:37:36] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:37:36] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:37:36] ⏳ Cancelando processos em segundo plano...
+[24/02 10:37:36] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:37:41] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:37:41] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:37:41] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:37:41] ⏳ Cancelando processos em segundo plano...
+[24/02 10:37:41] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:37:46] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:37:46] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:37:46] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:37:46] ⏳ Cancelando processos em segundo plano...
+[24/02 10:37:46] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:37:51] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:37:51] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:37:51] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:37:51] ⏳ Cancelando processos em segundo plano...
+[24/02 10:37:51] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:37:56] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:37:56] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:37:56] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:37:56] ⏳ Cancelando processos em segundo plano...
+[24/02 10:37:56] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:38:01] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:38:01] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:38:01] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:38:01] ⏳ Cancelando processos em segundo plano...
+[24/02 10:38:01] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:38:06] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:38:06] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:38:06] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:38:06] ⏳ Cancelando processos em segundo plano...
+[24/02 10:38:06] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:38:11] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:38:11] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:38:11] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:38:11] ⏳ Cancelando processos em segundo plano...
+[24/02 10:38:11] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:38:16] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:38:16] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:38:16] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:38:16] ⏳ Cancelando processos em segundo plano...
+[24/02 10:38:16] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:38:21] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:38:21] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:38:21] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:38:21] ⏳ Cancelando processos em segundo plano...
+[24/02 10:38:21] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:38:26] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:38:26] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:38:26] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:38:26] ⏳ Cancelando processos em segundo plano...
+[24/02 10:38:26] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:38:31] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:38:31] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:38:31] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:38:31] ⏳ Cancelando processos em segundo plano...
+[24/02 10:38:31] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:38:36] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:38:36] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:38:36] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:38:36] ⏳ Cancelando processos em segundo plano...
+[24/02 10:38:36] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:38:41] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:38:41] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:38:41] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:38:41] ⏳ Cancelando processos em segundo plano...
+[24/02 10:38:41] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:38:46] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:38:46] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:38:46] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:38:46] ⏳ Cancelando processos em segundo plano...
+[24/02 10:38:46] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:38:51] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:38:51] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:38:51] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:38:51] ⏳ Cancelando processos em segundo plano...
+[24/02 10:38:51] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:38:56] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:38:56] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:38:56] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:38:56] ⏳ Cancelando processos em segundo plano...
+[24/02 10:38:56] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:39:01] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:39:01] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:39:01] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:39:01] ⏳ Cancelando processos em segundo plano...
+[24/02 10:39:01] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:39:06] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:39:06] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:39:06] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:39:06] ⏳ Cancelando processos em segundo plano...
+[24/02 10:39:06] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:39:11] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:39:11] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:39:11] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:39:11] ⏳ Cancelando processos em segundo plano...
+[24/02 10:39:11] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:39:16] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:39:16] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:39:16] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:39:16] ⏳ Cancelando processos em segundo plano...
+[24/02 10:39:16] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:39:21] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:39:21] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:39:21] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:39:21] ⏳ Cancelando processos em segundo plano...
+[24/02 10:39:21] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:39:26] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:39:26] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:39:26] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:39:26] ⏳ Cancelando processos em segundo plano...
+[24/02 10:39:26] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:39:31] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:39:31] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:39:31] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:39:31] ⏳ Cancelando processos em segundo plano...
+[24/02 10:39:31] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:39:36] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:39:36] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:39:36] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:39:36] ⏳ Cancelando processos em segundo plano...
+[24/02 10:39:36] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:39:41] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:39:41] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:39:41] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:39:41] ⏳ Cancelando processos em segundo plano...
+[24/02 10:39:41] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:39:46] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:39:46] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:39:46] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:39:46] ⏳ Cancelando processos em segundo plano...
+[24/02 10:39:46] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:39:51] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:39:51] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:39:51] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:39:51] ⏳ Cancelando processos em segundo plano...
+[24/02 10:39:51] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:39:56] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:39:56] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:39:56] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:39:56] ⏳ Cancelando processos em segundo plano...
+[24/02 10:39:56] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:40:01] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:40:01] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:40:01] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:40:01] ⏳ Cancelando processos em segundo plano...
+[24/02 10:40:01] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:40:06] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:40:06] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:40:06] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:40:06] ⏳ Cancelando processos em segundo plano...
+[24/02 10:40:06] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:40:11] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:40:11] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:40:11] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:40:11] ⏳ Cancelando processos em segundo plano...
+[24/02 10:40:11] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:42:18] ============================================================
+[24/02 10:42:18] Bot Pechinchas do Luiz4o - Sistema de Monitoramento + Controle
+[24/02 10:42:18] ============================================================
+[24/02 10:42:18] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:42:18] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 10:42:18] 🌐 Dashboard rodando na porta 8080
+[24/02 10:42:19] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:43:04] ============================================================
+[24/02 10:43:04] Bot Pechinchas do Luiz4o - Sistema de Monitoramento + Controle
+[24/02 10:43:04] ============================================================
+[24/02 10:43:04] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:43:04] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:43:04] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:43:04] ⏳ Cancelando processos em segundo plano...
+[24/02 10:43:04] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:43:09] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:43:09] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:43:09] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:43:09] ⏳ Cancelando processos em segundo plano...
+[24/02 10:43:09] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:43:14] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:43:14] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:43:14] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:43:14] ⏳ Cancelando processos em segundo plano...
+[24/02 10:43:14] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:43:19] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:43:19] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:43:19] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:43:19] ⏳ Cancelando processos em segundo plano...
+[24/02 10:43:19] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:43:24] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:43:24] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:43:24] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:43:24] ⏳ Cancelando processos em segundo plano...
+[24/02 10:43:24] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:43:29] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:43:29] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:43:29] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:43:29] ⏳ Cancelando processos em segundo plano...
+[24/02 10:43:29] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:43:34] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:43:34] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:43:34] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:43:34] ⏳ Cancelando processos em segundo plano...
+[24/02 10:43:34] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:43:39] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:43:39] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:43:39] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:43:39] ⏳ Cancelando processos em segundo plano...
+[24/02 10:43:39] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:43:44] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:43:44] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:43:44] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:43:44] ⏳ Cancelando processos em segundo plano...
+[24/02 10:43:44] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:43:49] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:43:49] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:43:49] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:43:49] ⏳ Cancelando processos em segundo plano...
+[24/02 10:43:49] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:43:54] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:43:54] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:43:54] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:43:54] ⏳ Cancelando processos em segundo plano...
+[24/02 10:43:54] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:43:59] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:43:59] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+
+[24/02 10:43:59] Erro fatal: [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8080): [winerror 10048] normalmente é permitida apenas uma utilização de cada endereço de soquete (protocolo/endereço de rede/porta)
+[24/02 10:43:59] ⏳ Cancelando processos em segundo plano...
+[24/02 10:43:59] ⏳ Tentando reconectar em 5 segundos...
+[24/02 10:57:04] ============================================================
+[24/02 10:57:04] Bot Pechinchas do Luiz4o - Sistema de Monitoramento + Controle
+[24/02 10:57:04] ============================================================
+[24/02 10:57:04] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 10:57:04] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 10:57:04] 🌐 Dashboard rodando na porta 8080
+[24/02 10:57:05] ✅ Userbot conectado! Monitorando do Banco de Dados: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho']
+[24/02 10:57:09] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:57:09] Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8296324698)
+[24/02 10:57:15] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:57:15] Sleep for 1.224522 seconds and try again... (tryings = 1, bot id = 8296324698)
+[24/02 10:57:21] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:57:21] Sleep for 1.528766 seconds and try again... (tryings = 2, bot id = 8296324698)
+[24/02 10:57:28] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:57:28] Sleep for 1.992201 seconds and try again... (tryings = 3, bot id = 8296324698)
+[24/02 10:57:37] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:57:37] Sleep for 2.489931 seconds and try again... (tryings = 4, bot id = 8296324698)
+[24/02 10:57:43] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:57:43] Sleep for 3.242726 seconds and try again... (tryings = 5, bot id = 8296324698)
+[24/02 10:57:51] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:57:51] Sleep for 4.195505 seconds and try again... (tryings = 6, bot id = 8296324698)
+[24/02 10:58:01] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:58:01] Sleep for 5.129875 seconds and try again... (tryings = 7, bot id = 8296324698)
+[24/02 10:58:11] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:58:11] Sleep for 4.913119 seconds and try again... (tryings = 8, bot id = 8296324698)
+[24/02 10:58:22] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:58:22] Sleep for 5.020514 seconds and try again... (tryings = 9, bot id = 8296324698)
+[24/02 10:58:32] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:58:32] Sleep for 4.904593 seconds and try again... (tryings = 10, bot id = 8296324698)
+[24/02 10:58:42] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:58:42] Sleep for 5.185783 seconds and try again... (tryings = 11, bot id = 8296324698)
+[24/02 10:58:53] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:58:53] Sleep for 5.192291 seconds and try again... (tryings = 12, bot id = 8296324698)
+[24/02 10:59:04] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:59:04] Sleep for 4.978330 seconds and try again... (tryings = 13, bot id = 8296324698)
+[24/02 10:59:15] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:59:15] Sleep for 4.980654 seconds and try again... (tryings = 14, bot id = 8296324698)
+[24/02 10:59:25] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:59:25] Sleep for 5.054315 seconds and try again... (tryings = 15, bot id = 8296324698)
+[24/02 10:59:35] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:59:35] Sleep for 5.065450 seconds and try again... (tryings = 16, bot id = 8296324698)
+[24/02 10:59:45] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:59:45] Sleep for 5.029568 seconds and try again... (tryings = 17, bot id = 8296324698)
+[24/02 10:59:56] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 10:59:56] Sleep for 5.038269 seconds and try again... (tryings = 18, bot id = 8296324698)
+[24/02 11:00:05] ❌ Erro ao processar mensagem: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetChannelsRequest)
+[24/02 11:00:05] ❌ Erro ao processar mensagem: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetChannelsRequest)
+[24/02 11:00:05] ❌ Erro ao processar mensagem: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetChannelsRequest)
+[24/02 11:00:05] ❌ Erro ao processar mensagem: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetChannelsRequest)
+[24/02 11:00:05] ❌ Erro ao processar mensagem: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetChannelsRequest)
+[24/02 11:00:05] ❌ Erro ao processar mensagem: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetChannelsRequest)
+[24/02 11:00:05] ❌ Erro ao processar mensagem: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetChannelsRequest)
+[24/02 11:00:05] ❌ Erro ao processar mensagem: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetChannelsRequest)
+[24/02 11:00:05] ❌ Erro ao processar mensagem: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetChannelsRequest)
+[24/02 11:00:05] ❌ Erro ao processar mensagem: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetChannelsRequest)
+[24/02 11:00:06] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:00:06] Sleep for 5.033251 seconds and try again... (tryings = 19, bot id = 8296324698)
+[24/02 11:00:17] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:00:17] Sleep for 5.112305 seconds and try again... (tryings = 20, bot id = 8296324698)
+[24/02 11:00:27] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:00:27] Sleep for 4.792586 seconds and try again... (tryings = 21, bot id = 8296324698)
+[24/02 11:00:37] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:00:37] Sleep for 5.048098 seconds and try again... (tryings = 22, bot id = 8296324698)
+[24/02 11:00:48] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:00:48] Sleep for 5.130321 seconds and try again... (tryings = 23, bot id = 8296324698)
+[24/02 11:00:58] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:00:58] Sleep for 5.060051 seconds and try again... (tryings = 24, bot id = 8296324698)
+[24/02 11:01:05] ❌ Erro ao processar mensagem: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetChannelsRequest)
+[24/02 11:01:05] ❌ Erro ao processar mensagem: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetChannelsRequest)
+[24/02 11:01:06] Cannot get difference for channel 1141035574 since the account is not logged in: AuthKeyDuplicatedError
+[24/02 11:01:06] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetChannelDifferenceRequest)
+[24/02 11:01:09] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:01:09] Sleep for 4.985911 seconds and try again... (tryings = 25, bot id = 8296324698)
+[24/02 11:01:16] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:01:19] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:01:19] Sleep for 5.036637 seconds and try again... (tryings = 26, bot id = 8296324698)
+[24/02 11:01:26] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:01:29] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:01:29] Sleep for 5.025795 seconds and try again... (tryings = 27, bot id = 8296324698)
+[24/02 11:01:36] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:01:39] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:01:39] Sleep for 5.051267 seconds and try again... (tryings = 28, bot id = 8296324698)
+[24/02 11:01:47] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:01:50] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:01:50] Sleep for 5.060066 seconds and try again... (tryings = 29, bot id = 8296324698)
+[24/02 11:01:57] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:02:00] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:02:00] Sleep for 5.014801 seconds and try again... (tryings = 30, bot id = 8296324698)
+[24/02 11:02:07] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:02:10] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:02:10] Sleep for 4.952194 seconds and try again... (tryings = 31, bot id = 8296324698)
+[24/02 11:02:17] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:02:20] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:02:20] Sleep for 4.940742 seconds and try again... (tryings = 32, bot id = 8296324698)
+[24/02 11:02:27] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:02:30] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:02:30] Sleep for 4.839035 seconds and try again... (tryings = 33, bot id = 8296324698)
+[24/02 11:02:38] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:02:41] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:02:41] Sleep for 4.991162 seconds and try again... (tryings = 34, bot id = 8296324698)
+[24/02 11:02:48] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:02:51] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:02:51] Sleep for 4.882342 seconds and try again... (tryings = 35, bot id = 8296324698)
+[24/02 11:02:59] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:03:01] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:03:01] Sleep for 4.927053 seconds and try again... (tryings = 36, bot id = 8296324698)
+[24/02 11:03:09] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:03:11] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:03:11] Sleep for 5.070020 seconds and try again... (tryings = 37, bot id = 8296324698)
+[24/02 11:03:19] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:03:22] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:03:22] Sleep for 4.867924 seconds and try again... (tryings = 38, bot id = 8296324698)
+[24/02 11:03:29] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:03:32] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:03:32] Sleep for 4.864046 seconds and try again... (tryings = 39, bot id = 8296324698)
+[24/02 11:03:40] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:03:42] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:03:42] Sleep for 4.984737 seconds and try again... (tryings = 40, bot id = 8296324698)
+[24/02 11:03:50] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:03:52] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:03:52] Sleep for 4.879355 seconds and try again... (tryings = 41, bot id = 8296324698)
+[24/02 11:04:00] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:04:02] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:04:02] Sleep for 5.068631 seconds and try again... (tryings = 42, bot id = 8296324698)
+[24/02 11:04:10] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:04:13] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:04:13] Sleep for 5.053022 seconds and try again... (tryings = 43, bot id = 8296324698)
+[24/02 11:04:20] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:04:24] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:04:24] Sleep for 5.153148 seconds and try again... (tryings = 44, bot id = 8296324698)
+[24/02 11:04:30] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:04:34] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:04:34] Sleep for 5.037822 seconds and try again... (tryings = 45, bot id = 8296324698)
+[24/02 11:04:41] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:04:44] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:04:44] Sleep for 4.868518 seconds and try again... (tryings = 46, bot id = 8296324698)
+[24/02 11:04:51] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:04:55] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:04:55] Sleep for 4.947283 seconds and try again... (tryings = 47, bot id = 8296324698)
+[24/02 11:05:01] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:05:05] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:05:05] Sleep for 4.941677 seconds and try again... (tryings = 48, bot id = 8296324698)
+[24/02 11:05:11] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:05:15] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:05:15] Sleep for 5.080645 seconds and try again... (tryings = 49, bot id = 8296324698)
+[24/02 11:05:22] Server resent the older message 7610432564204182537, ignoring
+[24/02 11:05:22] Server resent the older message 7610432564204182533, ignoring
+[24/02 11:05:22] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:05:26] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:05:26] Sleep for 5.014007 seconds and try again... (tryings = 50, bot id = 8296324698)
+[24/02 11:05:32] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:05:36] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:05:36] Sleep for 5.121795 seconds and try again... (tryings = 51, bot id = 8296324698)
+[24/02 11:05:42] Server resent the older message 7610432652924939273, ignoring
+[24/02 11:05:42] Server resent the older message 7610432652924939269, ignoring
+[24/02 11:05:42] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:05:46] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:05:46] Sleep for 4.912245 seconds and try again... (tryings = 52, bot id = 8296324698)
+[24/02 11:05:52] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:05:57] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:05:57] Sleep for 5.152273 seconds and try again... (tryings = 53, bot id = 8296324698)
+[24/02 11:06:03] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:06:07] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:06:07] Sleep for 5.145699 seconds and try again... (tryings = 54, bot id = 8296324698)
+[24/02 11:06:13] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:06:17] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:06:17] Sleep for 4.969885 seconds and try again... (tryings = 55, bot id = 8296324698)
+[24/02 11:06:23] Server resent the older message 7610432828398181381, ignoring
+[24/02 11:06:23] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:06:28] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:06:28] Sleep for 5.063126 seconds and try again... (tryings = 56, bot id = 8296324698)
+[24/02 11:06:33] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:06:38] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:06:38] Sleep for 4.939980 seconds and try again... (tryings = 57, bot id = 8296324698)
+[24/02 11:06:43] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:06:48] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:06:48] Sleep for 4.827246 seconds and try again... (tryings = 58, bot id = 8296324698)
+[24/02 11:06:53] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:06:58] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:06:58] Sleep for 5.001310 seconds and try again... (tryings = 59, bot id = 8296324698)
+[24/02 11:07:04] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:07:09] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:07:09] Sleep for 5.105733 seconds and try again... (tryings = 60, bot id = 8296324698)
+[24/02 11:07:14] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:07:19] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:07:19] Sleep for 5.009480 seconds and try again... (tryings = 61, bot id = 8296324698)
+[24/02 11:07:24] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:07:30] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:07:30] Sleep for 4.995304 seconds and try again... (tryings = 62, bot id = 8296324698)
+[24/02 11:07:34] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:07:40] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:07:40] Sleep for 4.990097 seconds and try again... (tryings = 63, bot id = 8296324698)
+[24/02 11:07:45] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:07:50] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:07:50] Sleep for 4.966098 seconds and try again... (tryings = 64, bot id = 8296324698)
+[24/02 11:07:55] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:08:01] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:08:01] Sleep for 4.873641 seconds and try again... (tryings = 65, bot id = 8296324698)
+[24/02 11:08:05] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:08:11] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:08:11] Sleep for 5.109826 seconds and try again... (tryings = 66, bot id = 8296324698)
+[24/02 11:08:15] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:08:20] Traceback (most recent call last):
+[24/02 11:08:20]   File "C:\Users\luizh\.gemini\antigravity\pechinchasdoluiz4o\pechinchas_bot\web_dashboard.py", line 840, in handle_scrape_tg
+[24/02 11:08:20]     await telethon_client.connect()
+[24/02 11:08:20]   File "C:\Users\luizh\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\telethon\client\telegrambaseclient.py", line 603, in connect
+[24/02 11:08:20]     await self._sender.send(functions.InvokeWithLayerRequest(LAYER, req))
+[24/02 11:08:20] telethon.errors.rpcerrorlist.AuthKeyDuplicatedError: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:08:21] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:08:21] Sleep for 4.896308 seconds and try again... (tryings = 67, bot id = 8296324698)
+[24/02 11:08:25] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:08:31] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:08:31] Sleep for 4.852941 seconds and try again... (tryings = 68, bot id = 8296324698)
+[24/02 11:08:35] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:08:43] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:08:43] Sleep for 4.913718 seconds and try again... (tryings = 69, bot id = 8296324698)
+[24/02 11:08:46] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:08:53] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:08:53] Sleep for 5.105928 seconds and try again... (tryings = 70, bot id = 8296324698)
+[24/02 11:08:56] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:09:03] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:09:03] Sleep for 5.092916 seconds and try again... (tryings = 71, bot id = 8296324698)
+[24/02 11:09:06] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetStateRequest)
+[24/02 11:09:14] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[24/02 11:09:14] Sleep for 4.955151 seconds and try again... (tryings = 72, bot id = 8296324698)
+[24/02 11:09:16] ⚠️ Aviso: Telethon desconectado. Reconectando em 10 segundos... Motivo: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:17:49] ============================================================
+[24/02 11:17:49] Bot Pechinchas do Luiz4o - Sistema de Monitoramento + Controle
+[24/02 11:17:49] ============================================================
+[24/02 11:17:49] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:17:49] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:17:49] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:17:49] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by InvokeWithLayerRequest(InitConnectionRequest(GetConfigRequest)))
+[24/02 11:17:49] ⏳ Cancelando processos em segundo plano...
+[24/02 11:17:49] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:17:54] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:17:54] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:17:54] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:17:55] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:17:55] ⏳ Cancelando processos em segundo plano...
+[24/02 11:17:55] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:18:00] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:18:00] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:18:00] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:18:00] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:18:00] ⏳ Cancelando processos em segundo plano...
+[24/02 11:18:00] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:18:05] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:18:05] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:18:05] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:18:05] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:18:05] ⏳ Cancelando processos em segundo plano...
+[24/02 11:18:05] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:18:10] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:18:10] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:18:10] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:18:10] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:18:10] ⏳ Cancelando processos em segundo plano...
+[24/02 11:18:10] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:18:15] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:18:15] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:18:15] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:18:15] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:18:15] ⏳ Cancelando processos em segundo plano...
+[24/02 11:18:15] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:18:20] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:18:20] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:18:20] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:18:20] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:18:20] ⏳ Cancelando processos em segundo plano...
+[24/02 11:18:20] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:18:25] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:18:25] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:18:25] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:18:25] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:18:25] ⏳ Cancelando processos em segundo plano...
+[24/02 11:18:25] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:18:30] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:18:30] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:18:30] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:18:31] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:18:31] ⏳ Cancelando processos em segundo plano...
+[24/02 11:18:31] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:18:36] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:18:36] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:18:36] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:18:36] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:18:36] ⏳ Cancelando processos em segundo plano...
+[24/02 11:18:36] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:18:41] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:18:41] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:18:41] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:18:41] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:18:41] ⏳ Cancelando processos em segundo plano...
+[24/02 11:18:41] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:18:46] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:18:46] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:18:46] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:18:46] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:18:46] ⏳ Cancelando processos em segundo plano...
+[24/02 11:18:46] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:18:51] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:18:51] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:18:51] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:18:51] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:18:51] ⏳ Cancelando processos em segundo plano...
+[24/02 11:18:51] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:18:56] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:18:56] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:18:56] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:18:56] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:18:56] ⏳ Cancelando processos em segundo plano...
+[24/02 11:18:56] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:19:01] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:19:01] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:19:01] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:19:01] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:19:01] ⏳ Cancelando processos em segundo plano...
+[24/02 11:19:01] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:19:06] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:19:06] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:19:06] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:19:06] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:19:06] ⏳ Cancelando processos em segundo plano...
+[24/02 11:19:06] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:19:11] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:19:11] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:19:11] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:19:12] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:19:12] ⏳ Cancelando processos em segundo plano...
+[24/02 11:19:12] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:19:17] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:19:17] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:19:17] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:19:17] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:19:17] ⏳ Cancelando processos em segundo plano...
+[24/02 11:19:17] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:19:22] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:19:22] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:19:22] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:19:22] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:19:22] ⏳ Cancelando processos em segundo plano...
+[24/02 11:19:22] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:19:27] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:19:27] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:19:27] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:19:27] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:19:27] ⏳ Cancelando processos em segundo plano...
+[24/02 11:19:27] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:19:32] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:19:32] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:19:32] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:19:32] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:19:32] ⏳ Cancelando processos em segundo plano...
+[24/02 11:19:32] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:19:37] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:19:37] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:19:37] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:19:37] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:19:37] ⏳ Cancelando processos em segundo plano...
+[24/02 11:19:37] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:19:42] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:19:42] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:19:42] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:19:42] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:19:42] ⏳ Cancelando processos em segundo plano...
+[24/02 11:19:42] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:19:47] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:19:47] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:19:47] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:19:48] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:19:48] ⏳ Cancelando processos em segundo plano...
+[24/02 11:19:48] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:19:53] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:19:53] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:19:53] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:19:53] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:19:53] ⏳ Cancelando processos em segundo plano...
+[24/02 11:19:53] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:19:58] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:19:58] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:19:58] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:19:58] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:19:58] ⏳ Cancelando processos em segundo plano...
+[24/02 11:19:58] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:20:03] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:20:03] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:20:03] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:20:03] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:20:03] ⏳ Cancelando processos em segundo plano...
+[24/02 11:20:03] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:20:08] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:20:08] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:20:08] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:20:08] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:20:08] ⏳ Cancelando processos em segundo plano...
+[24/02 11:20:08] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:20:13] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:20:13] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:20:13] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:20:13] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:20:13] ⏳ Cancelando processos em segundo plano...
+[24/02 11:20:13] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:20:18] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:20:18] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:20:18] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:20:18] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:20:18] ⏳ Cancelando processos em segundo plano...
+[24/02 11:20:18] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:20:23] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:20:23] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:20:23] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:20:23] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:20:23] ⏳ Cancelando processos em segundo plano...
+[24/02 11:20:23] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:20:28] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:20:28] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:20:28] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:20:29] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:20:29] ⏳ Cancelando processos em segundo plano...
+[24/02 11:20:29] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:20:34] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:20:34] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:20:34] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:20:34] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:20:34] ⏳ Cancelando processos em segundo plano...
+[24/02 11:20:34] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:20:39] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:20:39] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:20:39] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:20:39] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:20:39] ⏳ Cancelando processos em segundo plano...
+[24/02 11:20:39] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:20:44] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:20:44] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:20:44] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:20:44] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:20:44] ⏳ Cancelando processos em segundo plano...
+[24/02 11:20:44] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:20:49] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:20:49] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:20:49] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:20:49] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:20:49] ⏳ Cancelando processos em segundo plano...
+[24/02 11:20:49] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:20:54] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:20:54] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:20:54] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:20:54] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:20:54] ⏳ Cancelando processos em segundo plano...
+[24/02 11:20:54] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:20:59] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:20:59] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:20:59] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:20:59] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:20:59] ⏳ Cancelando processos em segundo plano...
+[24/02 11:20:59] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:21:04] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:21:04] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:21:04] 🌐 Dashboard rodando na porta 8080
+
+[24/02 11:21:04] Erro fatal: The authorization key (session file) was used under two different IP addresses simultaneously, and can no longer be used. Use the same session exclusively, or use different sessions (caused by GetUsersRequest)
+[24/02 11:21:04] ⏳ Cancelando processos em segundo plano...
+[24/02 11:21:04] ⏳ Tentando reconectar em 5 segundos...
+[24/02 11:22:01] ============================================================
+[24/02 11:22:01] Bot Pechinchas do Luiz4o - Sistema de Monitoramento + Controle
+[24/02 11:22:01] ============================================================
+[24/02 11:22:01] ⏳ Iniciando o Userbot. Se for a primeira vez, aguarde a solicitação do código no terminal.
+[24/02 11:22:01] 🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)
+[24/02 11:22:01] 🌐 Dashboard rodando na porta 8080
+[24/02 11:22:04] Please enter your phone (or bot token): Failed to fetch updates - TelegramNetworkError: HTTP Client says - Request timeout error
+[24/02 11:23:45] Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8296324698)
+[24/02 11:23:48] Please enter the code you received: Failed to fetch updates - TelegramNetworkError: HTTP Client says - Request timeout error
+[24/02 11:25:02] Sleep for 1.174499 seconds and try again... (tryings = 1, bot id = 8296324698)

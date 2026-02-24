@@ -88,13 +88,13 @@ async def worker_queue():
             # --- Envio para WhatsApp (Se habilitado) ---
             try:
                 # O texto_final já está formatado como HTML para o Telegram.
-                # A Evolution API aceita texto simples ou Markdown básico.
-                # Vamos simplificar um pouco o texto para o WA (remover tags HTML básicas)
-                wa_text = texto_final.replace("<b>", "*").replace("</b>", "*")
-                wa_text = wa_text.replace("<i>", "_").replace("</i>", "_")
-                wa_text = re.sub(r'<a href=".*?">', '', wa_text).replace('</a>', '')
+                # A Green-API prefere texto simples ou Markdown (* para negrito).
+                msg_wa = texto_final.replace("<b>", "*").replace("</b>", "*")
+                msg_wa = msg_wa.replace("<i>", "_").replace("</i>", "_")
+                # Remove links HTML e mantém apenas o texto/URL
+                msg_wa = re.sub(r'<a href="(.*?)">.*?</a>', r'\1', msg_wa)
                 
-                await send_whatsapp_msg(wa_text, media_path)
+                await send_whatsapp_msg(msg_wa, media_path)
             except Exception as e:
                 print(f"Erro ao disparar para WhatsApp: {e}")
             

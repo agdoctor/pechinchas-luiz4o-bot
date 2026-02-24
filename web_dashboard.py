@@ -570,7 +570,16 @@ async def handle_index(request):
             async function addSorteio() {{ await api('sorteios','POST',{{premio:document.getElementById('new-premio').value}}); loadSorteios(); }}
             async function closeSorteio(id) {{ await api('sorteios','PATCH',{{id:id, winner_id:0, winner_name:'Ganhador'}}); loadSorteios(); }}
             async function loadSettings() {{
-                const f = [{{k:'delay_minutos',l:'Delay'}},{{k:'preco_minimo',l:'Preço'}},{{k:'assinatura',l:'Assinatura'}},{{k:'webapp_url',l:'WebApp URL'}}];
+                const f = [
+                    {{k:'delay_minutos',l:'Delay (Telegram)'}},
+                    {{k:'preco_minimo',l:'Preço Mínimo'}},
+                    {{k:'assinatura',l:'Assinatura'}},
+                    {{k:'webapp_url',l:'WebApp URL'}},
+                    {{k:'whatsapp_enabled',l:'✅ Habilitar WhatsApp (true/false)'}},
+                    {{k:'green_api_instance_id',l:'ID Instância Green-API'}},
+                    {{k:'green_api_token',l:'Token Green-API'}},
+                    {{k:'whatsapp_destination',l:'ID Grupo/Comunidade WA'}}
+                ];
                 const c = document.getElementById('settings-form');
                 c.innerHTML = "Carregando...";
                 let html = "";
@@ -854,6 +863,17 @@ async def handle_post_offer(request):
 
         # Postar DIRETAMENTE e pegar link (para retorno imediato ao painel)
         post_link = await publish_deal(text_base, img_path)
+        
+        # --- Envio para WhatsApp (Se habilitado) ---
+        try:
+            wa_text = text_base.replace("<b>", "*").replace("</b>", "*")
+            wa_text = wa_text.replace("<i>", "_").replace("</i>", "_")
+            wa_text = re.sub(r'<a href="(.*?)">.*?</a>', r'\1', wa_text)
+            
+            from whatsapp_publisher import send_whatsapp_msg
+            send_whatsapp_msg(wa_text, img_path)
+        except Exception as e:
+            print(f"Erro ao disparar para WhatsApp (Manual): {e}")
         
         return web.json_response({"success": True, "link": post_link})
     except Exception as e:
