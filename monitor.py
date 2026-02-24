@@ -168,8 +168,13 @@ async def start_monitoring():
             
             # Identificadores possíveis: @username ou ID numérico (como string ou int)
             chat = await event.get_chat()
-            chat_username = getattr(chat, 'username', None)
+            # Identificadores possíveis: @username ou ID numérico (como string ou int)
+            chat = await event.get_chat()
+            chat_username = getattr(chat, 'username', 'N/A')
             chat_id = str(event.chat_id)
+            
+            # LOG DE DEBUG: Ver todas as mensagens que chegam
+            print(f"DEBUG: Mensagem recebida de @{chat_username} (ID: {chat_id})")
             
             is_monitored = False
             
@@ -182,7 +187,11 @@ async def start_monitoring():
                 is_monitored = True
                 
             if not is_monitored:
+                # Se quiser ver por que foi ignorado
+                # print(f"⏭️ Mensagem de @{chat_username} ignorada (Não está na lista monitorada: {monitored_list[:5]}...)")
                 return
+
+            print(f"🎯 Mensagem de @{chat_username} ACEITA para processamento!")
 
             # Verifica se o bot está pausado globalmente
             if get_config("pausado") == "1":
