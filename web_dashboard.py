@@ -382,7 +382,7 @@ async def handle_index(request):
                 const text = document.getElementById('final-text').value;
                 // Renderiza HTML básico interpretando as tags suportadas pelo Telegram (<b>, <i>, <a>, <code>, <pre>)
                 const preview = document.getElementById('html-render-preview');
-                preview.innerHTML = text.replace(/\n/g, '<br>');
+                preview.innerHTML = text.replace(/\\n/g, '<br>');
             }}
 
             async function previewLinks() {{
