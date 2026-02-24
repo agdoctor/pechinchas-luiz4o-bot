@@ -171,7 +171,18 @@ async def handle_index(request):
 
                 <div class="card" id="step-3" style="display:none">
                     <div class="card-title">📤 Revisar e Postar</div>
+                    <div style="text-align:center; margin-bottom:15px; display:none;" id="preview-img-container-3">
+                        <img id="preview-img-3" style="max-width:150px; max-height:150px; object-fit:contain; border-radius:8px; border:1px solid var(--border);">
+                    </div>
                     <label style="font-size:12px; color:var(--text-dim)">Editor HTML:</label>
+                    <div style="margin-bottom:5px; display:flex; gap:5px; flex-wrap:wrap;">
+                        <button type="button" onclick="tagText('b')" style="padding:2px 8px; font-size:12px; background:var(--bg-card); color:var(--text); border:1px solid var(--border); border-radius:4px;"><b>B</b></button>
+                        <button type="button" onclick="tagText('i')" style="padding:2px 8px; font-size:12px; background:var(--bg-card); color:var(--text); border:1px solid var(--border); border-radius:4px;"><i>I</i></button>
+                        <button type="button" onclick="tagText('u')" style="padding:2px 8px; font-size:12px; background:var(--bg-card); color:var(--text); border:1px solid var(--border); border-radius:4px;"><u>U</u></button>
+                        <button type="button" onclick="tagText('strike')" style="padding:2px 8px; font-size:12px; background:var(--bg-card); color:var(--text); border:1px solid var(--border); border-radius:4px;"><s>S</s></button>
+                        <button type="button" onclick="tagText('a')" style="padding:2px 8px; font-size:12px; background:var(--bg-card); color:var(--text); border:1px solid var(--border); border-radius:4px;">Link</button>
+                        <button type="button" onclick="tagText('code')" style="padding:2px 8px; font-size:12px; background:var(--bg-card); color:var(--text); border:1px solid var(--border); border-radius:4px;">&lt;&gt;</button>
+                    </div>
                     <textarea id="final-text" style="height:150px; margin-bottom:10px;" oninput="updatePreview()"></textarea>
                     
                     <label style="font-size:12px; color:var(--text-dim)">Prévia do Post:</label>
@@ -370,6 +381,14 @@ async def handle_index(request):
                     document.getElementById('final-text').value = d.text;
                     updatePreview();
                     previewLinks(); // Chama preview de links em background
+                    
+                    if (scrapeData && scrapeData.image) {{
+                        document.getElementById('preview-img-3').src = scrapeData.image;
+                        document.getElementById('preview-img-container-3').style.display = 'block';
+                    }} else {{
+                        document.getElementById('preview-img-container-3').style.display = 'none';
+                    }}
+                    
                     backToStep(3);
                 }} catch(e) {{
                     Telegram.WebApp.showAlert("Erro ao gerar texto: " + e.message);
@@ -382,7 +401,20 @@ async def handle_index(request):
                 const text = document.getElementById('final-text').value;
                 // Renderiza HTML básico interpretando as tags suportadas pelo Telegram (<b>, <i>, <a>, <code>, <pre>)
                 const preview = document.getElementById('html-render-preview');
-                preview.innerHTML = text.replace(/\\n/g, '<br>');
+                preview.innerHTML = text.replace(/\n/g, '<br>');
+            }}
+
+            function tagText(t) {{
+                const i = document.getElementById('final-text');
+                const s = i.selectionStart, e = i.selectionEnd;
+                const txt = i.value;
+                const sel = txt.substring(s, e);
+                let rep = "";
+                if(t==='a') rep = `<a href="URL_AQUI">${{sel || "texto"}}</a>`;
+                else rep = `<${{t}}>${{sel}}</${{t}}>`;
+                i.value = txt.substring(0, s) + rep + txt.substring(e);
+                updatePreview();
+                i.focus();
             }}
 
             async function previewLinks() {{
