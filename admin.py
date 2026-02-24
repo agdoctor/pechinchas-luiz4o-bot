@@ -22,25 +22,6 @@ dp = Dispatcher()
 user_states = {}
 user_temp_data = {}
 
-def get_main_keyboard():
-    builder = InlineKeyboardBuilder()
-    
-    # Adiciona o botão do Painel Principal (Mini App) - PRIORIDADE
-    webapp_url = get_config("webapp_url")
-    console_token = get_config("console_token")
-    
-    if webapp_url and console_token:
-        base_url = webapp_url.rstrip('/')
-        full_url = f"{base_url}/?token={console_token}"
-        builder.button(text="🖥️ ABRIR PAINEL DE CONTROLE", web_app=WebAppInfo(url=full_url))
-        
-    builder.button(text="🔗 Criar Oferta via Link", callback_data="menu_criar_link")
-    builder.button(text="🎉 Ver Sorteios Ativos", callback_data="menu_sorteios")
-    builder.button(text="🤖 Comandos Ativos", callback_data="mostrar_comandos")
-    
-    builder.adjust(1)
-    return builder.as_markup()
-
 def get_admin_reply_keyboard():
     builder = ReplyKeyboardBuilder()
     
@@ -50,9 +31,9 @@ def get_admin_reply_keyboard():
     if webapp_url and console_token:
         base_url = webapp_url.rstrip('/')
         full_url = f"{base_url}/?token={console_token}"
-        builder.button(text="🖥️ ABRIR PAINEL", web_app=WebAppInfo(url=full_url))
+        builder.button(text="🖥️ Abrir painel", web_app=WebAppInfo(url=full_url))
     
-    builder.button(text="🚀 Enviar Promoção")
+    builder.button(text="🚀 Enviar promoção")
     builder.adjust(1)
     return builder.as_markup(resize_keyboard=True, placeholder="Escolha uma opção admin")
 
@@ -175,11 +156,11 @@ async def cmd_reiniciar(message: Message):
 
     os.execv(sys.executable, ['python'] + sys.argv)
 
-@dp.message(F.text == "🛠️ Abrir Painel Admin")
+@dp.message(F.text == "🖥️ Abrir painel")
 async def btn_admin(message: Message):
     await cmd_start(message)
 
-@dp.message(F.text == "➕ Enviar Promoção")
+@dp.message(F.text == "🚀 Enviar promoção")
 async def btn_enviar(message: Message):
     await cmd_enviar_shortcut(message)
 
@@ -566,11 +547,14 @@ async def handle_reboot_callback(callback: CallbackQuery):
 @dp.callback_query(F.data == "voltar_main")
 async def voltar_main(callback: CallbackQuery):
     user_states[callback.from_user.id] = None
+    # Remove o teclado inline da mensagem anterior e avisa que o menu está abaixo
     await callback.message.edit_text(
-        "🛠️ **Painel de Controle - Pechinchas do Luiz4o**\n\nEscolha uma opção:",
-        reply_markup=get_main_keyboard(),
+        "🏡 **Menu Principal**\n\nUse os botões do teclado na parte inferior para navegar.",
+        reply_markup=None,
         parse_mode="Markdown"
     )
+    # Garante que o reply keyboard apareça/seja reforçado
+    await callback.message.answer("⌨️ Menu Admin ativo.", reply_markup=get_admin_reply_keyboard())
 
 # --- TRATAR MENSAGENS DIGITADAS ---
 @dp.message()
