@@ -171,9 +171,6 @@ async def handle_index(request):
 
                 <div class="card" id="step-3" style="display:none">
                     <div class="card-title">📤 Revisar e Postar</div>
-                    <div style="text-align:center; margin-bottom:15px; display:none;" id="preview-img-container-3">
-                        <img id="preview-img-3" style="max-width:150px; max-height:150px; object-fit:contain; border-radius:8px; border:1px solid var(--border);">
-                    </div>
                     <label style="font-size:12px; color:var(--text-dim)">Editor HTML:</label>
                     <div style="margin-bottom:5px; display:flex; gap:5px; flex-wrap:wrap;">
                         <button type="button" onclick="tagText('b')" style="padding:2px 8px; font-size:12px; background:var(--bg-card); color:var(--text); border:1px solid var(--border); border-radius:4px;"><b>B</b></button>
@@ -186,7 +183,10 @@ async def handle_index(request):
                     <textarea id="final-text" style="height:150px; margin-bottom:10px;" oninput="updatePreview()"></textarea>
                     
                     <label style="font-size:12px; color:var(--text-dim)">Prévia do Post:</label>
-                    <div id="html-render-preview" class="html-preview"></div>
+                    <div class="html-preview" style="display:flex; flex-direction:column; align-items:center;">
+                        <img id="preview-img-3" style="max-width:100%; max-height:250px; object-fit:contain; border-radius:6px; margin-bottom:10px; display:none;">
+                        <div id="html-render-preview" style="width:100%; text-align:left;"></div>
+                    </div>
                     
                     <div id="processed-links-container" class="processed-links" style="display:none"></div>
                     
@@ -384,9 +384,9 @@ async def handle_index(request):
                     
                     if (scrapeData && scrapeData.image) {{
                         document.getElementById('preview-img-3').src = scrapeData.image;
-                        document.getElementById('preview-img-container-3').style.display = 'block';
+                        document.getElementById('preview-img-3').style.display = 'block';
                     }} else {{
-                        document.getElementById('preview-img-container-3').style.display = 'none';
+                        document.getElementById('preview-img-3').style.display = 'none';
                     }}
                     
                     backToStep(3);
