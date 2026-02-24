@@ -325,10 +325,6 @@ async def handle_index(request):
                     btn.textContent = "POSTAR AGORA 🚀";
                 }}
             }}
-                const d = await api('status');
-                await api('settings', 'POST', {{ chave: 'pausado', valor: d.pausado==='1'?'0':'1' }});
-                loadStatus();
-            }}
             async function loadCanais() {{
                 const d = await api('canais');
                 const l = document.getElementById('list-canais');
