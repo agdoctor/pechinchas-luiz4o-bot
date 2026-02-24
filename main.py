@@ -41,34 +41,47 @@ class LoggerWriter:
 sys.stdout = LoggerWriter("bot.log")
 sys.stderr = sys.stdout
 
+async def run_task_with_retry(name, coro_func, delay=5):
+    """Executa uma tarefa e a reinicia em caso de erro, sem derrubar as outras."""
+    while True:
+        try:
+            print(f"🚀 Iniciando processo: {name}")
+            await coro_func()
+            print(f"ℹ️ Processo {name} finalizado voluntariamente.")
+            break # Se a tarefa terminar normalmente, para o loop
+        except asyncio.CancelledError:
+            print(f"ℹ️ Processo {name} cancelado.")
+            break
+        except Exception as e:
+            print(f"⚠️ Erro no processo {name}: {e}")
+            print(f"🔄 Reiniciando {name} em {delay} segundos...")
+            await asyncio.sleep(delay)
+
 async def main():
     print("="*60)
     print("Bot Pechinchas do Luiz4o - Sistema de Monitoramento + Controle")
     print("="*60)
     
-    while True:
-        tasks = []
-        try:
-            # Create a new event loop scope or tasks for this iteration
-            t1 = asyncio.create_task(start_monitoring())
-            t2 = asyncio.create_task(start_admin_bot())
-            t3 = asyncio.create_task(start_web_server())
-            tasks = [t1, t2, t3]
-            
-            # Roda os três processos juntos
-            await asyncio.gather(*tasks)
-            # Se gather terminar (o que não deve ocorrer normalmente), quebra o loop
-            break
-        except KeyboardInterrupt:
-            print("\nDesligando sistema...")
-            for t in tasks: t.cancel()
-            break
-        except Exception as e:
-            print(f"\nErro fatal: {e}")
-            print("⏳ Cancelando processos em segundo plano...")
-            for t in tasks: t.cancel()
-            print("⏳ Tentando reconectar em 5 segundos...")
-            await asyncio.sleep(5)
+    # Criamos as tarefas de forma que uma não derrube a outra
+    tasks = [
+        asyncio.create_task(run_task_with_retry("Monitoramento", start_monitoring)),
+        asyncio.create_task(run_task_with_retry("Bot Admin", start_admin_bot)),
+        asyncio.create_task(run_task_with_retry("Dashboard Web", start_web_server))
+    ]
+    
+    try:
+        # Aguarda indefinidamente enquanto as tarefas rodam
+        await asyncio.gather(*tasks)
+    except KeyboardInterrupt:
+        print("\nDesligando sistema...")
+    finally:
+        for t in tasks:
+            if not t.done():
+                t.cancel()
+        await asyncio.gather(*tasks, return_exceptions=True)
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        pass

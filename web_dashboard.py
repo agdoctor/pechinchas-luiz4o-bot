@@ -311,20 +311,30 @@ async def handle_index(request):
                 }}
             }}
             async function api(p, m='GET', b=null) {{
-                const s = p.includes('?') ? '&' : '?';
-                const r = await fetch(`/api/${{p}}${{s}}token=${{token}}`, {{ method: m, body: b ? JSON.stringify(b) : null, headers: {{'Content-Type':'application/json'}} }});
-                return await r.json();
+                try {{
+                    const s = p.includes('?') ? '&' : '?';
+                    const r = await fetch(`/api/${{p}}${{s}}token=${{token}}`, {{ method: m, body: b ? JSON.stringify(b) : null, headers: {{'Content-Type':'application/json'}} }});
+                    if (!r.ok) throw new Error(`HTTP ${{r.status}}`);
+                    return await r.json();
+                }} catch (e) {{
+                    console.error("API Error:", e);
+                    throw e;
+                }}
             }}
             async function loadStatus() {{
-                const d = await api('status');
-                document.getElementById('status-container').innerHTML = `
-                    <p>Monitorando: <b>${{d.canais_count}} canais</b></p>
-                    <p>Keywords: <b>${{d.kw_count}}</b> (+) / <b>${{d.nkw_count}}</b> (-)</p>
-                    <p>Bot: <b>${{d.pausado==='1' ? '⏸️ PAUSADO' : '▶️ ATIVO'}}</b></p>
-                `;
-                document.getElementById('btn-pausa').textContent = d.pausado==='1' ? '▶️ RETOMAR BOT' : '⏸️ PAUSAR BOT';
-                document.getElementById('check-only-admins').checked = d.only_admins==='1';
-                document.getElementById('check-aprovacao').checked = d.aprovacao==='1';
+                try {{
+                    const d = await api('status');
+                    document.getElementById('status-container').innerHTML = `
+                        <p>Monitorando: <b>${{d.canais_count}} canais</b></p>
+                        <p>Keywords: <b>${{d.kw_count}}</b> (+) / <b>${{d.nkw_count}}</b> (-)</p>
+                        <p>Bot: <b>${{d.pausado==='1' ? '⏸️ PAUSADO' : '▶️ ATIVO'}}</b></p>
+                    `;
+                    document.getElementById('btn-pausa').textContent = d.pausado==='1' ? '▶️ RETOMAR BOT' : '⏸️ PAUSAR BOT';
+                    document.getElementById('check-only-admins').checked = d.only_admins==='1';
+                    document.getElementById('check-aprovacao').checked = d.aprovacao==='1';
+                }} catch (e) {{
+                    document.getElementById('status-container').innerHTML = `<p style="color:var(--error)">⚠️ Erro ao carregar status: ${{e.message}}</p>`;
+                }}
             }}
             async function restartBot() {{
                 Telegram.WebApp.showConfirm("Deseja reiniciar o bot? O painel ficará offline por alguns segundos.", async (ok) => {{
