@@ -500,7 +500,7 @@ async def handle_index(request):
                                     <button type="button" onclick="tag('a')" style="padding:2px 8px; font-size:12px">Link</button>
                                     <button type="button" onclick="tag('code')" style="padding:2px 8px; font-size:12px">&lt;&gt;</button>
                                  </div>
-                                 <textarea id="set-${{x.k}}" oninput="updatePreview(this.value)" style="height:120px; font-family:monospace; font-size:12px;">${{v.valor}}</textarea>
+                                 <textarea id="set-${{x.k}}" oninput="updateSettingsPreview(this.value)" style="height:120px; font-family:monospace; font-size:12px;">${{v.valor}}</textarea>
                                  <div id="html-preview" style="background:#000; padding:10px; border-radius:4px; margin:5px 0; font-size:12px; border:1px dashed var(--border)">
                                     <small style="color:var(--text-dim);display:block;margin-bottom:5px">Preview Visual (Telegram HTML):</small>
                                     <div id="preview-content" style="white-space: pre-wrap;">${{v.valor}}</div>
@@ -513,7 +513,7 @@ async def handle_index(request):
                 }}
                 c.innerHTML = html;
             }}
-            function updatePreview(val) {{
+            function updateSettingsPreview(val) {{
                 const p = document.getElementById('preview-content');
                 if(p) p.innerHTML = val;
             }}
@@ -526,7 +526,7 @@ async def handle_index(request):
                 if(t==='a') rep = `<a href="URL_AQUI">${{sel || "texto"}}</a>`;
                 else rep = `<${{t}}>${{sel}}</${{t}}>`;
                 i.value = txt.substring(0, s) + rep + txt.substring(e);
-                updatePreview(i.value);
+                updateSettingsPreview(i.value);
                 i.focus();
             }}
             async function saveSet(k) {{ 
