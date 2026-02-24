@@ -41,6 +41,21 @@ def get_main_keyboard():
     builder.adjust(1)
     return builder.as_markup()
 
+def get_admin_reply_keyboard():
+    builder = ReplyKeyboardBuilder()
+    
+    webapp_url = get_config("webapp_url")
+    console_token = get_config("console_token")
+    
+    if webapp_url and console_token:
+        base_url = webapp_url.rstrip('/')
+        full_url = f"{base_url}/?token={console_token}"
+        builder.button(text="🖥️ ABRIR PAINEL", web_app=WebAppInfo(url=full_url))
+    
+    builder.button(text="🚀 Enviar Promoção")
+    builder.adjust(1)
+    return builder.as_markup(resize_keyboard=True, placeholder="Escolha uma opção admin")
+
 @dp.callback_query(F.data == "mostrar_comandos")
 async def mostrar_comandos_handler(callback: CallbackQuery):
     texto = (
@@ -73,17 +88,10 @@ async def cmd_start(message: Message):
             await message.answer("👋 Bem-vindo ao Bot Pechinchas!")
             return
 
-    # Gera URL para o Mini App
-    url = f"{get_config('webapp_url')}?token={get_config('console_token')}"
-    kb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="🖥️ ABRIR PAINEL DE CONTROLE", web_app=WebAppInfo(url=url))],
-        [InlineKeyboardButton(text="🚀 Enviar Promoção", callback_data="menu_criar_link")]
-    ])
-    
+    # Resposta com Teclado de Resposta (Reply Keyboard) para menos cliques
     await message.answer(
-        "🛠️ **Painel de Controle Admins**\n\n"
-        "O que você deseja fazer agora?",
-        reply_markup=kb,
+        "🛠️ **Painel Admin**\n\nUse o botão abaixo ou o menu para abrir o painel.",
+        reply_markup=get_admin_reply_keyboard(),
         parse_mode="Markdown"
     )
 
