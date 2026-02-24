@@ -138,7 +138,7 @@ async def handle_index(request):
                         <div class="card-title">🔗 Onde está a oferta?</div>
                         <p style="font-size:13px; color:var(--text-dim); margin-bottom:10px;">Opção 1: Cole o link de uma loja (Amazon, Mercado Livre, Shopee, etc.) para criarmos a postagem do zero.</p>
                         <div class="input-group">
-                            <input type="text" id="promo-url" placeholder="https://amazon.com.br/...">
+                            <input type="text" id="promo-url" placeholder="https://amazon.com.br/..." autocomplete="off">
                             <button class="primary" onclick="startScrape()">Continuar ➔</button>
                         </div>
                     </div>
@@ -146,7 +146,7 @@ async def handle_index(request):
                     <div class="card" style="margin-top:0px;">
                         <p style="font-size:13px; color:var(--text-dim); margin-bottom:10px;">Opção 2: Cole o link de um post de outro canal do Telegram para convertermos a mídia e o texto com IA.</p>
                         <div class="input-group">
-                            <input type="text" id="tg-url" placeholder="https://t.me/promocoes/1234">
+                            <input type="text" id="tg-url" placeholder="https://t.me/promocoes/1234" autocomplete="off">
                             <button class="primary" onclick="startTgScrape()" style="background:var(--accent); color:#fff">Importar ➔</button>
                         </div>
                     </div>
@@ -190,7 +190,7 @@ async def handle_index(request):
                         <button type="button" onclick="addLink()" style="padding:2px 8px; font-size:12px; background:var(--bg-card); color:var(--text); border:1px solid var(--border); border-radius:4px;">Link</button>
                         <button type="button" onclick="formatDoc('formatBlock', 'PRE')" style="padding:2px 8px; font-size:12px; background:var(--bg-card); color:var(--text); border:1px solid var(--border); border-radius:4px;">&lt;&gt;</button>
                     </div>
-                    <div id="final-text" contenteditable="true" style="height:150px; margin-bottom:10px; padding:8px; background:var(--bg-main); border:1px solid var(--border); color:var(--text); border-radius:6px; overflow-y:auto; font-family:inherit; font-size:14px; outline:none;" oninput="updatePreview()"></div>
+                    <div id="final-text" contenteditable="true" style="height:150px; margin-bottom:10px; padding:8px; background:var(--bg-main); border:1px solid var(--border); color:var(--text); border-radius:6px; overflow-y:auto; font-family:inherit; font-size:14px; outline:none;" oninput="updatePreview()" autocomplete="off" spellcheck="false" datacount="0"></div>
                     
                     <label style="font-size:12px; color:var(--text-dim)">Prévia da imagem:</label>
                     <div class="html-preview" style="display:flex; flex-direction:column; align-items:center;">
@@ -845,11 +845,16 @@ async def handle_post_offer(request):
 
         clean_text, placeholder_map = await process_and_replace_links(text_base, orig_url)
         
-        # Formata botões
+        # Formata botões - Tenta preservar se o usuário já colocou algo em volta
         if placeholder_map:
             for placeholder, final_url in placeholder_map.items():
                 if final_url:
-                    text_base = text_base.replace(placeholder, f"🛒 <a href='{final_url}'>Pegar promoção</a>")
+                    # Se for o [LINK_0] e não houver outros botões, usamos o padrão
+                    if placeholder == "[LINK_0]" and "🛒" not in text_base:
+                         text_base = text_base.replace(placeholder, f"🛒 <a href='{final_url}'>Pegar promoção</a>")
+                    else:
+                         # Para outros links, tentamos manter o texto que já existia ou apenas injetamos o link no placeholder
+                         text_base = text_base.replace(placeholder, final_url)
                 else:
                     text_base = text_base.replace(placeholder, "")
         
