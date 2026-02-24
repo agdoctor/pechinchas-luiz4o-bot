@@ -7,3 +7,4 @@ tenacity
 Pillow
 beautifulsoup4
 curl_cffi
+requests
