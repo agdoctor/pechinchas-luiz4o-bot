@@ -382,8 +382,12 @@ async def handle_index(request):
                     updatePreview();
                     previewLinks(); // Chama preview de links em background
                     
-                    if (scrapeData && (scrapeData.image_url || scrapeData.image)) {{
-                        document.getElementById('preview-img-3').src = scrapeData.image_url || scrapeData.image;
+                    if (scrapeData && (scrapeData.local_image_path || scrapeData.image_url || scrapeData.image)) {{
+                        if (scrapeData.local_image_path) {{
+                            document.getElementById('preview-img-3').src = '/api/image?token=' + token + '&path=' + encodeURIComponent(scrapeData.local_image_path) + '&apply_wm=1&t=' + Date.now();
+                        }} else {{
+                            document.getElementById('preview-img-3').src = scrapeData.image_url || scrapeData.image;
+                        }}
                         document.getElementById('preview-img-3').style.display = 'block';
                     }} else {{
                         document.getElementById('preview-img-3').style.display = 'none';
@@ -684,6 +688,24 @@ async def handle_watermark_get(request):
         return web.Response(status=404, text="Arquivo não encontrado")
     return web.FileResponse("watermark.png")
 
+async def handle_image_get(request):
+    if not await check_token(request): return web.json_response({"error": "Unauthorized"}, status=403)
+    img_path = request.query.get('path')
+    if not img_path or not os.path.exists(img_path):
+        return web.Response(status=404, text="Arquivo não encontrado")
+    
+    apply_wm = request.query.get('apply_wm') == '1'
+    if apply_wm:
+        from watermark import apply_watermark
+        try:
+            wm_path = apply_watermark(img_path)
+            if os.path.exists(wm_path):
+                return web.FileResponse(wm_path)
+        except Exception as e:
+            pass
+            
+    return web.FileResponse(img_path)
+
 async def handle_watermark_post(request):
     if not await check_token(request): return web.json_response({"error": "Unauthorized"}, status=403)
     data = await request.post()
@@ -802,6 +824,7 @@ async def start_web_server():
     app.router.add_route('*', '/api/settings', handle_settings_api)
     app.router.add_get('/api/logs', handle_logs_api)
     app.router.add_get('/api/watermark', handle_watermark_get)
+    app.router.add_get('/api/image', handle_image_get)
     app.router.add_post('/api/watermark', handle_watermark_post)
     app.router.add_post('/api/scrape', handle_scrape)
     app.router.add_post('/api/generate_text', handle_generate_text)
