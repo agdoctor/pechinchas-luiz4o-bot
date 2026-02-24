@@ -47,20 +47,26 @@ async def main():
     print("="*60)
     
     while True:
+        tasks = []
         try:
-            # Roda os três processos (Monitor + Admin + Web Console) juntos
-            await asyncio.gather(
-                start_monitoring(),
-                start_admin_bot(),
-                start_web_server()
-            )
+            # Create a new event loop scope or tasks for this iteration
+            t1 = asyncio.create_task(start_monitoring())
+            t2 = asyncio.create_task(start_admin_bot())
+            t3 = asyncio.create_task(start_web_server())
+            tasks = [t1, t2, t3]
+            
+            # Roda os três processos juntos
+            await asyncio.gather(*tasks)
             # Se gather terminar (o que não deve ocorrer normalmente), quebra o loop
             break
         except KeyboardInterrupt:
             print("\nDesligando sistema...")
+            for t in tasks: t.cancel()
             break
         except Exception as e:
             print(f"\nErro fatal: {e}")
+            print("⏳ Cancelando processos em segundo plano...")
+            for t in tasks: t.cancel()
             print("⏳ Tentando reconectar em 5 segundos...")
             await asyncio.sleep(5)
 
