@@ -75,6 +75,27 @@ async def handle_index(request):
             .log-header {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }}
             .toggle-switch {{ display: flex; align-items: center; gap: 10px; margin-bottom: 10px; cursor: pointer; }}
             .toggle-switch input {{ width: auto; }}
+            .html-preview {{
+                background: var(--bg-main);
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                padding: 10px;
+                margin-top: 10px;
+                min-height: 100px;
+                font-size: 14px;
+                color: var(--text);
+                overflow-wrap: break-word;
+            }}
+            .html-preview a {{ color: var(--accent); }}
+            .processed-links {{
+                font-size: 12px;
+                color: var(--success);
+                margin-top: 10px;
+                background: #1a271c;
+                padding: 8px;
+                border-radius: 6px;
+                border: 1px solid #2d4a31;
+            }}
         </style>
     </head>
     <body>
@@ -150,8 +171,15 @@ async def handle_index(request):
 
                 <div class="card" id="step-3" style="display:none">
                     <div class="card-title">📤 Revisar e Postar</div>
-                    <textarea id="final-text" style="height:250px; margin-bottom:15px;"></textarea>
-                    <div style="display:flex; gap:10px;">
+                    <label style="font-size:12px; color:var(--text-dim)">Editor HTML:</label>
+                    <textarea id="final-text" style="height:150px; margin-bottom:10px;" oninput="updatePreview()"></textarea>
+                    
+                    <label style="font-size:12px; color:var(--text-dim)">Prévia do Post:</label>
+                    <div id="html-render-preview" class="html-preview"></div>
+                    
+                    <div id="processed-links-container" class="processed-links" style="display:none"></div>
+                    
+                    <div style="display:flex; gap:10px; margin-top:15px;">
                         <button onclick="backToStep(2)">⬅ Voltar</button>
                         <button class="primary" onclick="postOffer()" style="flex-grow:1" id="btn-post">POSTAR AGORA 🚀</button>
                     </div>
@@ -340,6 +368,8 @@ async def handle_index(request):
                         observation: document.getElementById('preview-obs').value
                     }});
                     document.getElementById('final-text').value = d.text;
+                    updatePreview();
+                    previewLinks(); // Chama preview de links em background
                     backToStep(3);
                 }} catch(e) {{
                     Telegram.WebApp.showAlert("Erro ao gerar texto: " + e.message);
@@ -347,6 +377,38 @@ async def handle_index(request):
                     Telegram.WebApp.MainButton.hide();
                 }}
             }}
+
+            function updatePreview() {{
+                const text = document.getElementById('final-text').value;
+                // Renderiza HTML básico interpretando as tags suportadas pelo Telegram (<b>, <i>, <a>, <code>, <pre>)
+                const preview = document.getElementById('html-render-preview');
+                preview.innerHTML = text.replace(/\n/g, '<br>');
+            }}
+
+            async function previewLinks() {{
+                const container = document.getElementById('processed-links-container');
+                container.style.display = 'block';
+                container.innerHTML = "⌛ Processando links finais...";
+                try {{
+                    const d = await api('preview_links', 'POST', {{
+                        text: document.getElementById('final-text').value,
+                        url: document.getElementById('promo-url').value
+                    }});
+                    if(d.placeholders) {{
+                        let html = "<b>Links Finais Detectados:</b><ul style='margin:5px 0; padding-left:15px;'>";
+                        for(let k in d.placeholders) {{
+                            if(d.placeholders[k]) {{
+                                html += `<li style='word-break:break-all;'>${{k}} ➔ ${{d.placeholders[k]}}</li>`;
+                            }}
+                        }}
+                        html += "</ul>";
+                        container.innerHTML = html;
+                    }}
+                }} catch(e) {{
+                    container.innerHTML = "⚠️ Erro ao validar links.";
+                }}
+            }}
+
             async function postOffer() {{
                 const btn = document.getElementById('btn-post');
                 btn.disabled = true;
@@ -355,13 +417,19 @@ async def handle_index(request):
                     const d = await api('post_offer', 'POST', {{
                         url: document.getElementById('promo-url').value,
                         text: document.getElementById('final-text').value,
-                        image_path: scrapeData.image_path // O scraper deve salvar a imagem e retornar o path
+                        image_path: scrapeData.local_image_path // Corrigido: scraper usa local_image_path
                     }});
                     if(d.success) {{
-                        Telegram.WebApp.showAlert("🚀 Promoção postada com sucesso!");
-                        document.getElementById('promo-url').value = "";
-                        backToStep(1);
-                        showTab('dashboard'); // Volta pro painel
+                        let msg = "🚀 Promoção postada!";
+                        if(d.link) {{
+                             Telegram.WebApp.showConfirm("Postado com sucesso! Deseja ver o post agora?", (ok) => {{
+                                 if(ok) Telegram.WebApp.openTelegramLink(d.link);
+                                 resetEnviar();
+                             }});
+                        }} else {{
+                            Telegram.WebApp.showAlert(msg);
+                            resetEnviar();
+                        }}
                     }} else {{
                         throw new Error(d.error);
                     }}
@@ -371,6 +439,11 @@ async def handle_index(request):
                     btn.disabled = false;
                     btn.textContent = "POSTAR AGORA 🚀";
                 }}
+            }}
+            function resetEnviar() {{
+                document.getElementById('promo-url').value = "";
+                backToStep(1);
+                showTab('dashboard');
             }}
             async function loadCanais() {{
                 const d = await api('canais');
@@ -620,11 +693,26 @@ async def handle_generate_text(request):
     except Exception as e:
         return web.json_response({"error": str(e)}, status=500)
 
+async def handle_preview_links(request):
+    if not await check_token(request): return web.json_response({"error": "Unauthorized"}, status=403)
+    try:
+        data = await request.json()
+        from links import process_and_replace_links
+        text = data.get("text")
+        url = data.get("url")
+        if not text: return web.json_response({"error": "Text missing"}, status=400)
+        
+        clean_text, placeholder_map = await process_and_replace_links(text, url)
+        # Retorna os links resolvidos para preview
+        return web.json_response({"placeholders": placeholder_map})
+    except Exception as e:
+        return web.json_response({"error": str(e)}, status=500)
+
 async def handle_post_offer(request):
     if not await check_token(request): return web.json_response({"error": "Unauthorized"}, status=403)
     try:
         data = await request.json()
-        from monitor import post_queue
+        from publisher import publish_deal
         from watermark import apply_watermark
         from links import process_and_replace_links
         import re
@@ -659,9 +747,10 @@ async def handle_post_offer(request):
         if img_path and os.path.exists(img_path):
             img_path = apply_watermark(img_path)
 
-        # Postar
-        await post_queue.put((text_base, img_path, None))
-        return web.json_response({"success": True})
+        # Postar DIRETAMENTE e pegar link (para retorno imediato ao painel)
+        post_link = await publish_deal(text_base, img_path)
+        
+        return web.json_response({"success": True, "link": post_link})
     except Exception as e:
         import traceback
         traceback.print_exc()
@@ -684,6 +773,7 @@ async def start_web_server():
     app.router.add_post('/api/watermark', handle_watermark_post)
     app.router.add_post('/api/scrape', handle_scrape)
     app.router.add_post('/api/generate_text', handle_generate_text)
+    app.router.add_post('/api/preview_links', handle_preview_links)
     app.router.add_post('/api/post_offer', handle_post_offer)
     port = int(os.getenv("PORT", 8080))
     runner = web.AppRunner(app)
