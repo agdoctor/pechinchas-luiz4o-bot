@@ -84,6 +84,7 @@ async def handle_index(request):
             <div class="nav-item" onclick="showTab('keywords', this)">🔑 Keywords</div>
             <div class="nav-item" onclick="showTab('admins', this)">👥 Admins</div>
             <div class="nav-item" onclick="showTab('sorteios', this)">🎉 Sorteios</div>
+            <div class="nav-item" onclick="showTab('moldura', this)">🖼️ Moldura</div>
             <div class="nav-item" onclick="showTab('settings', this)">⚙️ Config</div>
             <div class="nav-item" onclick="showTab('logs', this)">📜 Logs</div>
         </div>
@@ -144,6 +145,20 @@ async def handle_index(request):
             <div id="tab-settings" class="tab-content">
                 <div class="card"><div class="card-title">⚙️ Geral</div><div id="settings-form"></div></div>
             </div>
+            <div id="tab-moldura" class="tab-content">
+                <div class="card">
+                    <div class="card-title">🖼️ Gerenciar Moldura</div>
+                    <p style="font-size:13px; color:var(--text-dim)">Esta é a imagem que será sobreposta às fotos dos produtos.</p>
+                    <div id="wm-preview-container" style="text-align: center; margin: 15px 0; background: #fff; padding: 10px; border-radius: 8px;">
+                        <img id="wm-current-img" src="/api/watermark?token={token}" style="max-width: 100%; max-height: 200px; border: 1px solid var(--border);">
+                    </div>
+                    <div class="input-group" style="flex-direction: column;">
+                        <input type="file" id="wm-file" accept="image/png" style="padding: 10px;">
+                        <button class="primary" onclick="uploadWatermark()" style="width: 100%">📤 Subir Nova Moldura (PNG)</button>
+                    </div>
+                    <small style="color:var(--text-dim)">Recomendado: PNG transparente 1000x1000.</small>
+                </div>
+            </div>
             <div id="tab-logs" class="tab-content">
                 <div class="card">
                     <div class="log-header">
@@ -170,7 +185,34 @@ async def handle_index(request):
                 if(t==='canais') loadCanais(); if(t==='keywords') loadKeywords();
                 if(t==='admins') loadAdmins(); if(t==='sorteios') loadSorteios();
                 if(t==='settings') loadSettings(); if(t==='dashboard') loadStatus();
-                if(t==='logs') fetchLogs();
+                if(t==='logs') fetchLogs(); if(t==='moldura') loadWatermark();
+            }}
+            function loadWatermark() {{
+                const img = document.getElementById('wm-current-img');
+                img.src = '/api/watermark?token=' + token + '&t=' + Date.now();
+            }}
+            async function uploadWatermark() {{
+                const fileInput = document.getElementById('wm-file');
+                if(!fileInput.files[0]) return Telegram.WebApp.showAlert("Selecione um arquivo primeiro!");
+                
+                const formData = new FormData();
+                formData.append('file', fileInput.files[0]);
+                
+                try {{
+                    const r = await fetch(`/api/watermark?token=${{token}}`, {{
+                        method: 'POST',
+                        body: formData
+                    }});
+                    const res = await r.json();
+                    if(res.success) {{
+                        Telegram.WebApp.showAlert("Moldura atualizada com sucesso!");
+                        loadWatermark();
+                    }} else {{
+                        Telegram.WebApp.showAlert("Erro: " + res.error);
+                    }}
+                }} catch(e) {{
+                    Telegram.WebApp.showAlert("Erro ao subir arquivo.");
+                }}
             }}
             async function api(p, m='GET', b=null) {{
                 const s = p.includes('?') ? '&' : '?';
@@ -411,6 +453,35 @@ async def handle_logs_api(request):
     with open("bot.log", "r", encoding="utf-8") as f:
         return web.json_response({"logs": "".join(f.readlines()[-150:])})
 
+async def handle_watermark_get(request):
+    if not await check_token(request): return web.json_response({"error": "Unauthorized"}, status=403)
+    if not os.path.exists("watermark.png"):
+        return web.Response(status=404, text="Arquivo não encontrado")
+    return web.FileResponse("watermark.png")
+
+async def handle_watermark_post(request):
+    if not await check_token(request): return web.json_response({"error": "Unauthorized"}, status=403)
+    reader = await request.multipart()
+    field = await reader.next()
+    if field.name != 'file':
+        return web.json_response({"error": "Campo 'file' não encontrado"}, status=400)
+    
+    filename = field.filename
+    if not filename.lower().endswith('.png'):
+        return web.json_response({"error": "Apenas arquivos .png são permitidos"}, status=400)
+    
+    size = 0
+    with open("watermark.png", "wb") as f:
+        while True:
+            chunk = await field.read_chunk()
+            if not chunk:
+                break
+            size += len(chunk)
+            f.write(chunk)
+    
+    print(f"🖼️ Nova moldura recebida via Mini App: {size} bytes")
+    return web.json_response({"success": True, "size": size})
+
 async def start_web_server():
     if not get_config("console_token"): set_config("console_token", secrets.token_urlsafe(16))
     app = web.Application()
@@ -424,6 +495,8 @@ async def start_web_server():
     app.router.add_route('*', '/api/sorteios', handle_sorteios_api)
     app.router.add_route('*', '/api/settings', handle_settings_api)
     app.router.add_get('/api/logs', handle_logs_api)
+    app.router.add_get('/api/watermark', handle_watermark_get)
+    app.router.add_post('/api/watermark', handle_watermark_post)
     port = int(os.getenv("PORT", 8080))
     runner = web.AppRunner(app)
     await runner.setup()
