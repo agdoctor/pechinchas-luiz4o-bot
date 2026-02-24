@@ -4,6 +4,8 @@ from admin import start_admin_bot
 from web_dashboard import start_web_server
 
 import sys
+if sys.stdout.encoding.lower() != 'utf-8':
+    sys.stdout.reconfigure(encoding='utf-8')
 
 class LoggerWriter:
     def __init__(self, filename):
@@ -41,7 +43,7 @@ sys.stderr = sys.stdout
 
 async def main():
     print("="*60)
-    print("🤖 Bot Pechinchas do Luiz4o - Sistema de Monitoramento + Controle")
+    print("Bot Pechinchas do Luiz4o - Sistema de Monitoramento + Controle")
     print("="*60)
     
     while True:

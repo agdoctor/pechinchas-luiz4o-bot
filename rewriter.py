@@ -6,7 +6,7 @@ import re
 
 # Configurar o cliente do Gemini (SDK novo)
 if GEMINI_API_KEY:
-    print(f"🔑 Chave Gemini carregada (Início: {GEMINI_API_KEY[:4]}...{GEMINI_API_KEY[-4:]})")
+    print(f"Chave Gemini carregada (Inicio: {GEMINI_API_KEY[:4]}...{GEMINI_API_KEY[-4:]})")
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 # Modelo exclusivo detectado (2.5-flash)
