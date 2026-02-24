@@ -13,7 +13,7 @@ import asyncio
 import re
 
 # O ADMIN_USER_ID agora é recuperado dinamicamente do banco de dados 
-# quando o usuário envia /start ou /admin
+# quando o usuário envia /admin
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
@@ -45,7 +45,7 @@ def get_main_keyboard():
 async def mostrar_comandos_handler(callback: CallbackQuery):
     texto = (
         "🤖 **Comandos Ativos do Bot:**\n\n"
-        "🔹 `/start` - Abre o painel principal interativo\n"
+        "🔹 `/admin` - Abre o painel principal interativo\n"
         "🔹 `/enviar` - Atalho para enviar uma oferta no canal\n"
         "🔹 `/log` - Recebe o arquivo `bot.log` com logs do terminal\n"
         "🔹 `/meuid` - Retorna o seu ID numérico do Telegram\n"
@@ -1073,9 +1073,28 @@ async def start_admin_bot():
     
     # Configurar menu de comandos
     await bot.set_my_commands([
-        BotCommand(command="start", description="Painel Admin"),
+        BotCommand(command="admin", description="Painel de Controle Admin"),
         BotCommand(command="enviar", description="Enviar Promoção via Link"),
+        BotCommand(command="log", description="Receber Logs do Bot"),
     ])
+    
+    # Configurar o Botão de Menu (Canto inferior esquerdo) para abrir o Mini App
+    webapp_url = get_config("webapp_url")
+    console_token = get_config("console_token")
+    if webapp_url and console_token:
+        try:
+            from aiogram.types import MenuButtonWebApp, WebAppInfo
+            base_url = webapp_url.rstrip('/')
+            full_url = f"{base_url}/?token={console_token}"
+            await bot.set_chat_menu_button(
+                menu_button=MenuButtonWebApp(
+                    text="🖥️ Admin",
+                    web_app=WebAppInfo(url=full_url)
+                )
+            )
+            print(f"✅ Botão de Menu configurado para: {full_url}")
+        except Exception as e:
+            print(f"⚠️ Erro ao configurar Botão de Menu: {e}")
     
     # Enviar notificação de reinício
     try:

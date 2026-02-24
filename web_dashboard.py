@@ -148,7 +148,7 @@ async def handle_index(request):
             <div id="tab-moldura" class="tab-content">
                 <div class="card">
                     <div class="card-title">🖼️ Gerenciar Moldura</div>
-                    <p style="font-size:13px; color:var(--text-dim)">Esta é a imagem que será sobreposta às fotos dos produtos.</p>
+                    <p style="font-size:13px; color:var(--text-dim)">Esta é a imagem que será sobreposta às fotos dos produtos. <b>A imagem deve ter fundo transparente para funcionar corretamente.</b></p>
                     <div id="wm-preview-container" style="text-align: center; margin: 15px 0; background: #fff; padding: 10px; border-radius: 8px;">
                         <img id="wm-current-img" src="/api/watermark?token={token}" style="max-width: 100%; max-height: 200px; border: 1px solid var(--border);">
                     </div>
