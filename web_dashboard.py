@@ -80,6 +80,7 @@ async def handle_index(request):
     <body>
         <div id="navbar">
             <div class="nav-item active" onclick="showTab('dashboard', this)">🏠 Painel</div>
+            <div class="nav-item" onclick="showTab('enviar', this)">🚀 Enviar</div>
             <div class="nav-item" onclick="showTab('canais', this)">📺 Canais</div>
             <div class="nav-item" onclick="showTab('keywords', this)">🔑 Keywords</div>
             <div class="nav-item" onclick="showTab('admins', this)">👥 Admins</div>
@@ -248,6 +249,82 @@ async def handle_index(request):
                 await api('settings', 'POST', {{ chave: 'aprovacao_manual', valor: v }});
             }}
             async function togglePausa() {{
+                const d = await api('status');
+                const v = d.pausado==='1' ? '0' : '1';
+                await api('settings', 'POST', {{ chave: 'pausado', valor: v }});
+                loadStatus();
+            }}
+
+            // Fluxo Enviar Promoção
+            let scrapeData = {{}};
+            function backToStep(s) {{
+                document.querySelectorAll('#tab-enviar .card').forEach(c => c.style.display = 'none');
+                document.getElementById('step-'+s).style.display = 'block';
+            }}
+            async function startScrape() {{
+                const url = document.getElementById('promo-url').value;
+                if(!url) return Telegram.WebApp.showAlert("Cole um link!");
+                
+                Telegram.WebApp.MainButton.setText("🔍 Buscando dados...").show();
+                try {{
+                    const d = await api('scrape', 'POST', {{ url: url }});
+                    if(d.error) throw new Error(d.error);
+                    
+                    scrapeData = d;
+                    document.getElementById('preview-title').value = d.title || "";
+                    document.getElementById('preview-price').value = d.price || "";
+                    document.getElementById('preview-img').src = d.image || "";
+                    
+                    backToStep(2);
+                }} catch(e) {{
+                    Telegram.WebApp.showAlert("Erro ao buscar dados: " + e.message);
+                }} finally {{
+                    Telegram.WebApp.MainButton.hide();
+                }}
+            }}
+            async function generateText() {{
+                Telegram.WebApp.MainButton.setText("✨ Gerando texto...").show();
+                try {{
+                    const d = await api('generate_text', 'POST', {{
+                        url: document.getElementById('promo-url').value,
+                        title: document.getElementById('preview-title').value,
+                        price: document.getElementById('preview-price').value,
+                        coupon: document.getElementById('preview-coupon').value,
+                        observation: document.getElementById('preview-obs').value
+                    }});
+                    document.getElementById('final-text').value = d.text;
+                    backToStep(3);
+                }} catch(e) {{
+                    Telegram.WebApp.showAlert("Erro ao gerar texto: " + e.message);
+                }} finally {{
+                    Telegram.WebApp.MainButton.hide();
+                }}
+            }}
+            async function postOffer() {{
+                const btn = document.getElementById('btn-post');
+                btn.disabled = true;
+                btn.textContent = "⌛ Postando...";
+                try {{
+                    const d = await api('post_offer', 'POST', {{
+                        url: document.getElementById('promo-url').value,
+                        text: document.getElementById('final-text').value,
+                        image_path: scrapeData.image_path // O scraper deve salvar a imagem e retornar o path
+                    }});
+                    if(d.success) {{
+                        Telegram.WebApp.showAlert("🚀 Promoção postada com sucesso!");
+                        document.getElementById('promo-url').value = "";
+                        backToStep(1);
+                        showTab('dashboard'); // Volta pro painel
+                    }} else {{
+                        throw new Error(d.error);
+                    }}
+                }} catch(e) {{
+                    Telegram.WebApp.showAlert("Erro ao postar: " + e.message);
+                }} finally {{
+                    btn.disabled = false;
+                    btn.textContent = "POSTAR AGORA 🚀";
+                }}
+            }}
                 const d = await api('status');
                 await api('settings', 'POST', {{ chave: 'pausado', valor: d.pausado==='1'?'0':'1' }});
                 loadStatus();
@@ -461,26 +538,91 @@ async def handle_watermark_get(request):
 
 async def handle_watermark_post(request):
     if not await check_token(request): return web.json_response({"error": "Unauthorized"}, status=403)
-    reader = await request.multipart()
-    field = await reader.next()
-    if field.name != 'file':
-        return web.json_response({"error": "Campo 'file' não encontrado"}, status=400)
+    data = await request.post()
+    file = data.get('file')
+    if not file: return web.json_response({"error": "No file uploaded"}, status=400)
     
-    filename = field.filename
-    if not filename.lower().endswith('.png'):
-        return web.json_response({"error": "Apenas arquivos .png são permitidos"}, status=400)
-    
-    size = 0
+    content = file.file.read()
     with open("watermark.png", "wb") as f:
-        while True:
-            chunk = await field.read_chunk()
-            if not chunk:
-                break
-            size += len(chunk)
-            f.write(chunk)
-    
-    print(f"🖼️ Nova moldura recebida via Mini App: {size} bytes")
-    return web.json_response({"success": True, "size": size})
+        f.write(content)
+        
+    print(f"🖼️ Nova moldura recebida via Mini App: {len(content)} bytes")
+    return web.json_response({"success": True, "size": len(content)})
+
+async def handle_scrape(request):
+    if not await check_token(request): return web.json_response({"error": "Unauthorized"}, status=403)
+    try:
+        data = await request.json()
+        url = data.get("url")
+        if not url: return web.json_response({"error": "URL missing"}, status=400)
+        from scraper import fetch_product_metadata
+        metadata = await fetch_product_metadata(url)
+        return web.json_response(metadata)
+    except Exception as e:
+        return web.json_response({"error": str(e)}, status=500)
+
+async def handle_generate_text(request):
+    if not await check_token(request): return web.json_response({"error": "Unauthorized"}, status=403)
+    try:
+        data = await request.json()
+        from rewriter import gerar_promocao_por_link
+        texto = await gerar_promocao_por_link(
+            data.get("title"),
+            data.get("url"),
+            data.get("price"),
+            data.get("coupon"),
+            data.get("observation")
+        )
+        return web.json_response({"text": texto})
+    except Exception as e:
+        return web.json_response({"error": str(e)}, status=500)
+
+async def handle_post_offer(request):
+    if not await check_token(request): return web.json_response({"error": "Unauthorized"}, status=403)
+    try:
+        data = await request.json()
+        from monitor import post_queue
+        from watermark import apply_watermark
+        from links import process_and_replace_links
+        import re
+
+        text_base = data.get("text")
+        img_path = data.get("image_path")
+        orig_url = data.get("url")
+
+        if not text_base: return web.json_response({"error": "Text missing"}, status=400)
+
+        # Processar links se necessário (garantir botões)
+        if "[LINK_" not in text_base and "Pegar promoção" not in text_base:
+             text_base += "\n\n[LINK_0]"
+
+        clean_text, placeholder_map = await process_and_replace_links(text_base, orig_url)
+        
+        # Formata botões
+        if placeholder_map:
+            for placeholder, final_url in placeholder_map.items():
+                if final_url:
+                    text_base = text_base.replace(placeholder, f"🛒 <a href='{final_url}'>Pegar promoção</a>")
+                else:
+                    text_base = text_base.replace(placeholder, "")
+        
+        text_base = re.sub(r'\[LINK_\d+\]', '', text_base)
+
+        # Assinatura
+        assinatura = get_config("assinatura")
+        if assinatura: text_base += f"\n\n{assinatura}"
+
+        # Watermark
+        if img_path and os.path.exists(img_path):
+            img_path = apply_watermark(img_path)
+
+        # Postar
+        await post_queue.put((text_base, img_path, None))
+        return web.json_response({"success": True})
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return web.json_response({"error": str(e)}, status=500)
 
 async def start_web_server():
     if not get_config("console_token"): set_config("console_token", secrets.token_urlsafe(16))
@@ -497,6 +639,9 @@ async def start_web_server():
     app.router.add_get('/api/logs', handle_logs_api)
     app.router.add_get('/api/watermark', handle_watermark_get)
     app.router.add_post('/api/watermark', handle_watermark_post)
+    app.router.add_post('/api/scrape', handle_scrape)
+    app.router.add_post('/api/generate_text', handle_generate_text)
+    app.router.add_post('/api/post_offer', handle_post_offer)
     port = int(os.getenv("PORT", 8080))
     runner = web.AppRunner(app)
     await runner.setup()

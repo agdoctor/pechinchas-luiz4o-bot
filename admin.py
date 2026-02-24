@@ -33,7 +33,6 @@ def get_admin_reply_keyboard():
         full_url = f"{base_url}/?token={console_token}"
         builder.button(text="🖥️ Abrir painel", web_app=WebAppInfo(url=full_url))
     
-    builder.button(text="🚀 Enviar promoção")
     builder.adjust(1)
     return builder.as_markup(resize_keyboard=True, placeholder="Escolha uma opção admin")
 
@@ -159,10 +158,6 @@ async def cmd_reiniciar(message: Message):
 @dp.message(F.text == "🖥️ Abrir painel")
 async def btn_admin(message: Message):
     await cmd_start(message)
-
-@dp.message(F.text == "🚀 Enviar promoção")
-async def btn_enviar(message: Message):
-    await cmd_enviar_shortcut(message)
 
 async def start_criar_oferta_msg(message: Message):
     user_states[message.from_user.id] = "esperando_link_criacao"
