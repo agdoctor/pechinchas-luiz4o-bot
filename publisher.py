@@ -1,4 +1,5 @@
 import asyncio
+import os
 from aiogram import Bot
 from aiogram.types import FSInputFile
 from config import BOT_TOKEN, TARGET_CHANNEL

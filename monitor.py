@@ -19,8 +19,9 @@ from whatsapp_publisher import send_whatsapp_msg
 ofertas_pendentes_admin = []
 
 # Certifique-se de que o diretório de downloads existe
-if not os.path.exists("downloads"):
-    os.makedirs("downloads")
+base_downloads_path = "downloads"
+if not os.path.exists(base_downloads_path):
+    os.makedirs(base_downloads_path)
 
 from telethon.sessions import StringSession
 import logging
