@@ -173,7 +173,8 @@ async def start_monitoring():
             chat_username = getattr(chat, 'username', 'N/A')
             chat_id = str(event.chat_id)
             
-            
+            # LOG DE DEBUG: Ver todas as mensagens que chegam
+            print(f"DEBUG: Mensagem recebida de @{chat_username} (ID: {chat_id})")
             
             is_monitored = False
             
