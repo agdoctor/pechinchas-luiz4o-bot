@@ -7,5 +7,5 @@ ENV DATABASE_ENABLED=true
 ENV DATABASE_CONNECTION_URI=./database.db
 ENV DATABASE_TYPE=sqlite
 
-EXPOSE 8080
+EXPOSE 80
 CMD ["node", "dist/src/main.js"]
