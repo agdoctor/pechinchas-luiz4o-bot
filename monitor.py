@@ -3,6 +3,8 @@ import os
 import re
 import hashlib
 from telethon import TelegramClient, events
+from telethon.tl.functions.channels import JoinChannelRequest
+from telethon.errors import ChannelInvalidError, UsernameInvalidError
 from config import API_ID, API_HASH, TARGET_CHANNEL
 from database import get_canais, get_keywords, get_config, check_duplicate, add_to_history, get_negative_keywords, normalize_channel
 
@@ -106,6 +108,26 @@ async def worker_queue():
             print(f"Erro no worker de fila: {e}")
             await asyncio.sleep(5)
 
+async def ensure_joined_channels():
+    """Garante que o Userbot está participando de todos os canais monitorados."""
+    source_channels = get_canais()
+    print(f"📋 Verificando filiação em {len(source_channels)} canais...")
+    
+    for channel in source_channels:
+        try:
+            # Normaliza e tenta entrar
+            channel_name = normalize_channel(channel)
+            print(f"🔗 Verificando canal: {channel_name}...")
+            await client(JoinChannelRequest(channel_name))
+            print(f"✅ Userbot garantido no canal: {channel_name}")
+        except (ChannelInvalidError, UsernameInvalidError):
+            print(f"⚠️ Erro: Canal ou Username inválido: {channel}")
+        except Exception as e:
+            if "already a participant" in str(e).lower():
+                print(f"ℹ️ Userbot já participa do canal: {channel}")
+            else:
+                print(f"⚠️ Erro ao entrar no canal {channel}: {e}")
+
 async def start_monitoring():
     source_channels = get_canais()
     
@@ -116,13 +138,22 @@ async def start_monitoring():
     await client.connect()
     
     if not await client.is_user_authorized():
-        print("❌ ERRO FATAL: O Userbot não está autorizado! A StringSession fornecida é inválida ou expirou.")
-        print("💡 Tente gerar uma nova StringSession localmente e atualize a variável na Square Cloud.")
+        print("\n" + "!"*60)
+        print("❌ ERRO FATAL: O Userbot não está autorizado ou a sessão foi revogada!")
+        print("💡 Motivo Provável: Conflito de IPs ou StringSession expirada.")
+        print("🛠️ RESOLUÇÃO:")
+        print("1. Rode 'python get_string.py' localmente para gerar uma nova sessão.")
+        print("2. Atualize a variável TELEGRAM_STRING_SESSION na Square Cloud.")
+        print("3. Reinicie o bot e NÃO rode o bot localmente enquanto ele estiver na nuvem.")
+        print("!"*60 + "\n")
         return
 
     print("✅ Userbot conectado e autorizado!")
     
-    print(f"✅ Userbot conectado! Monitorando do Banco de Dados: {source_channels}")
+    # Executa o auto-join
+    await ensure_joined_channels()
+    
+    print(f"✅ Monitoramento iniciado! Canais no Banco: {source_channels}")
     
     # Cache para não processar o mesmo álbum (várias fotos) duas vezes
     processed_grouped_ids = set()
