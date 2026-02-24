@@ -27,7 +27,7 @@ async def handle_index(request):
     <html lang="pt-br">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
         <title>Pechinchas - Admin</title>
         <script src="https://telegram.org/js/telegram-web-app.js"></script>
         <style>
@@ -64,7 +64,7 @@ async def handle_index(request):
             .card {{ background: var(--bg-sec); border: 1px solid var(--border); border-radius: 8px; padding: 15px; margin-bottom: 15px; }}
             .card-title {{ font-size: 16px; font-weight: bold; margin-bottom: 12px; color: var(--accent); display: flex; align-items: center; gap: 8px; }}
             .input-group {{ display: flex; gap: 8px; margin-bottom: 10px; }}
-            input, textarea {{ width: 100%; background: var(--bg-main); border: 1px solid var(--border); color: var(--text); padding: 8px; border-radius: 6px; outline: none; font-family: inherit; }}
+            input, textarea, select {{ width: 100%; background: var(--bg-main); border: 1px solid var(--border); color: var(--text); padding: 8px; border-radius: 6px; outline: none; font-family: inherit; font-size: 16px !important; }}
             button {{ background: var(--bg-card); border: 1px solid var(--border); color: var(--text); padding: 8px 15px; border-radius: 6px; cursor: pointer; }}
             button.primary {{ background: var(--success); }}
             button.danger {{ background: var(--error); }}
