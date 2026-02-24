@@ -359,7 +359,7 @@ async def handle_index(request):
                     scrapeData = d;
                     document.getElementById('preview-title').value = d.title || "";
                     document.getElementById('preview-price').value = d.price || "";
-                    document.getElementById('preview-img').src = d.image || "";
+                    document.getElementById('preview-img').src = d.image_url || d.image || "";
                     
                     backToStep(2);
                 }} catch(e) {{
@@ -382,8 +382,8 @@ async def handle_index(request):
                     updatePreview();
                     previewLinks(); // Chama preview de links em background
                     
-                    if (scrapeData && scrapeData.image) {{
-                        document.getElementById('preview-img-3').src = scrapeData.image;
+                    if (scrapeData && (scrapeData.image_url || scrapeData.image)) {{
+                        document.getElementById('preview-img-3').src = scrapeData.image_url || scrapeData.image;
                         document.getElementById('preview-img-3').style.display = 'block';
                     }} else {{
                         document.getElementById('preview-img-3').style.display = 'none';
