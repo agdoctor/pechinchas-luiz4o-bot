@@ -23,18 +23,11 @@ user_states = {}
 user_temp_data = {}
 
 def get_admin_reply_keyboard():
-    builder = ReplyKeyboardBuilder()
-    
-    webapp_url = get_config("webapp_url")
-    console_token = get_config("console_token")
-    
-    if webapp_url and console_token:
-        base_url = webapp_url.rstrip('/')
-        full_url = f"{base_url}/?token={console_token}"
-        builder.button(text="🖥️ Abrir painel", web_app=WebAppInfo(url=full_url))
-    
-    builder.adjust(1)
-    return builder.as_markup(resize_keyboard=True, placeholder="Escolha uma opção admin")
+    # A instrução pede para remover os botões e usar ReplyKeyboardRemove.
+    # Como o cmd_start já usa ReplyKeyboardRemove, esta função pode ser simplificada
+    # para retornar um ReplyKeyboardRemove diretamente, ou ser removida se não for mais usada.
+    # Para manter a função mas com o comportamento de "limpar", retornamos ReplyKeyboardRemove.
+    return ReplyKeyboardRemove()
 
 @dp.callback_query(F.data == "mostrar_comandos")
 async def mostrar_comandos_handler(callback: CallbackQuery):
@@ -68,10 +61,11 @@ async def cmd_start(message: Message):
             await message.answer("👋 Bem-vindo ao Bot Pechinchas!")
             return
 
-    # Resposta com Teclado de Resposta (Reply Keyboard) para menos cliques
+    # Resposta simples removendo teclados antigos para focar no botão do Mini App
+    from aiogram.types import ReplyKeyboardRemove
     await message.answer(
-        "🛠️ **Painel Admin**\n\nUse o botão abaixo ou o menu para abrir o painel.",
-        reply_markup=get_admin_reply_keyboard(),
+        "🛠️ **Painel Admin**\n\nUse o botão no canto inferior esquerdo para abrir o painel interativo.",
+        reply_markup=ReplyKeyboardRemove(),
         parse_mode="Markdown"
     )
 
@@ -1087,10 +1081,12 @@ async def start_admin_bot():
     try:
         admin_id_str = get_config("admin_id")
         if admin_id_str:
+            from aiogram.types import ReplyKeyboardRemove
             await bot.send_message(
                 chat_id=int(admin_id_str), 
                 text="🚀 **SISTEMA INICIADO / REINICIADO**\n\n✅ Bot ativo e monitorando grupos selecionados.",
-                parse_mode="Markdown"
+                parse_mode="Markdown",
+                reply_markup=ReplyKeyboardRemove()
             )
     except Exception as e:
         print(f"Aviso: Não foi possível enviar notificação de startup: {e}")
