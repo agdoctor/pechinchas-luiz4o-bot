@@ -326,8 +326,11 @@ async def handle_index(request):
                 const input = document.getElementById('set-whatsapp_destination');
                 if(input) {{
                     input.value = id;
-                    Telegram.WebApp.showScanQrPopup({{ text: "ID Selecionado: " + id }});
-                    setTimeout(() => Telegram.WebApp.closeScanQrPopup(), 1000);
+                    if(window.Telegram && window.Telegram.WebApp) {{
+                        Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+                        input.style.backgroundColor = '#1a271c';
+                        setTimeout(() => input.style.backgroundColor = 'var(--bg-main)', 1000);
+                    }}
                 }}
             }}
             function loadWatermark() {{
