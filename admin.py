@@ -142,6 +142,7 @@ async def cmd_statusmonitor(message: Message):
     status_msg = await message.answer("🔍 Consultando diálogos do Userbot...")
     
     try:
+        from monitor import monitored_ids_cache
         dialogs = await telethon_client.get_dialogs(limit=50)
         canais_db = database.get_canais()
         
@@ -156,10 +157,14 @@ async def cmd_statusmonitor(message: Message):
         for d in dialogs:
             if d.is_channel:
                 username = getattr(d.entity, 'username', 'N/A')
-                is_monitored = "⭐" if (username and username.lower() in [c.lower() for c in canais_db]) else ""
-                texto += f"- {d.name} (@{username}) {is_monitored}\n"
+                chat_id = d.entity.id
+                
+                # Verifica se o ID ou Username está no monitoramento
+                is_monitored = "⭐" if (chat_id in monitored_ids_cache or (username and username.lower() in [c.lower() for c in canais_db])) else ""
+                
+                texto += f"- {d.name} (@{username}) `[ID: {chat_id}]` {is_monitored}\n"
                 found_count += 1
-                if found_count >= 15: break
+                if found_count >= 20: break
                 
         await status_msg.edit_text(texto, parse_mode="Markdown")
     except Exception as e:

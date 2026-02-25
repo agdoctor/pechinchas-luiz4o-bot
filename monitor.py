@@ -108,6 +108,27 @@ async def worker_queue():
             print(f"Erro no worker de fila: {e}")
             await asyncio.sleep(5)
 
+# Cache global para IDs dos canais monitorados
+monitored_ids_cache = {}
+
+async def resolve_monitored_channels():
+    """Resolve os IDs de todos os canais no banco de dados para o cache."""
+    global monitored_ids_cache
+    source_channels = get_canais()
+    new_cache = {}
+    print(f"🔍 Customizando cache de IDs para {len(source_channels)} canais...")
+    
+    for channel in source_channels:
+        try:
+            channel_name = normalize_channel(channel)
+            entity = await client.get_entity(channel_name)
+            new_cache[entity.id] = channel_name
+            print(f"✅ ID Resolvido: @{channel_name} -> {entity.id}")
+        except Exception as e:
+            print(f"⚠️ Não foi possível resolver ID para @{channel}: {e}")
+            
+    monitored_ids_cache = new_cache
+
 async def ensure_joined_channels():
     """Garante que o Userbot está participando de todos os canais monitorados."""
     source_channels = get_canais()
@@ -127,6 +148,9 @@ async def ensure_joined_channels():
                 print(f"ℹ️ Userbot já participa do canal: {channel}")
             else:
                 print(f"⚠️ Erro ao entrar no canal {channel}: {e}")
+    
+    # Após entrar, resolvemos os IDs para o cache
+    await resolve_monitored_channels()
 
 async def start_monitoring():
     source_channels = get_canais()
@@ -168,31 +192,32 @@ async def start_monitoring():
             
             # Identificadores possíveis: @username ou ID numérico (como string ou int)
             chat = await event.get_chat()
-            # Identificadores possíveis: @username ou ID numérico (como string ou int)
-            chat = await event.get_chat()
+            chat_title = getattr(chat, 'title', 'Sem Título')
             chat_username = getattr(chat, 'username', 'N/A')
-            chat_id = str(event.chat_id)
+            chat_id = event.chat_id
             
             # LOG DE DEBUG: Ver todas as mensagens que chegam
-            print(f"DEBUG: Mensagem recebida de @{chat_username} (ID: {chat_id})")
+            print(f"DEBUG: Mensagem recebida de '{chat_title}' (@{chat_username}) [ID: {chat_id}]")
             
             is_monitored = False
             
-            # Normaliza a lista de canais do banco para comparação
-            monitored_list = [normalize_channel(c).lower() for c in source_channels]
-            
-            if chat_username and chat_username.lower() in monitored_list:
+            # Check por ID (mais confiável)
+            if chat_id in monitored_ids_cache:
                 is_monitored = True
-            elif chat_id in monitored_list:
-                is_monitored = True
+            else:
+                # Fallback por Username (caso o cache esteja desatualizado)
+                monitored_list = [normalize_channel(c).lower() for c in get_canais()]
+                if chat_username and chat_username.lower() in monitored_list:
+                    is_monitored = True
+                    # Aproveita para atualizar o cache
+                    monitored_ids_cache[chat_id] = chat_username.lower()
+                elif str(chat_id) in monitored_list:
+                    is_monitored = True
                 
             if not is_monitored:
-                # LOG DE DEBUG: Mensagem de canal não monitorado
-                if chat_username != 'N/A' or chat_id:
-                    print(f"DEBUG: Canal @{chat_username} (ID: {chat_id}) não está na lista de monitoramento.")
                 return
 
-            print(f"🎯 MENSAGEM DE CANAL MONITORADO: @{chat_username} (ID: {chat_id})")
+            print(f"🎯 MENSAGEM DE CANAL MONITORADO: '{chat_title}' (@{chat_username}) [ID: {chat_id}]")
 
             
 
