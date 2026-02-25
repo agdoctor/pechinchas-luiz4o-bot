@@ -166,17 +166,31 @@ async def start_monitoring():
     asyncio.create_task(worker_queue())
     
     print("⏳ Conectando o Userbot ao Telegram...")
-    await client.connect()
+    try:
+        # Tenta conectar com timeout para não travar o loop se houver problema de rede/proxy
+        await asyncio.wait_for(client.connect(), timeout=30)
+    except asyncio.TimeoutError:
+        print("⚠️ Erro: Timeout ao conectar ao Telegram. Verifique sua conexão.")
+        return
+    except Exception as e:
+        print(f"⚠️ Erro ao conectar ao Telegram: {e}")
+        return
     
-    if not await client.is_user_authorized():
-        print("\n" + "!"*60)
-        print("❌ ERRO FATAL: O Userbot não está autorizado ou a sessão foi revogada!")
-        print("💡 Motivo Provável: Conflito de IPs ou StringSession expirada.")
-        print("🛠️ RESOLUÇÃO:")
-        print("1. Rode 'python get_string.py' localmente para gerar uma nova sessão.")
-        print("2. Atualize a variável TELEGRAM_STRING_SESSION na Square Cloud.")
-        print("3. Reinicie o bot e NÃO rode o bot localmente enquanto ele estiver na nuvem.")
-        print("!"*60 + "\n")
+    try:
+        if not await client.is_user_authorized():
+            print("\n" + "!"*60)
+            print("❌ ERRO FATAL: O Userbot não está autorizado ou a sessão foi revogada!")
+            print("💡 Motivo Provável: Conflito de IPs ou StringSession expirada.")
+            print("🛠️ RESOLUÇÃO:")
+            print("1. Rode 'python get_string.py' localmente para gerar uma nova sessão.")
+            print("2. Atualize a variável TELEGRAM_STRING_SESSION na Square Cloud.")
+            print("3. Reinicie o bot e NÃO rode o bot localmente enquanto ele estiver na nuvem.")
+            print("!"*60 + "\n")
+            return
+    except Exception as e:
+        print(f"⚠️ Erro ao verificar autorização: {e}")
+        if "simultaneously" in str(e).lower():
+            print("🚨 DETECTADO CONFLITO DE SESSÃO: Você está rodando o bot em dois lugares ao mesmo tempo!")
         return
 
     print("✅ Userbot conectado e autorizado!")

@@ -10,33 +10,43 @@ if sys.stdout.encoding.lower() != 'utf-8':
 class LoggerWriter:
     def __init__(self, filename):
         self.terminal = sys.stdout
-        self.log = open(filename, "a", encoding="utf-8")
+        self.log_filename = filename
         self.at_start_of_line = True
+        # Abre o log apenas quando necessário para evitar travas de escrita se o disco estiver lento
+        self._check_file()
+
+    def _check_file(self):
+        try:
+            with open(self.log_filename, "a", encoding="utf-8") as f:
+                pass
+        except: pass
 
     def write(self, message):
         if not message: return
         from datetime import datetime, timedelta, timezone
         
-        lines = message.splitlines(keepends=True)
-        for line in lines:
-            if self.at_start_of_line and line.strip():
-                # Forçar UTC-3 (Brasil) indepedente de onde o bot rode
-                now = (datetime.now(timezone.utc) - timedelta(hours=3)).strftime("[%d/%m %H:%M:%S] ")
-                self.terminal.write(now)
-                self.log.write(now)
-                self.at_start_of_line = False
+        try:
+            timestamp = (datetime.now(timezone.utc) - timedelta(hours=3)).strftime("[%d/%m %H:%M:%S] ")
             
-            self.terminal.write(line)
-            self.log.write(line)
-            
-            if line.endswith('\n'):
-                self.at_start_of_line = True
-                
-        self.log.flush()
+            output = ""
+            lines = message.splitlines(keepends=True)
+            for line in lines:
+                if self.at_start_of_line and line.strip():
+                    output += timestamp
+                    self.at_start_of_line = False
+                output += line
+                if line.endswith('\n'):
+                    self.at_start_of_line = True
+
+            self.terminal.write(output)
+            # Escrita no arquivo de forma mais eficiente
+            with open(self.log_filename, "a", encoding="utf-8") as f:
+                f.write(output)
+        except:
+            self.terminal.write(message)
 
     def flush(self):
         if hasattr(self.terminal, "flush"): self.terminal.flush()
-        self.log.flush()
 
 sys.stdout = LoggerWriter("bot.log")
 sys.stderr = sys.stdout
@@ -48,13 +58,13 @@ async def run_task_with_retry(name, coro_func, delay=5):
             print(f"🚀 Iniciando processo: {name}")
             await coro_func()
             print(f"ℹ️ Processo {name} finalizado voluntariamente.")
-            break # Se a tarefa terminar normalmente, para o loop
+            break 
         except asyncio.CancelledError:
-            print(f"ℹ️ Processo {name} cancelado.")
             break
         except Exception as e:
             print(f"⚠️ Erro no processo {name}: {e}")
-            print(f"🔄 Reiniciando {name} em {delay} segundos...")
+            import traceback
+            traceback.print_exc()
             await asyncio.sleep(delay)
 
 async def main():
@@ -62,22 +72,31 @@ async def main():
     print("Bot Pechinchas do Luiz4o - Sistema de Monitoramento + Controle")
     print("="*60)
     
-    # Criamos as tarefas de forma que uma não derrube a outra
+    # 1. Garante que o banco de dados está pronto
+    from database import init_db
+    init_db()
+
+    # 2. Inicia o Dashboard Web PRIMEIRO para garantir que a porta 8080 seja vinculada antes do bot
+    # Isso evita os erros 408/502 caso o bot demore pra iniciar ou trave no login.
+    dashboard_task = asyncio.create_task(run_task_with_retry("Dashboard Web", start_web_server))
+    
+    # Pequeno delay para o Dashboard bindar a porta
+    await asyncio.sleep(2)
+
+    # 3. Inicia as demais tarefas em background
     tasks = [
+        dashboard_task,
         asyncio.create_task(run_task_with_retry("Monitoramento", start_monitoring)),
-        asyncio.create_task(run_task_with_retry("Bot Admin", start_admin_bot)),
-        asyncio.create_task(run_task_with_retry("Dashboard Web", start_web_server))
+        asyncio.create_task(run_task_with_retry("Bot Admin", start_admin_bot))
     ]
     
     try:
-        # Aguarda indefinidamente enquanto as tarefas rodam
-        await asyncio.gather(*tasks)
+         await asyncio.gather(*tasks)
     except KeyboardInterrupt:
         print("\nDesligando sistema...")
     finally:
         for t in tasks:
-            if not t.done():
-                t.cancel()
+            if not t.done(): t.cancel()
         await asyncio.gather(*tasks, return_exceptions=True)
 
 if __name__ == "__main__":
