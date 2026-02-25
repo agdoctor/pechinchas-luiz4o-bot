@@ -830,11 +830,18 @@ async def handle_restart_api(request):
     if not await check_token(request): return web.json_response({"error": "Unauthorized"}, status=403)
     print("🔄 Reinicialização do Bot solicitada via Dashboard...")
     sys.stdout.flush()
-    # Força a saída do processo após 2 segundos para dar tempo do dashboard receber o OK
-    def terminate():
-        print("💀 Encerrando processo para reinício automático...")
-        os._exit(1) # Saída com erro costuma forçar o restart em plataformas como SquareCloud
-    asyncio.get_event_loop().call_later(2.0, terminate)
+    
+    def restart_process():
+        print("💀 Encerrando processo e iniciando um novo...")
+        sys.stdout.flush()
+        try:
+            # Substitui o processo atual por um novo processo python executando o mesmo script
+            os.execv(sys.executable, ['python'] + sys.argv)
+        except Exception as e:
+            print(f"❌ Falha ao tentar reiniciar o processo: {e}")
+            os._exit(1)
+
+    asyncio.get_event_loop().call_later(2.0, restart_process)
     return web.json_response({"success": True, "message": "Bot reiniciando..."})
 
 async def handle_canais_api(request):
