@@ -9,7 +9,7 @@ from config import API_ID, API_HASH, TARGET_CHANNEL
 from database import get_canais, get_keywords, get_config, check_duplicate, add_to_history, get_negative_keywords, normalize_channel
 
 from rewriter import reescrever_promocao
-from links import process_and_replace_links
+from links import process_and_replace_links, extract_urls
 from publisher import publish_deal, bot
 from watermark import apply_watermark
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, FSInputFile
@@ -467,7 +467,7 @@ async def start_monitoring():
             primeiro_link_produto = None
             all_source_urls = extract_urls(mensagem_texto) + original_button_links
             if all_source_urls:
-                from links import expand_url
+                from links import expand_url, extract_urls
                 # Pega o primeiro link que pareça de uma loja
                 for l in all_source_urls:
                     if any(store in l.lower() for store in ["amazon", "mercadolivre", "shopee", "magazineluiza", "casasbahia"]):
