@@ -9,7 +9,7 @@ from config import API_ID, API_HASH, TARGET_CHANNEL
 from database import get_canais, get_keywords, get_config, check_duplicate, add_to_history, get_negative_keywords, normalize_channel
 
 from rewriter import reescrever_promocao
-from links import process_and_replace_links, extract_urls
+from links import process_and_replace_links, extract_urls, expand_url
 from publisher import publish_deal, bot
 from watermark import apply_watermark
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, FSInputFile
@@ -467,7 +467,6 @@ async def start_monitoring():
             primeiro_link_produto = None
             all_source_urls = extract_urls(mensagem_texto) + original_button_links
             if all_source_urls:
-                from links import expand_url, extract_urls
                 # Pega o primeiro link que pareça de uma loja
                 for l in all_source_urls:
                     if any(store in l.lower() for store in ["amazon", "mercadolivre", "shopee", "magazineluiza", "casasbahia"]):
@@ -513,7 +512,6 @@ async def start_monitoring():
                 texto_para_processar += f"\n{links_str}"
                 print(f"➕ {len(original_button_links)} links de botões adicionados ao texto para processamento.")
 
-            from links import process_and_replace_links
             texto_com_placeholders, placeholder_map = await process_and_replace_links(texto_para_processar)
             print(f"✅ {len(placeholder_map)} links encontrados no total.")
 
