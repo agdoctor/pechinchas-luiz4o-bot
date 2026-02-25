@@ -35,7 +35,8 @@ async def mostrar_comandos_handler(callback: CallbackQuery):
         "🤖 **Comandos Ativos do Bot:**\n\n"
         "🔹 `/admin` - Abre o painel principal interativo\n"
         "🔹 `/enviar` - Atalho para enviar uma oferta no canal\n"
-        "🔹 `/log` - Recebe o arquivo `bot.log` com logs do terminal\n"
+        "🔹 `/log` - Recebe o arquivo `bot.log` completo\n"
+        "🔹 `/ultimoslogs` - Vê as últimas 20 linhas de log no chat\n"
         "🔹 `/meuid` - Retorna o seu ID numérico do Telegram\n"
     )
     builder = InlineKeyboardBuilder()
@@ -101,6 +102,27 @@ async def cmd_log(message: Message):
         await message.answer_document(document=log_file, caption="📄 Arquivo de log atual do bot.")
     except Exception as e:
         await message.answer(f"❌ Erro ao enviar log: {e}")
+
+@dp.message(Command("ultimoslogs"))
+async def cmd_ultimoslogs(message: Message):
+    if not is_admin(message.from_user.id):
+        return
+        
+    log_path = "bot.log"
+    if not os.path.exists(log_path):
+        await message.answer("⚠️ Nenhum arquivo de log encontrado.")
+        return
+        
+    try:
+        with open(log_path, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+            last_lines = lines[-25:] # Pega as últimas 25 linhas pra garantir um bom contexto
+            texto_log = "".join(last_lines)
+            
+        # Escapar caracteres HTML básicos se necessário, ou usar bloco de código
+        await message.answer(f"📄 **Últimos Logs:**\n\n<code>{texto_log[-4000:]}</code>", parse_mode="HTML")
+    except Exception as e:
+        await message.answer(f"❌ Erro ao ler logs: {e}")
 
 @dp.message(Command("testali"))
 async def cmd_test_ali(message: Message):
