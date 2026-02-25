@@ -235,6 +235,36 @@ async def cmd_waid(message: Message):
             f"Você pode usar esse ID na configuração `whatsapp_destination` do Painel Admin."
         )
 
+@dp.message(Command("wagroups"))
+async def cmd_wagroups(message: Message):
+    if not is_admin(message.from_user.id):
+        return
+    
+    await message.answer("🔍 Buscando lista de grupos no WhatsApp...")
+    
+    from whatsapp_publisher import list_whatsapp_groups
+    result = list_whatsapp_groups()
+    
+    if "error" in result:
+        await message.answer(f"❌ Erro ao buscar grupos: {result['error']}\n\nVerifique se a Green-API está conectada.")
+        return
+        
+    groups = result.get("groups", [])
+    if not groups:
+        await message.answer("ℹ️ Nenhum grupo encontrado na conta Green-API.")
+        return
+        
+    texto = "📋 **Seus Grupos de WhatsApp:**\n\n"
+    for g in groups:
+        name = g.get("name") or g.get("contactName") or "Sem Nome"
+        gid = g.get("id")
+        texto += f"👥 **{name}**\nID: `{gid}`\n\n"
+        
+    if len(texto) > 4000:
+        texto = texto[:3900] + "\n\n...(Lista muito longa para o Telegram)"
+        
+    await message.answer(texto)
+
 @dp.message(Command("testali"))
 async def cmd_test_ali(message: Message):
     if not is_admin(message.from_user.id):

@@ -134,7 +134,7 @@ def get_whatsapp_group_info(invite_link: str):
     
     instance_id = (get_config("green_api_instance_id") or GREEN_API_INSTANCE_ID or "").strip()
     # Garante que o instance_id tenha apenas os números
-    instance_id_clean = instance_id.replace("waInstance", "")
+    instance_id_clean = "".join(filter(str.isdigit, instance_id))
     token = (get_config("green_api_token") or GREEN_API_TOKEN or "").strip()
     host = (get_config("green_api_host") or GREEN_API_HOST or "api.green-api.com").strip()
 
@@ -157,7 +157,36 @@ def get_whatsapp_group_info(invite_link: str):
         response = requests.post(url, headers=headers, data=json.dumps(payload), timeout=20)
         if response.status_code == 200:
             return response.json()
+        elif response.status_code == 403:
+            return {"error": "Erro Green-API (403): O link pode ser inválido ou o método não é suportado pelo seu plano ( Tariff DEVELOPER)."}
         else:
             return {"error": f"Erro Green-API ({response.status_code}): {response.text}"}
     except Exception as e:
-        return {"error": str(e)}
+        return {"error": f"Erro de conexão: {str(e)}"}
+
+def list_whatsapp_groups():
+    """Retorna uma lista de grupos que a conta Green-API participa."""
+    from database import get_config
+    
+    instance_id = (get_config("green_api_instance_id") or GREEN_API_INSTANCE_ID or "").strip()
+    instance_id_clean = "".join(filter(str.isdigit, instance_id))
+    token = (get_config("green_api_token") or GREEN_API_TOKEN or "").strip()
+    host = (get_config("green_api_host") or GREEN_API_HOST or "api.green-api.com").strip()
+
+    if not instance_id_clean or not token:
+        return {"error": "Faltam credenciais da Green-API."}
+
+    host_clean = host.replace("https://", "").replace("http://", "").strip("/")
+    url = f"https://{host_clean}/waInstance{instance_id_clean}/getContacts/{token}"
+    
+    try:
+        response = requests.get(url, timeout=20)
+        if response.status_code == 200:
+            contacts = response.json()
+            # Filtra apenas o que é grupo
+            groups = [c for c in contacts if c.get("type") == "group"]
+            return {"groups": groups}
+        else:
+            return {"error": f"Erro Green-API ({response.status_code}): {response.text}"}
+    except Exception as e:
+        return {"error": f"Erro de conexão: {str(e)}"}

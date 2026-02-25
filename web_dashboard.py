@@ -107,7 +107,9 @@ async def handle_index(request):
             <div class="nav-item" onclick="showTab('admins', this)">👥 Admins</div>
             <div class="nav-item" onclick="showTab('sorteios', this)">🎉 Sorteios</div>
             <div class="nav-item" onclick="showTab('moldura', this)">🖼️ Moldura</div>
+            <div class="nav-item" onclick="showTab('moldura', this)">🖼️ Moldura</div>
             <div class="nav-item" onclick="showTab('settings', this)">⚙️ Config</div>
+            <div class="nav-item" onclick="showTab('wa_groups', this)">💬 Grupos WPP</div>
             <div class="nav-item" onclick="showTab('logs', this)">📜 Logs</div>
         </div>
         <main>
@@ -267,6 +269,14 @@ async def handle_index(request):
                     </div>
                 </div>
             </div>
+            <div id="tab-wa_groups" class="tab-content">
+                <div class="card">
+                    <div class="card-title">💬 Grupos de WhatsApp</div>
+                    <p style="font-size:13px; color:var(--text-dim)">Estes são os grupos que sua conta Green-API participa. Clique no ID para copiar.</p>
+                    <div id="wa-groups-list">Carregando...</div>
+                    <button onclick="loadWAGroups()" style="width: 100%; margin-top: 15px;">🔄 Atualizar Lista</button>
+                </div>
+            </div>
         </main>
         <script>
             const token = "{token}";
@@ -281,7 +291,54 @@ async def handle_index(request):
                 if(t==='admins') loadAdmins(); if(t==='sorteios') loadSorteios();
                 if(t==='settings') loadSettings(); if(t==='dashboard') loadStatus();
                 if(t==='logs') fetchLogs(); if(t==='moldura') loadWatermark();
+                if(t==='wa_groups') loadWAGroups();
                 if(t==='enviar') backToStep(1);
+            }}
+
+            async function loadWAGroups() {{
+                const container = document.getElementById('wa-groups-list');
+                container.innerHTML = "Carregando grupos...";
+                try {{
+                    const r = await fetch(`/api/wa_groups?token=${{token}}`);
+                    const data = await r.json();
+                    if(data.error) {{
+                        container.innerHTML = `<span style="color:var(--error)">${{data.error}}</span>`;
+                        return;
+                    }}
+                    const groups = data.groups || [];
+                    if(groups.length === 0) {{
+                        container.innerHTML = "Nenhum grupo encontrado.";
+                        return;
+                    }}
+                    let html = '<ul>';
+                    groups.forEach(g => {{
+                        const name = g.name || g.contactName || "Sem Nome";
+                        const id = g.id;
+                        html += `
+                            <li style="flex-direction: column; align-items: flex-start; gap: 4px; padding: 12px 0;">
+                                <div style="font-weight: bold; font-size: 15px;">${{name}}</div>
+                                <div style="font-family: monospace; color: var(--accent); cursor: pointer; font-size: 13px;" onclick="copyToClipboard('${{id}}')">
+                                    ${{id}} 📋
+                                </div>
+                            </li>
+                        `;
+                    }});
+                    html += '</ul>';
+                    container.innerHTML = html;
+                }} catch(e) {{
+                    container.innerHTML = "Erro ao carregar.";
+                }}
+            }}
+
+            function copyToClipboard(text) {{
+                const el = document.createElement('textarea');
+                el.value = text;
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand('copy');
+                document.body.removeChild(el);
+                Telegram.WebApp.showScanQrPopup({{ text: "Copiado: " + text }});
+                setTimeout(() => Telegram.WebApp.closeScanQrPopup(), 1000);
             }}
             function loadWatermark() {{
                 const img = document.getElementById('wm-current-img');
@@ -803,6 +860,15 @@ async def handle_scrape(request):
     except Exception as e:
         return web.json_response({"error": str(e)}, status=500)
 
+async def handle_wa_groups(request):
+    if not await check_token(request): return web.json_response({"error": "Unauthorized"}, status=403)
+    try:
+        from whatsapp_publisher import list_whatsapp_groups
+        result = list_whatsapp_groups()
+        return web.json_response(result)
+    except Exception as e:
+        return web.json_response({"error": str(e)}, status=500)
+
 async def handle_generate_text(request):
     if not await check_token(request): return web.json_response({"error": "Unauthorized"}, status=403)
     try:
@@ -984,6 +1050,7 @@ async def start_web_server():
     app.router.add_post('/api/generate_text', handle_generate_text)
     app.router.add_post('/api/preview_links', handle_preview_links)
     app.router.add_post('/api/post_offer', handle_post_offer)
+    app.router.add_get('/api/wa_groups', handle_wa_groups)
     port = int(os.getenv("PORT", 8080))
     runner = web.AppRunner(app)
     await runner.setup()
