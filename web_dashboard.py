@@ -96,6 +96,23 @@ async def handle_index(request):
                 border-radius: 6px;
                 border: 1px solid #2d4a31;
             }}
+            .secret-row {{
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                width: 100%;
+            }}
+            .secret-row input {{
+                flex: 1;
+                min-width: 0;
+            }}
+            .secret-row button {{
+                padding: 8px 10px;
+                font-size: 16px;
+                flex-shrink: 0;
+                min-width: 38px;
+                border-radius: 8px;
+            }}
             /* Modal de Reinicio */
             #restart-modal {{
                 position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -297,13 +314,26 @@ async def handle_index(request):
                         <div id="store-shopee" style="padding: 16px; display:none; background: var(--bg-sec);">
                             <p style="font-size:12px; color:var(--text-dim); margin-bottom:12px;">Necessário para gerar links de afiliado e buscar título/imagem de produtos automaticamente (mesmo quando o site bloqueia o scraper).</p>
                             <label style="font-size:12px; font-weight:bold;">App ID (Shopee Open Platform):</label>
-                            <input id="aff-SHOPEE_APP_ID" placeholder="Ex: 2000000000" style="margin-bottom:10px">
+                            <div class="secret-row" style="margin-bottom:10px">
+                                <input id="aff-SHOPEE_APP_ID" placeholder="Ex: 2000000000">
+                                <button type="button" onclick="copyAff('SHOPEE_APP_ID')" title="Copiar">📋</button>
+                            </div>
                             <label style="font-size:12px; font-weight:bold;">App Secret:</label>
-                            <input id="aff-SHOPEE_APP_SECRET" type="password" placeholder="Cole aqui seu App Secret" style="margin-bottom:10px">
+                            <div class="secret-row" style="margin-bottom:10px">
+                                <input id="aff-SHOPEE_APP_SECRET" type="password" placeholder="Cole aqui seu App Secret">
+                                <button type="button" onclick="toggleAffVis('SHOPEE_APP_SECRET')" title="Mostrar/Ocultar">👁</button>
+                                <button type="button" onclick="copyAff('SHOPEE_APP_SECRET')" title="Copiar">📋</button>
+                            </div>
                             <label style="font-size:12px; font-weight:bold;">Affiliate ID (seu ID de afiliado):</label>
-                            <input id="aff-SHOPEE_AFFILIATE_ID" placeholder="Ex: 12345678" style="margin-bottom:10px">
+                            <div class="secret-row" style="margin-bottom:10px">
+                                <input id="aff-SHOPEE_AFFILIATE_ID" placeholder="Ex: 12345678">
+                                <button type="button" onclick="copyAff('SHOPEE_AFFILIATE_ID')" title="Copiar">📋</button>
+                            </div>
                             <label style="font-size:12px; font-weight:bold;">Source ID (ID da campanha/fonte):</label>
-                            <input id="aff-SHOPEE_SOURCE_ID" placeholder="Ex: python_bot" style="margin-bottom:14px">
+                            <div class="secret-row" style="margin-bottom:14px">
+                                <input id="aff-SHOPEE_SOURCE_ID" placeholder="Ex: python_bot">
+                                <button type="button" onclick="copyAff('SHOPEE_SOURCE_ID')" title="Copiar">📋</button>
+                            </div>
                             <button class="primary" onclick="saveAfiliado(['SHOPEE_APP_ID','SHOPEE_APP_SECRET','SHOPEE_AFFILIATE_ID','SHOPEE_SOURCE_ID'])" style="width:100%">💾 Salvar Shopee</button>
                         </div>
                     </div>
@@ -316,8 +346,12 @@ async def handle_index(request):
                         </div>
                         <div id="store-ml" style="padding: 16px; display:none; background: var(--bg-sec);">
                             <p style="font-size:12px; color:var(--text-dim); margin-bottom:12px;">Use o cookie de afiliado gerado pelo painel do ML para permitir a conversão de links via Stripe API.</p>
-                            <label style="font-size:12px; font-weight:bold;">Cookie de Afiliado ML (ml_affiliate_cookie):</label>
-                            <input id="aff-ML_AFFILIATE_COOKIE" placeholder="Cole aqui o valor do cookie" style="margin-bottom:14px">
+                            <label style="font-size:12px; font-weight:bold;">Cookie de Afiliado ML:</label>
+                            <div class="secret-row" style="margin-bottom:14px">
+                                <input id="aff-ML_AFFILIATE_COOKIE" type="password" placeholder="Cole aqui o valor do cookie">
+                                <button type="button" onclick="toggleAffVis('ML_AFFILIATE_COOKIE')" title="Mostrar/Ocultar">👁</button>
+                                <button type="button" onclick="copyAff('ML_AFFILIATE_COOKIE')" title="Copiar">📋</button>
+                            </div>
                             <button class="primary" onclick="saveAfiliado(['ML_AFFILIATE_COOKIE'])" style="width:100%">💾 Salvar Mercado Livre</button>
                         </div>
                     </div>
@@ -331,11 +365,21 @@ async def handle_index(request):
                         <div id="store-ali" style="padding: 16px; display:none; background: var(--bg-sec);">
                             <p style="font-size:12px; color:var(--text-dim); margin-bottom:12px;">Credenciais da Open Platform do AliExpress para conversão de links e rastreio de vendas.</p>
                             <label style="font-size:12px; font-weight:bold;">App Key:</label>
-                            <input id="aff-ALI_APP_KEY" placeholder="Ex: 123456" style="margin-bottom:10px">
+                            <div class="secret-row" style="margin-bottom:10px">
+                                <input id="aff-ALI_APP_KEY" placeholder="Ex: 123456">
+                                <button type="button" onclick="copyAff('ALI_APP_KEY')" title="Copiar">📋</button>
+                            </div>
                             <label style="font-size:12px; font-weight:bold;">App Secret:</label>
-                            <input id="aff-ALI_APP_SECRET" type="password" placeholder="Cole aqui seu App Secret" style="margin-bottom:10px">
+                            <div class="secret-row" style="margin-bottom:10px">
+                                <input id="aff-ALI_APP_SECRET" type="password" placeholder="Cole aqui seu App Secret">
+                                <button type="button" onclick="toggleAffVis('ALI_APP_SECRET')" title="Mostrar/Ocultar">👁</button>
+                                <button type="button" onclick="copyAff('ALI_APP_SECRET')" title="Copiar">📋</button>
+                            </div>
                             <label style="font-size:12px; font-weight:bold;">Tracking ID:</label>
-                            <input id="aff-ALI_TRACKING_ID" placeholder="Ex: bot_promo" style="margin-bottom:14px">
+                            <div class="secret-row" style="margin-bottom:14px">
+                                <input id="aff-ALI_TRACKING_ID" placeholder="Ex: bot_promo">
+                                <button type="button" onclick="copyAff('ALI_TRACKING_ID')" title="Copiar">📋</button>
+                            </div>
                             <button class="primary" onclick="saveAfiliado(['ALI_APP_KEY','ALI_APP_SECRET','ALI_TRACKING_ID'])" style="width:100%">💾 Salvar AliExpress</button>
                         </div>
                     </div>
@@ -349,7 +393,10 @@ async def handle_index(request):
                         <div id="store-amazon" style="padding: 16px; display:none; background: var(--bg-sec);">
                             <p style="font-size:12px; color:var(--text-dim); margin-bottom:12px;">Sua tag de afiliado Amazon Associates é o único dado necessário para rastrear vendas de links da Amazon.</p>
                             <label style="font-size:12px; font-weight:bold;">Sua Tag de Afiliado:</label>
-                            <input id="aff-AMAZON_TAG" placeholder="Ex: seusite-20" style="margin-bottom:14px">
+                            <div class="secret-row" style="margin-bottom:14px">
+                                <input id="aff-AMAZON_TAG" placeholder="Ex: seusite-20">
+                                <button type="button" onclick="copyAff('AMAZON_TAG')" title="Copiar">📋</button>
+                            </div>
                             <button class="primary" onclick="saveAfiliado(['AMAZON_TAG'])" style="width:100%">💾 Salvar Amazon</button>
                         </div>
                     </div>
@@ -809,6 +856,20 @@ async def handle_index(request):
                     el.style.display = 'none';
                     icon.textContent = '▼';
                 }}
+            }}
+            function toggleAffVis(key) {{
+                const input = document.getElementById('aff-' + key);
+                if (!input) return;
+                input.type = input.type === 'password' ? 'text' : 'password';
+            }}
+            function copyAff(key) {{
+                const input = document.getElementById('aff-' + key);
+                if (!input || !input.value) return;
+                navigator.clipboard.writeText(input.value).then(() => {{
+                    if (window.Telegram && window.Telegram.WebApp) {{
+                        Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+                    }}
+                }});
             }}
             async function loadAfiliados() {{
                 const keys = ['SHOPEE_APP_ID', 'SHOPEE_APP_SECRET', 'SHOPEE_AFFILIATE_ID', 'SHOPEE_SOURCE_ID',
