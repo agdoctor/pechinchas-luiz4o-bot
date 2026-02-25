@@ -188,9 +188,12 @@ async def start_monitoring():
             print("!"*60 + "\n")
             return
     except Exception as e:
+        err_msg = str(e).lower()
         print(f"⚠️ Erro ao verificar autorização: {e}")
-        if "simultaneously" in str(e).lower():
-            print("🚨 DETECTADO CONFLITO DE SESSÃO: Você está rodando o bot em dois lugares ao mesmo tempo!")
+        if "simultaneously" in err_msg:
+            print("🚨 CONFLITO DE SESSÃO DETECTADO!")
+            print("Aguardando 60 segundos antes de tentar novamente para evitar bloqueio...")
+            await asyncio.sleep(60)
         return
 
     print("✅ Userbot conectado e autorizado!")
