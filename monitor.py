@@ -515,7 +515,34 @@ async def start_monitoring():
 
             from links import process_and_replace_links
             texto_com_placeholders, placeholder_map = await process_and_replace_links(texto_para_processar)
-            print(f"✅ {len(placeholder_map)} links processados.")
+            print(f"✅ {len(placeholder_map)} links encontrados no total.")
+
+            # --- FILTRO DE QUALIDADE: Validar se há links de compra reais ---
+            # Remove links do tipo YouTube ou Telegram de serem considerados "compra"
+            valid_buy_links = {
+                p: url for p, url in placeholder_map.items() 
+                if url and not any(content in url.lower() for content in ["youtube.com", "youtu.be", "t.me", "chat.whatsapp.com"])
+            }
+            
+            if not valid_buy_links:
+                print("⏭️ Ignorado: Nenhum link de COMPRA válido encontrado (Apenas links de conteúdo ou vazios).")
+                # Se baixou mídia, limpa
+                if media_path and os.path.exists(media_path):
+                    os.remove(media_path)
+                return
+            
+            # --- FILTRO ADICIONAL: Palavras de "Conteúdo" sem indicação de oferta ---
+            palavras_filtro_conteudo = ["análise completa", "testei o", "vídeo novo", "inscreva-se", "meu canal"]
+            if any(p in mensagem_texto.lower() for p in palavras_filtro_conteudo) and len(valid_buy_links) < 1:
+                # Caso extremo onde o link de compra é camuflado mas o texto é claramente um ad de vídeo
+                print("⏭️ Ignorado: Texto identificado como promoção de conteúdo/vídeo.")
+                if media_path and os.path.exists(media_path):
+                    os.remove(media_path)
+                return
+
+            print(f"🛍️ {len(valid_buy_links)} links de compra reais identificados. Prosseguindo...")
+
+
 
             
             # --- FASE 2: Reescrever Texto com Gemini ---
