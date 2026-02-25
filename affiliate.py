@@ -254,7 +254,7 @@ async def convert_aliexpress_to_affiliate(original_url: str) -> str:
     return get_fallback_url(clean_url)
 
 async def shorten_url_tiny(long_url: str) -> str:
-    \"\"\"Encurtador de URL via TinyURL público.\"\"\"
+    """Encurtador de URL via TinyURL público."""
     import urllib.parse
     try:
         async with httpx.AsyncClient(timeout=5.0) as client:
@@ -267,10 +267,10 @@ async def shorten_url_tiny(long_url: str) -> str:
     return long_url
 
 async def convert_shopee_to_affiliate(original_url: str) -> str:
-    \"\"\"
+    """
     Converte um link da Shopee para link de afiliado usando o formato Universal Link.
     Como não temos API, montamos a URL com os parâmetros de tracking do usuário e a encurtamos.
-    \"\"\"
+    """
     import config
     SHOPEE_AFFILIATE_ID = getattr(config, 'SHOPEE_AFFILIATE_ID', None)
     SHOPEE_SOURCE_ID = getattr(config, 'SHOPEE_SOURCE_ID', None)
