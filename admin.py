@@ -37,6 +37,7 @@ async def mostrar_comandos_handler(callback: CallbackQuery):
         "🔹 `/enviar` - Atalho para enviar uma oferta no canal\n"
         "🔹 `/log` - Recebe o arquivo `bot.log` completo\n"
         "🔹 `/ultimoslogs` - Vê as últimas 20 linhas de log no chat\n"
+        "🔹 `/statusmonitor` - Verifica se o Userbot está online e em quais canais\n"
         "🔹 `/meuid` - Retorna o seu ID numérico do Telegram\n"
     )
     builder = InlineKeyboardBuilder()
@@ -123,6 +124,46 @@ async def cmd_ultimoslogs(message: Message):
         await message.answer(f"📄 **Últimos Logs:**\n\n<code>{texto_log[-4000:]}</code>", parse_mode="HTML")
     except Exception as e:
         await message.answer(f"❌ Erro ao ler logs: {e}")
+
+@dp.message(Command("statusmonitor"))
+async def cmd_statusmonitor(message: Message):
+    if not is_admin(message.from_user.id):
+        return
+        
+    from monitor import client as telethon_client
+    if not telethon_client.is_connected():
+        await message.answer("🔄 Conectando ao Userbot...")
+        try:
+            await telethon_client.connect()
+        except Exception as e:
+            await message.answer(f"❌ Falha ao conectar: {e}")
+            return
+
+    status_msg = await message.answer("🔍 Consultando diálogos do Userbot...")
+    
+    try:
+        dialogs = await telethon_client.get_dialogs(limit=50)
+        canais_db = database.get_canais()
+        
+        texto = "📡 **Status do Monitoramento:**\n\n"
+        texto += f"✅ **Userbot Conectado!**\n\n"
+        texto += "**Canais no Banco de Dados:**\n"
+        for c in canais_db:
+            texto += f"- `{c}`\n"
+            
+        texto += "\n**Diálogos Recentes do Userbot:**\n"
+        found_count = 0
+        for d in dialogs:
+            if d.is_channel:
+                username = getattr(d.entity, 'username', 'N/A')
+                is_monitored = "⭐" if (username and username.lower() in [c.lower() for c in canais_db]) else ""
+                texto += f"- {d.name} (@{username}) {is_monitored}\n"
+                found_count += 1
+                if found_count >= 15: break
+                
+        await status_msg.edit_text(texto, parse_mode="Markdown")
+    except Exception as e:
+        await status_msg.edit_text(f"❌ Erro ao buscar status: {e}")
 
 @dp.message(Command("testali"))
 async def cmd_test_ali(message: Message):
