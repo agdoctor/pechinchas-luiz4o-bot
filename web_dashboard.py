@@ -761,14 +761,14 @@ async def handle_index(request):
                                 : x.t === 'bool' ? `
                                 <div style="display:flex; flex-direction:column; gap:8px;">
                                     <label class="toggle-switch">
-                                        <input type="checkbox" id="set-${{x.k}}" \${{v.valor === 'true' ? 'checked' : ''}}>
+                                        <input type="checkbox" id="set-${{x.k}}" ${{v.valor === 'true' ? 'checked' : ''}}>
                                         Ativo
                                     </label>
                                 </div>
                                 ` : `
                                 <div style="display:flex; flex-direction:column; gap:8px;">
-                                    <input id="set-${{x.k}}" value="\${{v.valor}}">
-                                    \${{x.k === 'whatsapp_destination' ? `
+                                    <input id="set-${{x.k}}" value="${{v.valor}}">
+                                    ${{x.k === 'whatsapp_destination' ? `
                                         <button onclick="loadWAGroups()" style="font-size:12px; background:var(--bg-card); color:var(--accent); border-style:dashed;">🔍 Ver Meus Grupos</button>
                                         <div id="wa-groups-list-settings" style="display:none; max-height:200px; overflow-y:auto;"></div>
                                     ` : ''}}
