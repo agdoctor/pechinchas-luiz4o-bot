@@ -428,38 +428,52 @@ async def handle_index(request):
                         // Iniciar chamada de restart
                         api('restart', 'POST').catch(e => console.log("Reiniciando...")); 
 
-                        // Simular progresso lento (aprox 25-30 segundos para nuvem)
                         let progress = 0;
-                        const interval = setInterval(async () => {{
-                            // Progresso mais lento e linear
-                            progress += Math.random() * 3 + 1;
-                            
-                            if(progress >= 95) {{
-                                progress = 95;
-                                clearInterval(interval);
-                                
-                                // Tentar verificar se voltou antes de liberar
-                                status.textContent = "Finalizando inicialização do servidor...";
-                                
-                                let attempts = 0;
-                                const checkBack = setInterval(async () => {{
-                                    attempts++;
-                                    try {{
-                                        const d = await api('status');
-                                        if (d.canais_count !== undefined) {{
-                                            clearInterval(checkBack);
-                                            finishRestart();
-                                        }}
-                                    }} catch(e) {{
-                                        if (attempts > 15) {{ // Desiste após +15 segundos e tenta recarregar assim mesmo
-                                            clearInterval(checkBack);
-                                            finishRestart();
-                                        }}
-                                    }}
-                                }}, 2000);
+                        let isOnline = false;
+                        
+                        // Atualiza a barra de forma fluida até cerca de 90%, a menos que
+                        // já saiba que está online (isOnline = true), aí acelera para 100%
+                        const barInterval = setInterval(() => {{
+                            if (isOnline) {{
+                                progress += 20; // Avanço super rápido quando já online
+                            }} else {{
+                                // Avanço lento antes de bater 90%
+                                if (progress < 90) {{
+                                    progress += Math.random() * 2 + 1;
+                                }}
                             }}
+                            
+                            if (progress >= 100) {{
+                                progress = 100;
+                                clearInterval(barInterval);
+                                finishRestart();
+                            }}
+                            
                             bar.style.width = progress + '%';
-                        }}, 800);
+                        }}, 400);
+
+                        // Polling para checar ativamente se voltou (a cada 1 segundo)
+                        let attempts = 0;
+                        const checkInterval = setInterval(async () => {{
+                            attempts++;
+                            // Evitar checar no primeiro segundo se estiver caindo ainda
+                            if (attempts > 2) {{
+                                try {{
+                                    const d = await api('status');
+                                    if (d.canais_count !== undefined) {{
+                                        isOnline = true; // Avisa a barra para acelerar
+                                        status.textContent = "Servidor online! Concluindo...";
+                                        clearInterval(checkInterval);
+                                    }}
+                                }} catch(e) {{
+                                    // Segue offline
+                                    if(attempts > 30) {{ // Desistir após ~30s
+                                        isOnline = true;
+                                        clearInterval(checkInterval);
+                                    }}
+                                }}
+                            }}
+                        }}, 1000);
 
                         function finishRestart() {{
                             bar.style.width = '100%';
