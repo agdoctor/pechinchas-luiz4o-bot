@@ -29,8 +29,16 @@ def get_admin_reply_keyboard():
     # Para manter a função mas com o comportamento de "limpar", retornamos ReplyKeyboardRemove.
     return ReplyKeyboardRemove()
 
+@dp.message(Command("commands", "comandos"))
+async def cmd_commands(message: Message):
+    await mostrar_comandos_handler_msg(message)
+
 @dp.callback_query(F.data == "mostrar_comandos")
-async def mostrar_comandos_handler(callback: CallbackQuery):
+async def mostrar_comandos_handler_cb(callback: CallbackQuery):
+    await mostrar_comandos_handler_msg(callback.message, is_callback=True)
+    await callback.answer()
+
+async def mostrar_comandos_handler_msg(message: Message, is_callback=False):
     texto = (
         "🤖 **Comandos Ativos do Bot:**\n\n"
         "🔹 `/admin` - Abre o painel principal interativo\n"
@@ -42,8 +50,11 @@ async def mostrar_comandos_handler(callback: CallbackQuery):
     )
     builder = InlineKeyboardBuilder()
     builder.button(text="🔙 Voltar", callback_data="voltar_main")
-    await callback.message.edit_text(texto, reply_markup=builder.as_markup(), parse_mode="Markdown")
-    await callback.answer()
+    
+    if is_callback:
+        await message.edit_text(texto, reply_markup=builder.as_markup(), parse_mode="Markdown")
+    else:
+        await message.answer(texto, reply_markup=builder.as_markup(), parse_mode="Markdown")
 
 @dp.message(Command("start", "admin"))
 async def cmd_start(message: Message):
@@ -1126,8 +1137,11 @@ async def start_admin_bot():
     # Configurar menu de comandos
     await bot.set_my_commands([
         BotCommand(command="admin", description="Painel de Controle Admin"),
+        BotCommand(command="commands", description="Lista de Comandos Disponíveis"),
         BotCommand(command="enviar", description="Enviar Promoção via Link"),
-        BotCommand(command="log", description="Receber Logs do Bot"),
+        BotCommand(command="statusmonitor", description="Verificar Status do Monitoramento"),
+        BotCommand(command="ultimoslogs", description="Ver Últimas Linhas de Log"),
+        BotCommand(command="log", description="Receber Arquivo de Log Completo"),
     ])
     
     # Configurar o Botão de Menu (Canto inferior esquerdo) para abrir o Mini App
