@@ -253,11 +253,24 @@ async def convert_aliexpress_to_affiliate(original_url: str) -> str:
         
     return get_fallback_url(clean_url)
 
+async def shorten_url_tiny(long_url: str) -> str:
+    \"\"\"Encurtador de URL via TinyURL público.\"\"\"
+    import urllib.parse
+    try:
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            encoded_url = urllib.parse.quote(long_url)
+            res = await client.get(f"https://tinyurl.com/api-create.php?url={encoded_url}")
+            if res.status_code == 200 and res.text.startswith("http"):
+                return res.text
+    except Exception as e:
+        print(f"⚠️ Erro ao encurtar URL ({long_url[:30]}...): {e}")
+    return long_url
+
 async def convert_shopee_to_affiliate(original_url: str) -> str:
-    """
+    \"\"\"
     Converte um link da Shopee para link de afiliado usando o formato Universal Link.
-    Como não temos API, montamos a URL com os parâmetros de tracking do usuário.
-    """
+    Como não temos API, montamos a URL com os parâmetros de tracking do usuário e a encurtamos.
+    \"\"\"
     import config
     SHOPEE_AFFILIATE_ID = getattr(config, 'SHOPEE_AFFILIATE_ID', None)
     SHOPEE_SOURCE_ID = getattr(config, 'SHOPEE_SOURCE_ID', None)
@@ -290,8 +303,9 @@ async def convert_shopee_to_affiliate(original_url: str) -> str:
             f"https://shopee.com.br/universal-link/product/{shop_id}/{item_id}"
             f"?utm_medium=affiliates&utm_source=an_{source_id}&utm_campaign=-&utm_content={SHOPEE_AFFILIATE_ID}"
         )
-        print(f"✅ Link Shopee convertido via Universal Link: {aff_url}")
-        return aff_url
+        short_url = await shorten_url_tiny(aff_url)
+        print(f"✅ Link Shopee convertido via Universal Link e encurtado: {short_url}")
+        return short_url
         
     return clean_tracking_params(original_url)
 
