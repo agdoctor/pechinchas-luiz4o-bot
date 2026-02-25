@@ -348,6 +348,14 @@ async def menu_canais(callback: CallbackQuery):
 async def del_canal(callback: CallbackQuery):
     canal = callback.data.split("_", 1)[1]
     remove_canal(canal)
+    
+    # Atualiza o cache do monitor em tempo real
+    try:
+        from monitor import resolve_monitored_channels
+        await resolve_monitored_channels()
+    except Exception as e:
+        print(f"Erro ao atualizar cache após remoção: {e}")
+        
     await callback.answer(f"Canal {canal} removido!")
     await menu_canais(callback) # Atualiza a tela
 
@@ -648,6 +656,12 @@ async def handle_text(message: Message):
         canal = message.text.strip().replace("@", "")
         if add_canal(canal):
             await message.answer(f"✅ Canal `{canal}` adicionado à lista de monitoramento!")
+            # Atualiza o cache do monitor em tempo real
+            try:
+                from monitor import resolve_monitored_channels
+                await resolve_monitored_channels()
+            except Exception as e:
+                print(f"Erro ao atualizar cache após adição: {e}")
         else:
             await message.answer("⚠️ Este canal já está sendo monitored.")
         user_states[message.from_user.id] = None

@@ -112,22 +112,23 @@ async def worker_queue():
 monitored_ids_cache = {}
 
 async def resolve_monitored_channels():
-    """Resolve os IDs de todos os canais no banco de dados para o cache."""
+    """Resolve os IDs de todos os canais no banco de dados para o cache de monitoramento."""
     global monitored_ids_cache
     source_channels = get_canais()
     new_cache = {}
-    print(f"🔍 Customizando cache de IDs para {len(source_channels)} canais...")
+    print(f"🔍 Atualizando cache de IDs para {len(source_channels)} canais...")
     
     for channel in source_channels:
         try:
             channel_name = normalize_channel(channel)
             entity = await client.get_entity(channel_name)
-            new_cache[entity.id] = channel_name
+            new_cache[entity.id] = channel_name.lower()
             print(f"✅ ID Resolvido: @{channel_name} -> {entity.id}")
         except Exception as e:
-            print(f"⚠️ Não foi possível resolver ID para @{channel}: {e}")
+            print(f"⚠️ Não foi possível resolver ID para {channel}: {e}")
             
     monitored_ids_cache = new_cache
+    print(f"✨ Cache atualizado com {len(monitored_ids_cache)} IDs.")
 
 async def ensure_joined_channels():
     """Garante que o Userbot está participando de todos os canais monitorados."""
