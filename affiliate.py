@@ -388,20 +388,44 @@ async def get_shopee_product_info(url: str):
         print("[!] get_shopee_product_info: Credenciais da API Shopee (AppID/Secret) nao encontradas. Configure no Painel Web.")
         return None
 
-    # Extrair Item ID da URL expandida ou original
+    # --- Expandir links curtos (s.shopee.com.br, shope.ee, etc.) ---
+    working_url = url
+    if any(d in url for d in ['s.shopee', 'shope.ee', 'shopee.page.link']):
+        try:
+            async with httpx.AsyncClient(timeout=10.0, follow_redirects=True) as c:
+                r = await c.get(url)
+                working_url = str(r.url)
+                print(f"[Shopee] URL expandida: {working_url[:120]}")
+        except Exception as e:
+            print(f"[Shopee] Falha ao expandir URL curta: {e}")
+
+    # Extrair Item ID de varios formatos de URL
     item_id = None
-    # Padrao 1: /product/SHOP_ID/ITEM_ID
-    match1 = re.search(r'shopee\.com\.br/product/\d+/(\d+)', url)
-    if match1:
-        item_id = match1.group(1)
-    else:
-        # Padrao 2: -i.SHOP_ID.ITEM_ID
-        match2 = re.search(r'-i\.\d+\.(\d+)', url)
-        if match2:
-            item_id = match2.group(1)
-            
+
+    # Padrao 1: /produto-nome-i.SHOP_ID.ITEM_ID
+    m = re.search(r'-i\.(\d+)\.(\d+)', working_url)
+    if m:
+        item_id = m.group(2)
+
     if not item_id:
+        # Padrao 2: /product/SHOP_ID/ITEM_ID
+        m = re.search(r'shopee\.com\.br/[^?]+/product/(\d+)/(\d+)', working_url)
+        if not m:
+            m = re.search(r'shopee\.com\.br/product/(\d+)/(\d+)', working_url)
+        if m:
+            item_id = m.group(2)
+
+    if not item_id:
+        # Padrao 3: ?itemid=ITEM_ID no query string
+        m = re.search(r'[?&]itemid=(\d+)', working_url, re.IGNORECASE)
+        if m:
+            item_id = m.group(1)
+
+    if not item_id:
+        print(f"[Shopee API] Nao foi possivel extrair item_id da URL: {working_url[:120]}")
         return None
+
+    print(f"[Shopee API] Buscando produto item_id={item_id}")
 
     api_url = "https://open-api.affiliate.shopee.com.br/graphql"
     
@@ -432,10 +456,10 @@ async def get_shopee_product_info(url: str):
     }
 
     try:
-        print(f"Buscando metadados Shopee via API Oficial para item {item_id}...")
-        async with httpx.AsyncClient(timeout=10.0) as client:
+        print(f"[Shopee API] Enviando requisicao para item {item_id}...")
+        async with httpx.AsyncClient(timeout=15.0) as client:
             response = await client.post(api_url, headers=headers, content=body)
-            print(f"[Shopee API] Status: {response.status_code}")
+            print(f"[Shopee API] Status: {response.status_code} | Resposta: {response.text[:400]}")
             if response.status_code == 200:
                 data = response.json()
                 if "errors" in data:
@@ -448,9 +472,9 @@ async def get_shopee_product_info(url: str):
                         "image": prod.get("imageUrl")
                     }
                 else:
-                    print(f"[Shopee API] Resposta sem nodes: {str(data)[:300]}")
+                    print(f"[Shopee API] Nodes vazio. Resposta completa: {str(data)[:500]}")
             else:
-                print(f"[!] Erro API Shopee Info ({response.status_code}): {response.text[:300]}")
+                print(f"[Shopee API] Erro HTTP ({response.status_code}): {response.text[:500]}")
     except Exception as e:
         print(f"[!] Erro ao buscar info Shopee via API: {e}")
         

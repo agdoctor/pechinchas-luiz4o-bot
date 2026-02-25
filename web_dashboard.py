@@ -35,11 +35,14 @@ async def handle_index(request):
                 --bg-main: #0d1117; --bg-sec: #161b22; --bg-card: #21262d;
                 --border: #30363d; --text: #e6edf3; --text-dim: #8b949e;
                 --accent: #58a6ff; --success: #238636; --error: #da3633;
+                --theme-accent: var(--accent);
+                --theme-bg-pattern: none;
             }}
             body {{
                 background: var(--bg-main); color: var(--text);
                 font-family: sans-serif; margin: 0; padding: 0;
                 display: flex; flex-direction: column; height: 100vh; overflow: hidden;
+                background-image: var(--theme-bg-pattern);
             }}
             #navbar {{
                 display: flex; background: var(--bg-sec); border-bottom: 1px solid var(--border);
@@ -158,6 +161,10 @@ async def handle_index(request):
         </div>
         <main>
             <div id="tab-dashboard" class="tab-content active">
+                <div class="card" id="greeting-card" style="display:none; background: linear-gradient(135deg, var(--bg-card), var(--bg-sec)); border: 1px solid var(--accent); padding: 16px 20px; margin-bottom: 0;">
+                    <div style="font-size:18px; font-weight:bold; color:var(--accent)" id="greeting-title"></div>
+                    <div style="font-size:12px; color:var(--text-dim); margin-top:4px" id="greeting-sub">Bem-vindo ao painel de controle</div>
+                </div>
                 <div class="card">
                     <div class="card-title">🤖 Controle do Bot</div>
                     <div id="status-container">Carregando...</div>
@@ -285,6 +292,33 @@ async def handle_index(request):
             </div>
             <div id="tab-settings" class="tab-content">
                 <div class="card"><div class="card-title">⚙️ Geral</div><div id="settings-form"></div></div>
+                <div class="card" style="margin-top:0">
+                    <div class="card-title">🎨 Tema do Painel</div>
+                    <p style="font-size:12px; color:var(--text-dim); margin-bottom:14px">Personalize as cores e o fundo do painel. As alterações são aplicadas em tempo real.</p>
+
+                    <label style="font-size:12px; font-weight:bold; display:block; margin-bottom:6px">Nome do Grupo / Empresa (saudão no Painel):</label>
+                    <div class="secret-row" style="margin-bottom:16px">
+                        <input id="theme-nome_grupo" placeholder="Ex: Pechinchas do Luíz">
+                        <button type="button" onclick="copyAff('theme-nome_grupo')" title="Copiar">📋</button>
+                    </div>
+
+                    <label style="font-size:12px; font-weight:bold; display:block; margin-bottom:6px">Cor de Destaque (botões e links):</label>
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px">
+                        <input type="color" id="theme-accent" value="#58a6ff" oninput="applyThemePreview()" style="width:48px; height:36px; padding:2px; border-radius:8px; border:1px solid var(--border); background:var(--bg-card); cursor:pointer">
+                        <input id="theme-accent-hex" placeholder="#58a6ff" oninput="syncColorHex('accent')" style="flex:1; font-family:monospace">
+                    </div>
+
+                    <label style="font-size:12px; font-weight:bold; display:block; margin-bottom:6px">Fundo do Painel:</label>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px" id="pattern-picker">
+                        <div class="pattern-opt" data-val="none" onclick="selectPattern(this)" style="border:2px solid var(--accent); border-radius:8px; width:52px; height:40px; background:#0d1117; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:11px; color:var(--text-dim)">Sólido</div>
+                        <div class="pattern-opt" data-val="radial-gradient(circle at 20% 50%, rgba(88,166,255,0.08) 0%, transparent 60%)" onclick="selectPattern(this)" style="border:2px solid var(--border); border-radius:8px; width:52px; height:40px; background:radial-gradient(circle at 20% 50%, rgba(88,166,255,0.08) 0%, transparent 60%), #0d1117; cursor:pointer"></div>
+                        <div class="pattern-opt" data-val="repeating-linear-gradient(45deg, rgba(88,166,255,0.03) 0px, rgba(88,166,255,0.03) 1px, transparent 1px, transparent 10px)" onclick="selectPattern(this)" style="border:2px solid var(--border); border-radius:8px; width:52px; height:40px; background:repeating-linear-gradient(45deg, rgba(88,166,255,0.06) 0px, rgba(88,166,255,0.06) 1px, transparent 1px, transparent 10px), #0d1117; cursor:pointer"></div>
+                        <div class="pattern-opt" data-val="radial-gradient(circle, rgba(88,166,255,0.04) 1px, transparent 1px)" onclick="selectPattern(this)" style="border:2px solid var(--border); border-radius:8px; width:52px; height:40px; background:radial-gradient(circle, rgba(88,166,255,0.07) 1px, transparent 1px), #0d1117; background-size: auto, auto, 18px 18px; background-position: center, center, 0 0; cursor:pointer"></div>
+                        <div class="pattern-opt" data-val="linear-gradient(180deg, rgba(88,166,255,0.05) 0%, transparent 100%)" onclick="selectPattern(this)" style="border:2px solid var(--border); border-radius:8px; width:52px; height:40px; background:linear-gradient(180deg, rgba(88,166,255,0.10) 0%, transparent 100%), #0d1117; cursor:pointer"></div>
+                    </div>
+
+                    <button class="primary" onclick="saveTheme()" style="width:100%">💾 Salvar Tema</button>
+                </div>
             </div>
             <div id="tab-moldura" class="tab-content">
                 <div class="card">
@@ -530,8 +564,87 @@ async def handle_index(request):
                     document.getElementById('btn-pausa').textContent = d.pausado==='1' ? '▶️ RETOMAR BOT' : '⏸️ PAUSAR BOT';
                     document.getElementById('check-only-admins').checked = d.only_admins==='1';
                     document.getElementById('check-aprovacao').checked = d.aprovacao==='1';
+                    // Carregar saudação
+                    try {{
+                        const g = await api('settings?key=nome_grupo');
+                        const nome = g.valor || '';
+                        const card = document.getElementById('greeting-card');
+                        if (nome && card) {{
+                            document.getElementById('greeting-title').textContent = '👋 Bem-vindo, ' + nome + '!';
+                            card.style.display = 'block';
+                        }}
+                    }} catch(e) {{}}
+                    // Aplicar tema salvo
+                    loadTheme();
                 }} catch (e) {{
                     document.getElementById('status-container').innerHTML = `<p style="color:var(--error)">⚠️ Erro ao carregar status: ${{e.message}}</p>`;
+                }}
+            }}
+            async function loadTheme() {{
+                try {{
+                    const [ac, pat, nome] = await Promise.all([
+                        api('settings?key=theme_accent'),
+                        api('settings?key=theme_pattern'),
+                        api('settings?key=nome_grupo')
+                    ]);
+                    const accent = ac.valor || '#58a6ff';
+                    const pattern = pat.valor || 'none';
+                    // Aplicar ao DOM
+                    document.documentElement.style.setProperty('--accent', accent);
+                    document.body.style.backgroundImage = pattern === 'none' ? '' : pattern;
+                    // Preencher inputs do editor
+                    const colEl = document.getElementById('theme-accent');
+                    const hexEl = document.getElementById('theme-accent-hex');
+                    if (colEl) colEl.value = accent;
+                    if (hexEl) hexEl.value = accent;
+                    // Marcar pattern selecionado
+                    document.querySelectorAll('.pattern-opt').forEach(el => {{
+                        el.style.border = el.dataset.val === pattern ? '2px solid var(--accent)' : '2px solid var(--border)';
+                    }});
+                    // Preencher campo nome_grupo
+                    const nomeEl = document.getElementById('theme-nome_grupo');
+                    if (nomeEl && nome.valor) nomeEl.value = nome.valor;
+                }} catch(e) {{}}
+            }}
+            function applyThemePreview() {{
+                const c = document.getElementById('theme-accent').value;
+                document.documentElement.style.setProperty('--accent', c);
+                const hexEl = document.getElementById('theme-accent-hex');
+                if (hexEl) hexEl.value = c;
+            }}
+            function syncColorHex(type) {{
+                const hex = document.getElementById('theme-accent-hex').value.trim();
+                if (/^#[0-9a-fA-F]{{6}}$/.test(hex)) {{
+                    document.getElementById('theme-accent').value = hex;
+                    document.documentElement.style.setProperty('--accent', hex);
+                }}
+            }}
+            let _selectedPattern = 'none';
+            function selectPattern(el) {{
+                _selectedPattern = el.dataset.val;
+                document.querySelectorAll('.pattern-opt').forEach(e => {{
+                    e.style.border = '2px solid var(--border)';
+                }});
+                el.style.border = '2px solid var(--accent)';
+                document.body.style.backgroundImage = _selectedPattern === 'none' ? '' : _selectedPattern;
+            }}
+            async function saveTheme() {{
+                const accent = document.getElementById('theme-accent').value || '#58a6ff';
+                const nome = document.getElementById('theme-nome_grupo').value || '';
+                await api('settings', 'POST', {{chave: 'theme_accent', valor: accent}});
+                await api('settings', 'POST', {{chave: 'theme_pattern', valor: _selectedPattern}});
+                await api('settings', 'POST', {{chave: 'nome_grupo', valor: nome}});
+                // Atualizar saudação imediatamente
+                const card = document.getElementById('greeting-card');
+                if (nome && card) {{
+                    document.getElementById('greeting-title').textContent = '👋 Bem-vindo, ' + nome + '!';
+                    card.style.display = 'block';
+                }} else if (card) {{
+                    card.style.display = 'none';
+                }}
+                if (window.Telegram && window.Telegram.WebApp) {{
+                    Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+                    Telegram.WebApp.showAlert('✅ Tema salvo com sucesso!');
                 }}
             }}
             async function restartBot() {{
