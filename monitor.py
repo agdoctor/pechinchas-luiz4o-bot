@@ -187,13 +187,18 @@ async def start_monitoring():
                 is_monitored = True
                 
             if not is_monitored:
-                
+                # LOG DE DEBUG: Mensagem de canal não monitorado
+                if chat_username != 'N/A' or chat_id:
+                    print(f"DEBUG: Canal @{chat_username} (ID: {chat_id}) não está na lista de monitoramento.")
                 return
+
+            print(f"🎯 MENSAGEM DE CANAL MONITORADO: @{chat_username} (ID: {chat_id})")
 
             
 
             # Verifica se o bot está pausado globalmente
             if get_config("pausado") == "1":
+                print("DEBUG: Bot pausado globalmente.")
                 return
                 
             # Verifica mensagens já processadas pelo ID exato
@@ -237,9 +242,13 @@ async def start_monitoring():
             if keywords and mensagem_texto:
                 has_keyword = any(kw.lower() in mensagem_texto.lower() for kw in keywords)
                 if not has_keyword:
-                    print(f"⏭️ Ignorado: Nenhuma keyword encontrada. (Configs: {', '.join(keywords)})")
-                    print(f"📝 Texto analisado (trecho): {mensagem_texto[:100]}...")
+                    matched_none = True
+                    print(f"⏭️ Ignorado: Nenhuma keyword encontrada. Texto analisado (trecho): {mensagem_texto[:100]}...")
+                    print(f"🔍 Keywords configuradas: {', '.join(keywords)}")
                     return
+                else:
+                    found_kws = [kw for kw in keywords if kw.lower() in mensagem_texto.lower()]
+                    print(f"✅ Keywords encontradas: {', '.join(found_kws)}")
                 
             # Verifica Preço Mínimo (Se houver $ / R$ no texto)
             preco_min = float(get_config("preco_minimo") or "0")
