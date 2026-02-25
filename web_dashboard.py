@@ -109,7 +109,6 @@ async def handle_index(request):
             <div class="nav-item" onclick="showTab('moldura', this)">🖼️ Moldura</div>
             <div class="nav-item" onclick="showTab('moldura', this)">🖼️ Moldura</div>
             <div class="nav-item" onclick="showTab('settings', this)">⚙️ Config</div>
-            <div class="nav-item" onclick="showTab('wa_groups', this)">💬 Grupos WPP</div>
             <div class="nav-item" onclick="showTab('logs', this)">📜 Logs</div>
         </div>
         <main>
@@ -269,14 +268,6 @@ async def handle_index(request):
                     </div>
                 </div>
             </div>
-            <div id="tab-wa_groups" class="tab-content">
-                <div class="card">
-                    <div class="card-title">💬 Grupos de WhatsApp</div>
-                    <p style="font-size:13px; color:var(--text-dim)">Estes são os grupos que sua conta Green-API participa. Clique no ID para copiar.</p>
-                    <div id="wa-groups-list">Carregando...</div>
-                    <button onclick="loadWAGroups()" style="width: 100%; margin-top: 15px;">🔄 Atualizar Lista</button>
-                </div>
-            </div>
         </main>
         <script>
             const token = "{token}";
@@ -291,12 +282,13 @@ async def handle_index(request):
                 if(t==='admins') loadAdmins(); if(t==='sorteios') loadSorteios();
                 if(t==='settings') loadSettings(); if(t==='dashboard') loadStatus();
                 if(t==='logs') fetchLogs(); if(t==='moldura') loadWatermark();
-                if(t==='wa_groups') loadWAGroups();
                 if(t==='enviar') backToStep(1);
             }}
 
             async function loadWAGroups() {{
-                const container = document.getElementById('wa-groups-list');
+                const container = document.getElementById('wa-groups-list-settings');
+                if(!container) return;
+                container.style.display = 'block';
                 container.innerHTML = "Carregando grupos...";
                 try {{
                     const r = await fetch(`/api/wa_groups?token=${{token}}`);
@@ -310,14 +302,14 @@ async def handle_index(request):
                         container.innerHTML = "Nenhum grupo encontrado.";
                         return;
                     }}
-                    let html = '<ul>';
+                    let html = '<ul style="margin-top:10px; border:1px solid var(--border); border-radius:8px; padding:0 10px; background:var(--bg-main)">';
                     groups.forEach(g => {{
                         const name = g.name || g.contactName || "Sem Nome";
                         const id = g.id;
                         html += `
-                            <li style="flex-direction: column; align-items: flex-start; gap: 4px; padding: 12px 0;">
-                                <div style="font-weight: bold; font-size: 15px;">${{name}}</div>
-                                <div style="font-family: monospace; color: var(--accent); cursor: pointer; font-size: 13px;" onclick="copyToClipboard('${{id}}')">
+                            <li style="flex-direction: column; align-items: flex-start; gap: 4px; padding: 10px 0;">
+                                <div style="font-weight: bold; font-size: 14px;">${{name}}</div>
+                                <div style="font-family: monospace; color: var(--accent); cursor: pointer; font-size: 12px;" onclick="selectWAGroup('${{id}}')">
                                     ${{id}} 📋
                                 </div>
                             </li>
@@ -330,15 +322,13 @@ async def handle_index(request):
                 }}
             }}
 
-            function copyToClipboard(text) {{
-                const el = document.createElement('textarea');
-                el.value = text;
-                document.body.appendChild(el);
-                el.select();
-                document.execCommand('copy');
-                document.body.removeChild(el);
-                Telegram.WebApp.showScanQrPopup({{ text: "Copiado: " + text }});
-                setTimeout(() => Telegram.WebApp.closeScanQrPopup(), 1000);
+            function selectWAGroup(id) {{
+                const input = document.getElementById('set-whatsapp_destination');
+                if(input) {{
+                    input.value = id;
+                    Telegram.WebApp.showScanQrPopup({{ text: "ID Selecionado: " + id }});
+                    setTimeout(() => Telegram.WebApp.closeScanQrPopup(), 1000);
+                }}
             }}
             function loadWatermark() {{
                 const img = document.getElementById('wm-current-img');
@@ -670,7 +660,15 @@ async def handle_index(request):
                                     <small style="color:var(--text-dim);display:block;margin-bottom:5px">Preview Visual (Telegram HTML):</small>
                                     <div id="preview-content" style="white-space: pre-wrap;">${{v.valor}}</div>
                                  </div>` 
-                               : `<input id="set-${{x.k}}" value="${{v.valor}}">`
+                                : `
+                                <div style="display:flex; flex-direction:column; gap:8px;">
+                                    <input id="set-${{x.k}}" value="${{v.valor}}">
+                                    ${{x.k === 'whatsapp_destination' ? `
+                                        <button onclick="loadWAGroups()" style="font-size:12px; background:var(--bg-card); color:var(--accent); border-style:dashed;">🔍 Ver Meus Grupos</button>
+                                        <div id="wa-groups-list-settings" style="display:none; max-height:200px; overflow-y:auto;"></div>
+                                    ` : ''}}
+                                </div>
+                                `
                         }}
                         <button onclick="saveSet('${{x.k}}')" class="primary" style="margin-top:5px;width:100%">Salvar</button>
                         <hr style="border:0; border-top:1px solid var(--border); margin:15px 0;">
