@@ -426,37 +426,55 @@ async def handle_index(request):
                         modal.style.display = 'flex';
                         
                         // Iniciar chamada de restart
-                        api('restart', 'POST'); 
+                        api('restart', 'POST').catch(e => console.log("Reiniciando...")); 
 
-                        // Simular progresso
+                        // Simular progresso lento (aprox 25-30 segundos para nuvem)
                         let progress = 0;
-                        const interval = setInterval(() => {{
-                            progress += Math.random() * 15;
-                            if(progress >= 100) {{
-                                progress = 100;
+                        const interval = setInterval(async () => {
+                            // Progresso mais lento e linear
+                            progress += Math.random() * 3 + 1;
+                            
+                            if(progress >= 95) {
+                                progress = 95;
                                 clearInterval(interval);
                                 
-                                // Show success state
-                                container.style.display = 'none';
-                                check.style.display = 'block';
-                                title.textContent = "Sistema Reiniciado!";
-                                status.textContent = "Sincronização concluída com sucesso.";
+                                // Tentar verificar se voltou antes de liberar
+                                status.textContent = "Finalizando inicialização do servidor...";
                                 
-                                // Voltar ao painel
-                                setTimeout(() => {{
-                                    modal.style.display = 'none';
-                                    showTab('dashboard');
-                                    // Reset state for next time
-                                    container.style.display = 'block';
-                                    check.style.display = 'none';
-                                    bar.style.width = '0%';
-                                    title.textContent = "Reiniciando Sistema...";
-                                }}, 1500);
-                            }}
+                                let attempts = 0;
+                                const checkBack = setInterval(async () => {
+                                    attempts++;
+                                    try {
+                                        const d = await api('status');
+                                        if (d.canais_count !== undefined) {
+                                            clearInterval(checkBack);
+                                            finishRestart();
+                                        }
+                                    } catch(e) {
+                                        if (attempts > 15) { // Desiste após +15 segundos e tenta recarregar assim mesmo
+                                            clearInterval(checkBack);
+                                            finishRestart();
+                                        }
+                                    }
+                                }, 2000);
+                            }
                             bar.style.width = progress + '%';
-                        }}, 400);
-                    }}
-                }});
+                        }, 800);
+
+                        function finishRestart() {
+                            bar.style.width = '100%';
+                            container.style.display = 'none';
+                            check.style.display = 'block';
+                            title.textContent = "Sistema Online!";
+                            status.textContent = "Sincronização concluída. Recarregando...";
+                            
+                            setTimeout(() => {
+                                // Forçar recarregamento total da página para limpar cache e renovar socket/token
+                                window.location.reload();
+                            }, 2000);
+                        }
+                    }
+                });
             }}
             async function toggleOnlyAdmins() {{
                 const v = document.getElementById('check-only-admins').checked ? '1' : '0';
