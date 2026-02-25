@@ -344,13 +344,23 @@ async def start_monitoring():
             if not titulo_real or titulo_real == "Oferta Desconhecida":
                 if referencia:
                     # Se tiver link mas não tiver titulo, tenta resgatar por scraping em último caso
-                    from scraper import fetch_product_metadata
-                    try:
-                        metadata = await fetch_product_metadata(referencia)
-                        if metadata and metadata.get("title"):
-                            titulo_real = metadata["title"].strip()
-                    except Exception as e:
-                        print(f"⚠️ Erro no scraper de fallback: {e}")
+                    # Se for Shopee, tenta a API oficial primeiro para evitar block de scraper
+                    from affiliate import get_shopee_product_info
+                    shopee_info = None
+                    if "shopee.com.br" in referencia:
+                        shopee_info = await get_shopee_product_info(referencia)
+                    
+                    if shopee_info and shopee_info.get("title"):
+                        titulo_real = shopee_info["title"]
+                        print(f"✅ Titulo Shopee obtido via API: {titulo_real}")
+                    else:
+                        from scraper import fetch_product_metadata
+                        try:
+                            metadata = await fetch_product_metadata(referencia)
+                            if metadata and metadata.get("title"):
+                                titulo_real = metadata["title"].strip()
+                        except Exception as e:
+                            print(f"⚠️ Erro no scraper de fallback: {e}")
                 
             # Se ainda assim não tiver, vai pra primeira linha
             if not titulo_real or titulo_real == "Oferta Desconhecida":
@@ -476,24 +486,39 @@ async def start_monitoring():
             # Se achamos um link de produto, tentamos pegar a imagem limpa da loja
             if primeiro_link_produto:
                 print(f"🔍 Tentando buscar imagem limpa da loja: {primeiro_link_produto}")
-                from scraper import fetch_product_metadata
-                try:
-                    # Expandir se necessário para o scraper funcionar melhor
-                    expanded_for_img = await expand_url(primeiro_link_produto)
-                    metadata = await fetch_product_metadata(expanded_for_img)
-                    if metadata and metadata.get("local_image_path"):
-                        temp_clean_path = metadata["local_image_path"]
-                        print(f"📸 Imagem limpa encontrada na loja: {temp_clean_path}")
-                        
-                        # Se baixou a limpa, prioriza ela sobre a do Telegram
+                from affiliate import get_shopee_product_info
+                shopee_info = None
+                if "shopee.com.br" in primeiro_link_produto:
+                    shopee_info = await get_shopee_product_info(primeiro_link_produto)
+                
+                if shopee_info and shopee_info.get("image"):
+                    from scraper import download_image
+                    temp_clean_path = await download_image(shopee_info["image"])
+                    if temp_clean_path:
+                        print(f"📸 Imagem Shopee obtida via API: {temp_clean_path}")
                         if media_path and os.path.exists(media_path):
-                            try:
-                                os.remove(media_path)
+                            try: os.remove(media_path)
                             except: pass
                         media_path = temp_clean_path
-                        print("✨ Usando imagem original do site (limpa de logos do concorrente).")
-                except Exception as e:
-                    print(f"⚠️ Falha ao tentar buscar imagem limpa: {e}")
+                else:
+                    from scraper import fetch_product_metadata
+                    try:
+                        # Expandir se necessário para o scraper funcionar melhor
+                        expanded_for_img = await expand_url(primeiro_link_produto)
+                        metadata = await fetch_product_metadata(expanded_for_img)
+                        if metadata and metadata.get("local_image_path"):
+                            temp_clean_path = metadata["local_image_path"]
+                            print(f"📸 Imagem limpa encontrada na loja: {temp_clean_path}")
+                            
+                            # Se baixou a limpa, prioriza ela sobre a do Telegram
+                            if media_path and os.path.exists(media_path):
+                                try:
+                                    os.remove(media_path)
+                                except: pass
+                            media_path = temp_clean_path
+                            print("✨ Usando imagem original do site (limpa de logos do concorrente).")
+                    except Exception as e:
+                        print(f"⚠️ Falha ao tentar buscar imagem limpa: {e}")
 
             # Aplica a marca d'água (se houver imagem, seja do telegram ou do scraper)
             if media_path and os.path.exists(media_path):
