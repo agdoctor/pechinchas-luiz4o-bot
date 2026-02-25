@@ -41,23 +41,23 @@ Seu custo base real por cliente continua vindo da infraestrutura de estabilidade
 
 Aqui está a simulação de como seus planos se comportam na prática:
 
-### 🥉 Plano Easy (R$ 97,00/mês)
+### 🥉 Plano Easy (R$ 197,00/mês)
 *   **Direito a:** 300 Postagens/mês
-*   **Alcance:** 1 Canal Telegram + 1 Grupo WhatsApp (Ideal para Comunidades)
+*   **Alcance:** 1 Canal Telegram + 1 Comunidade WhatsApp
 *   **Seu Custo:** R$ 36,00 (Quase R$ 0 de IA, mais Servidor e API)
-*   **Seu Lucro:** **~R$ 61,00 (62% de Margem Bruta)**
+*   **Seu Lucro:** **~R$ 161,00 (81% de Margem Bruta)**
 
-### 🥈 Plano Turbo (R$ 147,00/mês)
+### 🥈 Plano Turbo (R$ 297,00/mês)
 *   **Direito a:** 600 Postagens/mês
-*   **Alcance:** 1 Canal Telegram + Até 5 Grupos WhatsApp *(Aviso de Risco de Ban incluído nos Termos)*
-*   **Seu Custo:** R$ 37,00 (A Green API permite plugar os 5 grupos na mesma instância sem custo adicional, você só usa um pouquinho a mais de servidor).
-*   **Seu Lucro:** **~R$ 110,00 (74% de Margem Bruta)**
+*   **Alcance:** 1 Canal Telegram + 1 Comunidade WhatsApp
+*   **Seu Custo:** R$ 37,00
+*   **Seu Lucro:** **~R$ 260,00 (87% de Margem Bruta)**
 
-### 🥇 Plano Pro (R$ 197,00/mês)
+### 🥇 Plano Pro (R$ 497,00/mês)
 *   **Direito a:** 1.000 Postagens/mês
-*   **Alcance:** 1 Canal Telegram + Até 10 Grupos WhatsApp
+*   **Alcance:** 1 Canal Telegram + 1 Comunidade WhatsApp
 *   **Seu Custo:** R$ 39,00 (Aqui o gasto da IA chega a no máximo 85 centavos).
-*   **Seu Lucro:** **~R$ 158,00 (80% de Margem Bruta)**
+*   **Seu Lucro:** **~R$ 458,00 (92% de Margem Bruta)**
 
 ---
 
