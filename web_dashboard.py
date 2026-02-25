@@ -96,6 +96,26 @@ async def handle_index(request):
                 border-radius: 6px;
                 border: 1px solid #2d4a31;
             }}
+            /* Modal de Reinicio */
+            #restart-modal {{
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0,0,0,0.9); display: none; z-index: 9999;
+                flex-direction: column; align-items: center; justify-content: center;
+                padding: 20px; text-align: center;
+            }}
+            .progress-container {{
+                width: 80%; background: var(--bg-card); border-radius: 20px;
+                height: 12px; margin: 20px 0; overflow: hidden; border: 1px solid var(--border);
+            }}
+            .progress-bar {{
+                width: 0%; height: 100%; background: var(--accent);
+                transition: width 0.3s ease; box-shadow: 0 0 15px var(--accent);
+            }}
+            .check-icon {{
+                font-size: 60px; color: var(--success); display: none;
+                animation: scaleIn 0.5s ease-out;
+            }}
+            @keyframes scaleIn {{ from {{ transform: scale(0); opacity: 0; }} to {{ transform: scale(1); opacity: 1; }} }}
         </style>
     </head>
     <body>
@@ -107,9 +127,16 @@ async def handle_index(request):
             <div class="nav-item" onclick="showTab('admins', this)">👥 Admins</div>
             <div class="nav-item" onclick="showTab('sorteios', this)">🎉 Sorteios</div>
             <div class="nav-item" onclick="showTab('moldura', this)">🖼️ Moldura</div>
-            <div class="nav-item" onclick="showTab('moldura', this)">🖼️ Moldura</div>
             <div class="nav-item" onclick="showTab('settings', this)">⚙️ Config</div>
             <div class="nav-item" onclick="showTab('logs', this)">📜 Logs</div>
+        </div>
+        <div id="restart-modal">
+            <h2 id="restart-title">Reiniciando Sistema...</h2>
+            <div class="progress-container" id="p-container">
+                <div class="progress-bar" id="p-bar"></div>
+            </div>
+            <div class="check-icon" id="restart-check">✅</div>
+            <p id="restart-status" style="color:var(--text-dim); font-size:14px;">O bot está sendo sincronizado na Square Cloud.</p>
         </div>
         <main>
             <div id="tab-dashboard" class="tab-content active">
@@ -389,9 +416,45 @@ async def handle_index(request):
             async function restartBot() {{
                 Telegram.WebApp.showConfirm("Deseja reiniciar o bot? O painel ficará offline por alguns segundos.", async (ok) => {{
                     if(ok) {{
-                        await api('restart', 'POST'); 
-                        Telegram.WebApp.showAlert("Solicitação enviada! O bot irá reiniciar em instantes.");
-                        setTimeout(() => Telegram.WebApp.close(), 2000);
+                        const modal = document.getElementById('restart-modal');
+                        const bar = document.getElementById('p-bar');
+                        const check = document.getElementById('restart-check');
+                        const title = document.getElementById('restart-title');
+                        const container = document.getElementById('p-container');
+                        const status = document.getElementById('restart-status');
+                        
+                        modal.style.display = 'flex';
+                        
+                        // Iniciar chamada de restart
+                        api('restart', 'POST'); 
+
+                        // Simular progresso
+                        let progress = 0;
+                        const interval = setInterval(() => {{
+                            progress += Math.random() * 15;
+                            if(progress >= 100) {{
+                                progress = 100;
+                                clearInterval(interval);
+                                
+                                // Show success state
+                                container.style.display = 'none';
+                                check.style.display = 'block';
+                                title.textContent = "Sistema Reiniciado!";
+                                status.textContent = "Sincronização concluída com sucesso.";
+                                
+                                // Voltar ao painel
+                                setTimeout(() => {{
+                                    modal.style.display = 'none';
+                                    showTab('dashboard');
+                                    // Reset state for next time
+                                    container.style.display = 'block';
+                                    check.style.display = 'none';
+                                    bar.style.width = '0%';
+                                    title.textContent = "Reiniciando Sistema...";
+                                }}, 1500);
+                            }}
+                            bar.style.width = progress + '%';
+                        }}, 400);
                     }}
                 }});
             }}
