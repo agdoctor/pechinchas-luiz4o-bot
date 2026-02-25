@@ -63,6 +63,8 @@ def send_whatsapp_msg(text: str, media_path: str | None = None):
     enabled = db_enabled or WHATSAPP_ENABLED
     
     instance_id = (get_config("green_api_instance_id") or GREEN_API_INSTANCE_ID or "").strip()
+    # Garante que o instance_id tenha apenas os números
+    instance_id_clean = instance_id.replace("waInstance", "")
     token = (get_config("green_api_token") or GREEN_API_TOKEN or "").strip()
     host = (get_config("green_api_host") or GREEN_API_HOST or "api.green-api.com").strip()
     destination = (get_config("whatsapp_destination") or WHATSAPP_DESTINATION or "").strip()
@@ -71,8 +73,8 @@ def send_whatsapp_msg(text: str, media_path: str | None = None):
         print("⚠️ WhatsApp desabilitado nas configurações.")
         return None
 
-    if not instance_id or not token or not destination:
-        print(f"⚠️ Faltam credenciais: ID={instance_id}, Destino='{destination}'")
+    if not instance_id_clean or not token or not destination:
+        print(f"⚠️ Faltam credenciais: ID={instance_id_clean}, Destino='{destination}'")
         return None
 
     # Limpar o host: remove protocolos, barras e corrige falta de hífen em 'greenapi'
@@ -80,12 +82,17 @@ def send_whatsapp_msg(text: str, media_path: str | None = None):
     if "greenapi.com" in host_clean and "green-api.com" not in host_clean:
         host_clean = host_clean.replace("greenapi.com", "green-api.com")
     
-    print(f"📡 Tentando enviar para WhatsApp: Host={host_clean}, Instance={instance_id}, Destino={destination}")
+    print(f"📡 Tentando enviar para WhatsApp: Host={host_clean}, Instance={instance_id_clean}, Destino={destination}")
+
+    # Headers comuns
+    common_headers = {
+        'Accept': 'application/json'
+    }
 
     try:
         # Se houver mídia local, fazemos o upload
         if media_path and os.path.exists(media_path):
-            url = f"https://{host_clean}/waInstance{instance_id}/sendFileByUpload/{token}"
+            url = f"https://{host_clean}/waInstance{instance_id_clean}/sendFileByUpload/{token}"
             
             payload = {
                 'chatId': destination,
@@ -96,15 +103,15 @@ def send_whatsapp_msg(text: str, media_path: str | None = None):
                 ('file', (os.path.basename(media_path), open(media_path, 'rb'), 'image/jpeg'))
             ]
             
-            response = requests.post(url, data=payload, files=files, timeout=30)
+            response = requests.post(url, data=payload, files=files, headers=common_headers, timeout=30)
         else:
             # Caso contrário, apenas texto
-            url = f"https://{host_clean}/waInstance{instance_id}/sendMessage/{token}"
+            url = f"https://{host_clean}/waInstance{instance_id_clean}/sendMessage/{token}"
             payload = {
                 "chatId": destination,
                 "message": text
             }
-            headers = {'Content-Type': 'application/json'}
+            headers = {**common_headers, 'Content-Type': 'application/json'}
             response = requests.post(url, headers=headers, data=json.dumps(payload), timeout=20)
         
         if response.status_code == 200:
@@ -126,10 +133,12 @@ def get_whatsapp_group_info(invite_link: str):
     from database import get_config
     
     instance_id = (get_config("green_api_instance_id") or GREEN_API_INSTANCE_ID or "").strip()
+    # Garante que o instance_id tenha apenas os números
+    instance_id_clean = instance_id.replace("waInstance", "")
     token = (get_config("green_api_token") or GREEN_API_TOKEN or "").strip()
     host = (get_config("green_api_host") or GREEN_API_HOST or "api.green-api.com").strip()
 
-    if not instance_id or not token:
+    if not instance_id_clean or not token:
         return {"error": "Faltam credenciais da Green-API (Instance ID ou Token)."}
 
     # Limpar o host
@@ -137,9 +146,12 @@ def get_whatsapp_group_info(invite_link: str):
     if "greenapi.com" in host_clean and "green-api.com" not in host_clean:
         host_clean = host_clean.replace("greenapi.com", "green-api.com")
         
-    url = f"https://{host_clean}/waInstance{instance_id}/getGroupDataFromInviteLink/{token}"
+    url = f"https://{host_clean}/waInstance{instance_id_clean}/getGroupDataFromInviteLink/{token}"
     payload = {"inviteLink": invite_link}
-    headers = {'Content-Type': 'application/json'}
+    headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
     
     try:
         response = requests.post(url, headers=headers, data=json.dumps(payload), timeout=20)
