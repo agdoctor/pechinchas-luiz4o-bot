@@ -274,20 +274,21 @@ async def convert_shopee_to_affiliate(original_url: str) -> str:
     Converte um link da Shopee para link de afiliado usando a API oficial (Open Platform V2).
     """
     import config
+    from database import get_config
     import hmac
     import hashlib
     import time
     import json
     
-    SHOPEE_APP_ID = getattr(config, 'SHOPEE_APP_ID', None)
-    SHOPEE_APP_SECRET = getattr(config, 'SHOPEE_APP_SECRET', None)
-    SHOPEE_AFFILIATE_ID = getattr(config, 'SHOPEE_AFFILIATE_ID', None)
+    # Prioriza banco de dados, fallback para config.py / .env
+    SHOPEE_APP_ID = get_config("SHOPEE_APP_ID") or getattr(config, 'SHOPEE_APP_ID', None)
+    SHOPEE_APP_SECRET = get_config("SHOPEE_APP_SECRET") or getattr(config, 'SHOPEE_APP_SECRET', None)
     
     # 1. Limpar a URL
     clean_url_str = clean_tracking_params(original_url)
     
     if not SHOPEE_APP_ID or not SHOPEE_APP_SECRET:
-        print("[!] Credenciais da API Shopee (AppID/Secret) nao configuradas. Usando fallback Universal Link.")
+        print("[!] Credenciais da API Shopee (AppID/Secret) nao configuradas. Verifique o Painel Web ou Environment.")
         return await convert_shopee_fallback_manual(original_url)
 
     # Endpoint da API Shopee (BR)
@@ -371,14 +372,16 @@ async def get_shopee_product_info(url: str):
     Requer SHOPEE_APP_ID e SHOPEE_APP_SECRET.
     """
     import config
+    from database import get_config
     import json
     import time
     import hashlib
     
-    app_id = getattr(config, 'SHOPEE_APP_ID', None)
-    app_secret = getattr(config, 'SHOPEE_APP_SECRET', None)
+    app_id = get_config("SHOPEE_APP_ID") or getattr(config, 'SHOPEE_APP_ID', None)
+    app_secret = get_config("SHOPEE_APP_SECRET") or getattr(config, 'SHOPEE_APP_SECRET', None)
     
     if not app_id or not app_secret:
+        print("[!] get_shopee_product_info: Credenciais da API Shopee (AppID/Secret) nao encontradas. Configure no Painel Web.")
         return None
 
     # Extrair Item ID da URL expandida ou original
@@ -428,8 +431,11 @@ async def get_shopee_product_info(url: str):
         print(f"Buscando metadados Shopee via API Oficial para item {item_id}...")
         async with httpx.AsyncClient(timeout=10.0) as client:
             response = await client.post(api_url, headers=headers, content=body)
+            print(f"[Shopee API] Status: {response.status_code}")
             if response.status_code == 200:
                 data = response.json()
+                if "errors" in data:
+                    print(f"[Shopee API] Erros GraphQL: {data['errors']}")
                 nodes = data.get("data", {}).get("productOfferV2", {}).get("nodes", [])
                 if nodes:
                     prod = nodes[0]
@@ -437,8 +443,10 @@ async def get_shopee_product_info(url: str):
                         "title": prod.get("itemName"),
                         "image": prod.get("imageUrl")
                     }
+                else:
+                    print(f"[Shopee API] Resposta sem nodes: {str(data)[:300]}")
             else:
-                print(f"[!] Erro API Shopee Info ({response.status_code}): {response.text}")
+                print(f"[!] Erro API Shopee Info ({response.status_code}): {response.text[:300]}")
     except Exception as e:
         print(f"[!] Erro ao buscar info Shopee via API: {e}")
         

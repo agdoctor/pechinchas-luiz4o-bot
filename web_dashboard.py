@@ -735,7 +735,10 @@ async def handle_index(request):
                     {{k:'green_api_instance_id',l:'ID Instância Green-API'}},
                     {{k:'green_api_token',l:'Token Green-API'}},
                     {{k:'green_api_host',l:'Host Green-API (ex: 7103.api.greenapi.com)'}},
-                    {{k:'whatsapp_destination',l:'🆔 ID Grupo(s) WA (separe por vírgula)'}}
+                    {{k:'whatsapp_destination',l:'🆔 ID Grupo(s) WA (separe por vírgula)'}},
+                    {{k:'SHOPEE_APP_ID',l:'🛍️ Shopee APP ID'}},
+                    {{k:'SHOPEE_APP_SECRET',l:'🛍️ Shopee APP SECRET'}},
+                    {{k:'SHOPEE_AFFILIATE_ID',l:'🛍️ Shopee Affiliate ID'}}
                 ];
                 const c = document.getElementById('settings-form');
                 c.innerHTML = "Carregando...";
