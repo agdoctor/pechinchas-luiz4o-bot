@@ -39,6 +39,11 @@ else:
 # Fila para gerenciar o delay e as postagens
 post_queue = asyncio.Queue()
 
+def debug_log(message):
+    """Loga mensagens apenas se o modo debug estiver ativo."""
+    if get_config("debug_mode") == "1":
+        print(f"[DEBUG] {message}")
+
 async def worker_queue():
     """Worker que fica rodando em background consumindo a fila e aplicando o delay"""
     while True:
@@ -196,9 +201,7 @@ async def start_monitoring():
             chat_title = getattr(chat, 'title', 'Sem Título')
             chat_username = getattr(chat, 'username', 'N/A')
             chat_id = event.chat_id
-            
-            # LOG DE DEBUG: Ver todas as mensagens que chegam
-            print(f"DEBUG: Mensagem recebida de '{chat_title}' (@{chat_username}) [ID: {chat_id}]")
+            debug_log(f"Mensagem recebida de '{chat_title}' (@{chat_username}) [ID: {chat_id}]")
             
             is_monitored = False
             
@@ -224,12 +227,12 @@ async def start_monitoring():
 
             # Verifica se o bot está pausado globalmente
             if get_config("pausado") == "1":
-                print("DEBUG: Bot pausado globalmente.")
+                debug_log("Bot pausado globalmente.")
                 return
                 
             # Verifica mensagens já processadas pelo ID exato
             if event.message.id in processed_message_ids:
-                print(f"⏭️ Mensagem já processada ignorada (ID: {event.message.id})")
+                debug_log(f"Mensagem já processada ignorada (ID: {event.message.id})")
                 return
             processed_message_ids.add(event.message.id)
             if len(processed_message_ids) > 1000:
@@ -238,7 +241,7 @@ async def start_monitoring():
             # Verifica se a mensagem faz parte de um álbum já processado
             if event.message.grouped_id:
                 if event.message.grouped_id in processed_grouped_ids:
-                    print(f"⏭️ Mensagem extra do mesmo álbum ignorada: {event.message.grouped_id}")
+                    debug_log(f"Mensagem extra do mesmo álbum ignorada: {event.message.grouped_id}")
                     return
                 processed_grouped_ids.add(event.message.grouped_id)
                 # Mantém o set pequeno

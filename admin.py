@@ -184,6 +184,28 @@ async def cmd_statusmonitor(message: Message):
         print(f"Erro no statusmonitor: {e}")
         await status_msg.edit_text(f"❌ Erro ao buscar status: {e}")
 
+@dp.message(Command("debug"))
+async def cmd_debug(message: Message):
+    if not is_admin(message.from_user.id):
+        return
+        
+    args = message.text.split()
+    if len(args) < 2:
+        current = get_config("debug_mode")
+        status = "ATIVADO 🟢" if current == "1" else "DESATIVADO 🔴"
+        await message.answer(f"🛠️ **Modo Debug**\nStatus atual: {status}\n\nUse `/debug on` ou `/debug off` para alterar.")
+        return
+        
+    acao = args[1].lower()
+    if acao == "on":
+        set_config("debug_mode", "1")
+        await message.answer("✅ **Modo Debug ATIVADO!**\nO bot agora registrará logs detalhados de cada mensagem recebida.")
+    elif acao == "off":
+        set_config("debug_mode", "0")
+        await message.answer("❌ **Modo Debug DESATIVADO!**\nOs logs detalhados foram silenciados.")
+    else:
+        await message.answer("❓ Use `/debug on` ou `/debug off`.")
+
 @dp.message(Command("testali"))
 async def cmd_test_ali(message: Message):
     if not is_admin(message.from_user.id):
@@ -1155,6 +1177,7 @@ async def start_admin_bot():
         BotCommand(command="enviar", description="Enviar Promoção via Link"),
         BotCommand(command="statusmonitor", description="Verificar Status do Monitoramento"),
         BotCommand(command="ultimoslogs", description="Ver Últimas Linhas de Log"),
+        BotCommand(command="debug", description="Ligar/Desligar Logs Detalhados"),
         BotCommand(command="log", description="Receber Arquivo de Log Completo"),
     ])
     
