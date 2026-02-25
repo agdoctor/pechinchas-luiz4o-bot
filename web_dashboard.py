@@ -731,7 +731,7 @@ async def handle_index(request):
                     {{k:'preco_minimo',l:'Preço Mínimo'}},
                     {{k:'assinatura',l:'Assinatura'}},
                     {{k:'webapp_url',l:'WebApp URL'}},
-                    {{k:'whatsapp_enabled',l:'✅ Habilitar WhatsApp (true/false)'}},
+                    {{k:'whatsapp_enabled',l:'✅ Habilitar WhatsApp', t:'bool'}},
                     {{k:'green_api_instance_id',l:'ID Instância Green-API'}},
                     {{k:'green_api_token',l:'Token Green-API'}},
                     {{k:'green_api_host',l:'Host Green-API (ex: 7103.api.greenapi.com)'}},
@@ -758,10 +758,17 @@ async def handle_index(request):
                                     <small style="color:var(--text-dim);display:block;margin-bottom:5px">Preview Visual (Telegram HTML):</small>
                                     <div id="preview-content" style="white-space: pre-wrap;">${{v.valor}}</div>
                                  </div>` 
-                                : `
+                                : x.t === 'bool' ? `
                                 <div style="display:flex; flex-direction:column; gap:8px;">
-                                    <input id="set-${{x.k}}" value="${{v.valor}}">
-                                    ${{x.k === 'whatsapp_destination' ? `
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="set-${{x.k}}" \${{v.valor === 'true' ? 'checked' : ''}}>
+                                        Ativo
+                                    </label>
+                                </div>
+                                ` : `
+                                <div style="display:flex; flex-direction:column; gap:8px;">
+                                    <input id="set-${{x.k}}" value="\${{v.valor}}">
+                                    \${{x.k === 'whatsapp_destination' ? `
                                         <button onclick="loadWAGroups()" style="font-size:12px; background:var(--bg-card); color:var(--accent); border-style:dashed;">🔍 Ver Meus Grupos</button>
                                         <div id="wa-groups-list-settings" style="display:none; max-height:200px; overflow-y:auto;"></div>
                                     ` : ''}}
@@ -791,7 +798,8 @@ async def handle_index(request):
                 i.focus();
             }}
             async function saveSet(k) {{ 
-                const val = document.getElementById('set-'+k).value;
+                const el = document.getElementById('set-'+k);
+                const val = el.type === 'checkbox' ? (el.checked ? 'true' : 'false') : el.value;
                 await api('settings','POST',{{chave:k, valor:val}}); 
                 Telegram.WebApp.showAlert("Configuração '"+k+"' salva com sucesso!"); 
             }}
