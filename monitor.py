@@ -2,7 +2,7 @@ import asyncio
 import os
 import re
 import hashlib
-from telethon import TelegramClient, events
+from telethon import TelegramClient, events, utils
 from telethon.tl.functions.channels import JoinChannelRequest
 from telethon.errors import ChannelInvalidError, UsernameInvalidError
 from config import API_ID, API_HASH, TARGET_CHANNEL
@@ -127,8 +127,9 @@ async def resolve_monitored_channels():
         try:
             channel_name = normalize_channel(channel)
             entity = await client.get_entity(channel_name)
-            new_cache[entity.id] = channel_name.lower()
-            print(f"✅ ID Resolvido: @{channel_name} -> {entity.id}")
+            peer_id = utils.get_peer_id(entity)
+            new_cache[peer_id] = channel_name.lower()
+            print(f"✅ ID Resolvido: @{channel_name} -> {peer_id}")
         except Exception as e:
             print(f"⚠️ Não foi possível resolver ID para {channel}: {e}")
             

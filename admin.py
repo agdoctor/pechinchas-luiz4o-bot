@@ -169,7 +169,7 @@ async def cmd_statusmonitor(message: Message):
         for d in dialogs:
             if d.is_channel:
                 username = getattr(d.entity, 'username', 'N/A')
-                chat_id = d.entity.id
+                chat_id = d.id
                 title = escape(d.name)
                 
                 # Verifica se o ID ou Username está no monitoramento
