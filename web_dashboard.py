@@ -127,6 +127,7 @@ async def handle_index(request):
             <div class="nav-item" onclick="showTab('admins', this)">👥 Admins</div>
             <div class="nav-item" onclick="showTab('sorteios', this)">🎉 Sorteios</div>
             <div class="nav-item" onclick="showTab('moldura', this)">🖼️ Moldura</div>
+            <div class="nav-item" onclick="showTab('afiliados', this)">💰 Afiliados</div>
             <div class="nav-item" onclick="showTab('settings', this)">⚙️ Config</div>
             <div class="nav-item" onclick="showTab('logs', this)">📜 Logs</div>
         </div>
@@ -282,6 +283,78 @@ async def handle_index(request):
                     <small style="color:var(--text-dim)">Recomendado: PNG transparente 1000x1000.</small>
                 </div>
             </div>
+            <div id="tab-afiliados" class="tab-content">
+                <div class="card">
+                    <div class="card-title">💰 Dados de Afiliado</div>
+                    <p style="font-size:13px; color:var(--text-dim); margin-bottom:15px">Configure suas credenciais de afiliado para cada loja. O bot usará esses dados para converter links e buscar informações de produtos automaticamente.</p>
+
+                    <!-- Shopee -->
+                    <div style="border: 1px solid var(--border); border-radius: 10px; margin-bottom: 15px; overflow: hidden;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding: 14px 16px; background: var(--bg-card); cursor:pointer;" onclick="toggleStore('shopee')">
+                            <span style="font-weight:bold; font-size:15px;">🛍️ Shopee</span>
+                            <span id="store-icon-shopee" style="color:var(--accent)">▼</span>
+                        </div>
+                        <div id="store-shopee" style="padding: 16px; display:none; background: var(--bg-sec);">
+                            <p style="font-size:12px; color:var(--text-dim); margin-bottom:12px;">Necessário para gerar links de afiliado e buscar título/imagem de produtos automaticamente (mesmo quando o site bloqueia o scraper).</p>
+                            <label style="font-size:12px; font-weight:bold;">App ID (Shopee Open Platform):</label>
+                            <input id="aff-SHOPEE_APP_ID" placeholder="Ex: 2000000000" style="margin-bottom:10px">
+                            <label style="font-size:12px; font-weight:bold;">App Secret:</label>
+                            <input id="aff-SHOPEE_APP_SECRET" type="password" placeholder="Cole aqui seu App Secret" style="margin-bottom:10px">
+                            <label style="font-size:12px; font-weight:bold;">Affiliate ID (seu ID de afiliado):</label>
+                            <input id="aff-SHOPEE_AFFILIATE_ID" placeholder="Ex: 12345678" style="margin-bottom:10px">
+                            <label style="font-size:12px; font-weight:bold;">Source ID (ID da campanha/fonte):</label>
+                            <input id="aff-SHOPEE_SOURCE_ID" placeholder="Ex: python_bot" style="margin-bottom:14px">
+                            <button class="primary" onclick="saveAfiliado(['SHOPEE_APP_ID','SHOPEE_APP_SECRET','SHOPEE_AFFILIATE_ID','SHOPEE_SOURCE_ID'])" style="width:100%">💾 Salvar Shopee</button>
+                        </div>
+                    </div>
+
+                    <!-- Mercado Livre -->
+                    <div style="border: 1px solid var(--border); border-radius: 10px; margin-bottom: 15px; overflow: hidden;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding: 14px 16px; background: var(--bg-card); cursor:pointer;" onclick="toggleStore('ml')">
+                            <span style="font-weight:bold; font-size:15px;">🟡 Mercado Livre</span>
+                            <span id="store-icon-ml" style="color:var(--accent)">▼</span>
+                        </div>
+                        <div id="store-ml" style="padding: 16px; display:none; background: var(--bg-sec);">
+                            <p style="font-size:12px; color:var(--text-dim); margin-bottom:12px;">Use o cookie de afiliado gerado pelo painel do ML para permitir a conversão de links via Stripe API.</p>
+                            <label style="font-size:12px; font-weight:bold;">Cookie de Afiliado ML (ml_affiliate_cookie):</label>
+                            <input id="aff-ML_AFFILIATE_COOKIE" placeholder="Cole aqui o valor do cookie" style="margin-bottom:14px">
+                            <button class="primary" onclick="saveAfiliado(['ML_AFFILIATE_COOKIE'])" style="width:100%">💾 Salvar Mercado Livre</button>
+                        </div>
+                    </div>
+
+                    <!-- AliExpress -->
+                    <div style="border: 1px solid var(--border); border-radius: 10px; margin-bottom: 15px; overflow: hidden;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding: 14px 16px; background: var(--bg-card); cursor:pointer;" onclick="toggleStore('ali')">
+                            <span style="font-weight:bold; font-size:15px;">🌏 AliExpress</span>
+                            <span id="store-icon-ali" style="color:var(--accent)">▼</span>
+                        </div>
+                        <div id="store-ali" style="padding: 16px; display:none; background: var(--bg-sec);">
+                            <p style="font-size:12px; color:var(--text-dim); margin-bottom:12px;">Credenciais da Open Platform do AliExpress para conversão de links e rastreio de vendas.</p>
+                            <label style="font-size:12px; font-weight:bold;">App Key:</label>
+                            <input id="aff-ALI_APP_KEY" placeholder="Ex: 123456" style="margin-bottom:10px">
+                            <label style="font-size:12px; font-weight:bold;">App Secret:</label>
+                            <input id="aff-ALI_APP_SECRET" type="password" placeholder="Cole aqui seu App Secret" style="margin-bottom:10px">
+                            <label style="font-size:12px; font-weight:bold;">Tracking ID:</label>
+                            <input id="aff-ALI_TRACKING_ID" placeholder="Ex: bot_promo" style="margin-bottom:14px">
+                            <button class="primary" onclick="saveAfiliado(['ALI_APP_KEY','ALI_APP_SECRET','ALI_TRACKING_ID'])" style="width:100%">💾 Salvar AliExpress</button>
+                        </div>
+                    </div>
+
+                    <!-- Amazon -->
+                    <div style="border: 1px solid var(--border); border-radius: 10px; margin-bottom: 5px; overflow: hidden;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding: 14px 16px; background: var(--bg-card); cursor:pointer;" onclick="toggleStore('amazon')">
+                            <span style="font-weight:bold; font-size:15px;">📦 Amazon</span>
+                            <span id="store-icon-amazon" style="color:var(--accent)">▼</span>
+                        </div>
+                        <div id="store-amazon" style="padding: 16px; display:none; background: var(--bg-sec);">
+                            <p style="font-size:12px; color:var(--text-dim); margin-bottom:12px;">Sua tag de afiliado Amazon Associates é o único dado necessário para rastrear vendas de links da Amazon.</p>
+                            <label style="font-size:12px; font-weight:bold;">Sua Tag de Afiliado:</label>
+                            <input id="aff-AMAZON_TAG" placeholder="Ex: seusite-20" style="margin-bottom:14px">
+                            <button class="primary" onclick="saveAfiliado(['AMAZON_TAG'])" style="width:100%">💾 Salvar Amazon</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div id="tab-logs" class="tab-content">
                 <div class="card">
                     <div class="log-header">
@@ -309,6 +382,7 @@ async def handle_index(request):
                 if(t==='admins') loadAdmins(); if(t==='sorteios') loadSorteios();
                 if(t==='settings') loadSettings(); if(t==='dashboard') loadStatus();
                 if(t==='logs') fetchLogs(); if(t==='moldura') loadWatermark();
+                if(t==='afiliados') loadAfiliados();
                 if(t==='enviar') backToStep(1);
             }}
 
@@ -725,6 +799,42 @@ async def handle_index(request):
             }}
             async function addSorteio() {{ await api('sorteios','POST',{{premio:document.getElementById('new-premio').value}}); loadSorteios(); }}
             async function closeSorteio(id) {{ await api('sorteios','PATCH',{{id:id, winner_id:0, winner_name:'Ganhador'}}); loadSorteios(); }}
+            function toggleStore(id) {{
+                const el = document.getElementById('store-' + id);
+                const icon = document.getElementById('store-icon-' + id);
+                if (el.style.display === 'none') {{
+                    el.style.display = 'block';
+                    icon.textContent = '▲';
+                }} else {{
+                    el.style.display = 'none';
+                    icon.textContent = '▼';
+                }}
+            }}
+            async function loadAfiliados() {{
+                const keys = ['SHOPEE_APP_ID', 'SHOPEE_APP_SECRET', 'SHOPEE_AFFILIATE_ID', 'SHOPEE_SOURCE_ID',
+                              'ML_AFFILIATE_COOKIE', 'ALI_APP_KEY', 'ALI_APP_SECRET', 'ALI_TRACKING_ID', 'AMAZON_TAG'];
+                for (const k of keys) {{
+                    try {{
+                        const v = await api('settings?key=' + k);
+                        const el = document.getElementById('aff-' + k);
+                        if (el && v.valor) el.value = v.valor;
+                    }} catch(e) {{}}
+                }}
+            }}
+            async function saveAfiliado(keys) {{
+                let saved = 0;
+                for (const k of keys) {{
+                    const el = document.getElementById('aff-' + k);
+                    if (el) {{
+                        await api('settings', 'POST', {{chave: k, valor: el.value}});
+                        saved++;
+                    }}
+                }}
+                if (window.Telegram && window.Telegram.WebApp) {{
+                    Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+                    Telegram.WebApp.showAlert('✅ ' + saved + ' dado(s) salvo(s) com sucesso!');
+                }}
+            }}
             async function loadSettings() {{
                 const f = [
                     {{k:'delay_minutos',l:'Delay (Telegram)'}},
@@ -735,10 +845,7 @@ async def handle_index(request):
                     {{k:'green_api_instance_id',l:'ID Instância Green-API'}},
                     {{k:'green_api_token',l:'Token Green-API'}},
                     {{k:'green_api_host',l:'Host Green-API (ex: 7103.api.greenapi.com)'}},
-                    {{k:'whatsapp_destination',l:'🆔 ID Grupo(s) WA (separe por vírgula)'}},
-                    {{k:'SHOPEE_APP_ID',l:'🛍️ Shopee APP ID'}},
-                    {{k:'SHOPEE_APP_SECRET',l:'🛍️ Shopee APP SECRET'}},
-                    {{k:'SHOPEE_AFFILIATE_ID',l:'🛍️ Shopee Affiliate ID'}}
+                    {{k:'whatsapp_destination',l:'🆔 ID Grupo(s) WA (separe por vírgula)'}}
                 ];
                 const c = document.getElementById('settings-form');
                 c.innerHTML = "Carregando...";
