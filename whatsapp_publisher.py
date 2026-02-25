@@ -117,3 +117,35 @@ def send_whatsapp_msg(text: str, media_path: str | None = None):
     except Exception as e:
         print(f"❌ Erro ao enviar para WhatsApp: {e}")
         return None
+
+def get_whatsapp_group_info(invite_link: str):
+    """
+    Tenta obter informações de um grupo (incluindo o ID) a partir do link de convite.
+    Usa o método da Green-API: getGroupDataFromInviteLink
+    """
+    from database import get_config
+    
+    instance_id = (get_config("green_api_instance_id") or GREEN_API_INSTANCE_ID or "").strip()
+    token = (get_config("green_api_token") or GREEN_API_TOKEN or "").strip()
+    host = (get_config("green_api_host") or GREEN_API_HOST or "api.green-api.com").strip()
+
+    if not instance_id or not token:
+        return {"error": "Faltam credenciais da Green-API (Instance ID ou Token)."}
+
+    # Limpar o host
+    host_clean = host.replace("https://", "").replace("http://", "").strip("/")
+    if "greenapi.com" in host_clean and "green-api.com" not in host_clean:
+        host_clean = host_clean.replace("greenapi.com", "green-api.com")
+        
+    url = f"https://{host_clean}/waInstance{instance_id}/getGroupDataFromInviteLink/{token}"
+    payload = {"inviteLink": invite_link}
+    headers = {'Content-Type': 'application/json'}
+    
+    try:
+        response = requests.post(url, headers=headers, data=json.dumps(payload), timeout=20)
+        if response.status_code == 200:
+            return response.json()
+        else:
+            return {"error": f"Erro Green-API ({response.status_code}): {response.text}"}
+    except Exception as e:
+        return {"error": str(e)}

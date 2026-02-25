@@ -43,6 +43,7 @@ async def mostrar_comandos_handler_msg(message: Message, is_callback=False):
         "🤖 **Comandos Ativos do Bot:**\n\n"
         "🔹 `/admin` - Abre o painel principal interativo\n"
         "🔹 `/enviar` - Atalho para enviar uma oferta no canal\n"
+        "🔹 `/waid` - Descobre o ID de um grupo do WhatsApp pelo link\n"
         "🔹 `/log` - Recebe o arquivo `bot.log` completo\n"
         "🔹 `/ultimoslogs` - Vê as últimas 20 linhas de log no chat\n"
         "🔹 `/statusmonitor` - Verifica se o Userbot está online e em quais canais\n"
@@ -205,6 +206,34 @@ async def cmd_debug(message: Message):
         await message.answer("❌ **Modo Debug DESATIVADO!**\nOs logs detalhados foram silenciados.")
     else:
         await message.answer("❓ Use `/debug on` ou `/debug off`.")
+
+@dp.message(Command("waid"))
+async def cmd_waid(message: Message):
+    if not is_admin(message.from_user.id):
+        return
+    
+    args = message.text.split()
+    if len(args) < 2:
+        await message.answer("⚠️ Uso: `/waid [link do grupo do whatsapp]`")
+        return
+        
+    link = args[1].strip()
+    await message.answer("🔍 Consultando informações do grupo no WhatsApp...")
+    
+    from whatsapp_publisher import get_whatsapp_group_info
+    info = get_whatsapp_group_info(link)
+    
+    if "error" in info:
+        await message.answer(f"❌ Erro ao buscar ID: {info['error']}\n\nCertifique-se que o link é válido e que a Green-API está configurada.")
+    else:
+        group_id = info.get("id")
+        group_name = info.get("subject", "Nome não identificado")
+        await message.answer(
+            f"✅ **Grupo Encontrado!**\n\n"
+            f"📌 **Nome:** {group_name}\n"
+            f"🆔 **ID:** `{group_id}`\n\n"
+            f"Você pode usar esse ID na configuração `whatsapp_destination` do Painel Admin."
+        )
 
 @dp.message(Command("testali"))
 async def cmd_test_ali(message: Message):
@@ -1175,6 +1204,7 @@ async def start_admin_bot():
         BotCommand(command="admin", description="Painel de Controle Admin"),
         BotCommand(command="commands", description="Lista de Comandos Disponíveis"),
         BotCommand(command="enviar", description="Enviar Promoção via Link"),
+        BotCommand(command="waid", description="Descobrir ID de Grupo WhatsApp"),
         BotCommand(command="statusmonitor", description="Verificar Status do Monitoramento"),
         BotCommand(command="ultimoslogs", description="Ver Últimas Linhas de Log"),
         BotCommand(command="debug", description="Ligar/Desligar Logs Detalhados"),
