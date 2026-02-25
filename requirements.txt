@@ -2,6 +2,7 @@ telethon
 google-genai>=0.6.0
 aiogram
 httpx
+aiohttp
 python-dotenv
 tenacity
 Pillow
