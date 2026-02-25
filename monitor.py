@@ -239,6 +239,13 @@ async def start_monitoring():
             if len(processed_message_ids) > 1000:
                 processed_message_ids.clear()
                 
+            # --- FILTRO DE MÍDIA (Urgente: Apenas Texto ou Foto) ---
+            if event.message.media:
+                from telethon.tl.types import MessageMediaPhoto
+                if not isinstance(event.message.media, MessageMediaPhoto):
+                    debug_log(f"🚫 Ignorado: Mídia do tipo '{type(event.message.media).__name__}' não permitida (Apenas fotos/texto).")
+                    return
+
             # Verifica se a mensagem faz parte de um álbum já processado
             if event.message.grouped_id:
                 if event.message.grouped_id in processed_grouped_ids:
