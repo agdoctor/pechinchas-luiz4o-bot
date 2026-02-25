@@ -22,6 +22,8 @@ ALI_TRACKING_ID = os.getenv("ALI_TRACKING_ID")
 # Shopee Affiliate
 SHOPEE_AFFILIATE_ID = os.getenv("SHOPEE_AFFILIATE_ID")
 SHOPEE_SOURCE_ID = os.getenv("SHOPEE_SOURCE_ID")
+SHOPEE_APP_ID = os.getenv("SHOPEE_APP_ID")
+SHOPEE_APP_SECRET = os.getenv("SHOPEE_APP_SECRET")
 
 # Proxy Configuration (Opcional - Recomendado para evitar 403)
 PROXY_URL = os.getenv("PROXY_URL")

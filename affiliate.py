@@ -5,6 +5,9 @@ from urllib.parse import urlparse, urlunparse, parse_qs, urlencode, unquote
 from bs4 import BeautifulSoup
 import re
 import hashlib
+import hmac
+import time
+import json
 from datetime import datetime
 
 def clean_tracking_params(url: str) -> str:
@@ -29,7 +32,7 @@ def clean_tracking_params(url: str) -> str:
         new_query = urlencode(filtered_params, doseq=True)
         return urlunparse(parsed._replace(query=new_query))
     except Exception as e:
-        print(f"⚠️ Erro ao limpar parâmetros: {e}")
+        print(f"[!] Erro ao limpar parametros: {e}")
         return url
 
 async def convert_ml_to_affiliate(original_url: str) -> str:
@@ -38,7 +41,7 @@ async def convert_ml_to_affiliate(original_url: str) -> str:
     Lida com links de vitrine (/social/) extraindo o produto destacado.
     """
     if not ML_AFFILIATE_COOKIE:
-        print("⚠️ ML_AFFILIATE_COOKIE não configurado. Mantendo link original.")
+        print("[!] ML_AFFILIATE_COOKIE nao configurado. Mantendo link original.")
         return original_url
 
     parsed = urlparse(original_url)
@@ -47,7 +50,7 @@ async def convert_ml_to_affiliate(original_url: str) -> str:
     # Se a URL for uma vitrine social de um concorrente (ex: /social/nerdofertas), 
     # precisamos acessar a vitrine e raspar a URL do produto destacado.
     if '/social/' in parsed.path:
-        print(f"🔍 Link Social (Vitrine) detectado: {original_url}")
+        print(f"[SEARCH] Link Social (Vitrine) detectado: {original_url}")
         try:
             # Reutiliza httpx para baixar a vitrine
             headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
@@ -64,7 +67,7 @@ async def convert_ml_to_affiliate(original_url: str) -> str:
                     raw_link = match_list.group(1)
                     # O JSON escapa as barras como \u002F ou \/
                     target_product_url = raw_link.replace('\\u002F', '/').replace('\\/', '/')
-                    print(f"✅ Lista curada extraída da vitrine: {target_product_url}")
+                    print(f"[OK] Lista curada extraida da vitrine: {target_product_url}")
                 else:
                     # 2. Se não for lista, tentar achar o produto em destaque usual
                     # O produto destacado no topo tem a classe poly-component__link--action-link
@@ -77,9 +80,9 @@ async def convert_ml_to_affiliate(original_url: str) -> str:
                         target_product_url = featured_link['href']
                         print(f"✅ Produto extraído da vitrine: {target_product_url}")
                     else:
-                        print(f"❌ Não foi possível encontrar o produto destacado ou lista na vitrine.")
+                        print(f"[ERR] Nao foi possivel encontrar o produto destacado ou lista na vitrine.")
         except Exception as e:
-            print(f"⚠️ Erro ao acessar vitrine social: {e}")
+            print(f"[!] Erro ao acessar vitrine social: {e}")
 
     # Limpar a URL do produto antes de enviar para a API
     clean_url = clean_tracking_params(target_product_url)
@@ -88,7 +91,7 @@ async def convert_ml_to_affiliate(original_url: str) -> str:
     fallback_social_url = f"https://www.mercadolivre.com.br/social/drmkt?forceInApp=true&matt_word=drmk&ref={clean_url}"
 
     try:
-        print(f"🔗 Convertendo ML via API Stripe: {clean_url}")
+        print(f"Convertendo ML via API Stripe: {clean_url}")
         # A API Stripe exige um NOVO cliente httpx para não enviar _csrf cookies das requisições anteriores
         async with httpx.AsyncClient(timeout=10.0) as api_client:
             api_headers = {
@@ -112,11 +115,11 @@ async def convert_ml_to_affiliate(original_url: str) -> str:
             )
 
             if response.status_code >= 300 and response.status_code < 400:
-                print(f"❌ API do ML redirecionou (provavelmente cookie expirado): {response.headers.get('location')}")
+                print(f"[ERR] API do ML redirecionou (provavelmente cookie expirado): {response.headers.get('location')}")
                 return fallback_social_url
 
             if response.status_code != 200:
-                print(f"❌ Erro na API do ML ({response.status_code}): {response.text}")
+                print(f"[ERR] Erro na API do ML ({response.status_code}): {response.text}")
                 return fallback_social_url
 
             data = response.json()
@@ -130,7 +133,7 @@ async def convert_ml_to_affiliate(original_url: str) -> str:
             return fallback_social_url
 
     except Exception as e:
-        print(f"⚠️ Erro ao gerar link de afiliado ML: {e}")
+        print(f"[!] Erro ao gerar link de afiliado ML: {e}")
         return fallback_social_url
 
 async def convert_aliexpress_to_affiliate(original_url: str) -> str:
@@ -149,18 +152,18 @@ async def convert_aliexpress_to_affiliate(original_url: str) -> str:
         if match:
             pid = match.group(1)
             clean_url = f"https://pt.aliexpress.com/item/{pid}.html"
-            print(f"🧹 URL suja do AliExpress detectada. ID {pid} isolado: {clean_url}")
+            print(f"[!] URL suja do AliExpress detectada. ID {pid} isolado: {clean_url}")
     elif "item/" in original_url:
         match = re.search(r'item/(\d+)\.html', original_url)
         if match:
             pid = match.group(1)
             clean_url = f"https://pt.aliexpress.com/item/{pid}.html"
-            print(f"🧹 URL AliExpress limpa: {clean_url}")
+            print(f"[!] URL AliExpress limpa: {clean_url}")
             
     clean_url = clean_tracking_params(clean_url)
     
     if not ALI_APP_KEY or not ALI_APP_SECRET or not ALI_TRACKING_ID:
-        print("⚠️ Credenciais da API AliExpress não configuradas. Usando gerador genérico de deeplink.")
+        print("[!] Credenciais da API AliExpress nao configuradas. Usando gerador generico de deeplink.")
         if ALI_TRACKING_ID:
             import urllib.parse
             encoded_url = urllib.parse.quote(clean_url, safe='')
@@ -202,7 +205,7 @@ async def convert_aliexpress_to_affiliate(original_url: str) -> str:
     params["sign"] = sign
 
     try:
-        print(f"🔗 Convertendo AliExpress via API Oficial: {clean_url}")
+        print(f"Convertendo AliExpress via API Oficial: {clean_url}")
         async with httpx.AsyncClient(timeout=10.0) as api_client:
             response = await api_client.post(
                 "https://api-sg.aliexpress.com/sync",
@@ -211,7 +214,7 @@ async def convert_aliexpress_to_affiliate(original_url: str) -> str:
             )
             
             if response.status_code != 200:
-                print(f"❌ Erro na API do AliExpress ({response.status_code}): {response.text}")
+                print(f"[ERR] Erro na API do AliExpress ({response.status_code}): {response.text}")
                 return get_fallback_url(clean_url)
                 
             data = response.json()
@@ -228,7 +231,7 @@ async def convert_aliexpress_to_affiliate(original_url: str) -> str:
                 # O resp_code pode vir como int ou str
                 resp_code = str(resp_result.get("resp_code", ""))
                 if resp_code != "200":
-                    print(f"❌ API do AliExpress retornou erro na resposta interna: {resp_result}")
+                    print(f"[ERR] API do AliExpress retornou erro na resposta interna: {resp_result}")
                     return get_fallback_url(clean_url)
                     
                 result = resp_result.get("result", {})
@@ -242,14 +245,14 @@ async def convert_aliexpress_to_affiliate(original_url: str) -> str:
                     else:
                         print(f"⚠️ Erro ao converter item no AliExpress: {item_info.get('message', 'Desconhecido')}")
                 else:
-                    print(f"⚠️ Módulo promotion_links vazio na resposta.")
+                    print("[!] Modulo promotion_links vazio na resposta.")
                         
             except Exception as parse_err:
                 print(f"⚠️ Erro ao analisar resposta do AliExpress: {parse_err}. Retorno bruto: {data}")
                 return get_fallback_url(clean_url)
 
     except Exception as e:
-        print(f"⚠️ Erro ao gerar link de afiliado AliExpress: {e}")
+        print(f"[!] Erro ao gerar link de afiliado AliExpress: {e}")
         
     return get_fallback_url(clean_url)
 
@@ -263,26 +266,81 @@ async def shorten_url_tiny(long_url: str) -> str:
             if res.status_code == 200 and res.text.startswith("http"):
                 return res.text
     except Exception as e:
-        print(f"⚠️ Erro ao encurtar URL ({long_url[:30]}...): {e}")
+        print(f"[!] Erro ao encurtar URL ({long_url[:30]}...): {e}")
     return long_url
 
 async def convert_shopee_to_affiliate(original_url: str) -> str:
     """
-    Converte um link da Shopee para link de afiliado usando o formato Universal Link.
-    Como não temos API, montamos a URL com os parâmetros de tracking do usuário e a encurtamos.
+    Converte um link da Shopee para link de afiliado usando a API oficial (Open Platform V2).
     """
+    import config
+    import hmac
+    import hashlib
+    import time
+    import json
+    
+    SHOPEE_APP_ID = getattr(config, 'SHOPEE_APP_ID', None)
+    SHOPEE_APP_SECRET = getattr(config, 'SHOPEE_APP_SECRET', None)
+    SHOPEE_AFFILIATE_ID = getattr(config, 'SHOPEE_AFFILIATE_ID', None)
+    
+    # 1. Limpar a URL
+    clean_url_str = clean_tracking_params(original_url)
+    
+    if not SHOPEE_APP_ID or not SHOPEE_APP_SECRET:
+        print("[!] Credenciais da API Shopee (AppID/Secret) nao configuradas. Usando fallback Universal Link.")
+        return await convert_shopee_fallback_manual(original_url)
+
+    # Endpoint da API Shopee (BR)
+    url = "https://open-api.affiliate.shopee.com.br/graphql"
+    
+    # Payload GraphQL Oficial
+    query = 'mutation { generateShortLink(input: { originUrl: "' + clean_url_str + '" }) { shortLink } }'
+    body = json.dumps({"query": query}, separators=(',', ':'))
+    timestamp = int(time.time())
+    
+    # Algoritmo Oficial: SHA256(AppId + Timestamp + Body + Secret)
+    base_str = f"{SHOPEE_APP_ID}{timestamp}{body}{SHOPEE_APP_SECRET}"
+    signature = hashlib.sha256(base_str.encode('utf-8')).hexdigest()
+    
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"SHA256 Credential={SHOPEE_APP_ID}, Signature={signature}, Timestamp={timestamp}"
+    }
+
+    try:
+        print(f"Convertendo Shopee via API Oficial: {clean_url_str}")
+        async with httpx.AsyncClient(timeout=15.0) as client:
+            response = await client.post(url, headers=headers, content=body)
+            
+            if response.status_code != 200:
+                print(f"[ERR] Erro na API do Shopee ({response.status_code}): {response.text}")
+                return await convert_shopee_fallback_manual(original_url)
+                
+            data = response.json()
+            
+            if "errors" in data:
+                print(f"[ERR] Erro GraphQL Shopee: {data['errors']}")
+                return await convert_shopee_fallback_manual(original_url)
+                
+            short_url = data.get("data", {}).get("generateShortLink", {}).get("shortLink")
+            if short_url:
+                print(f"[OK] Link Shopee convertido via API Oficial: {short_url}")
+                return short_url
+                
+    except Exception as e:
+        print(f"[!] Erro de conexao com API Shopee: {e}")
+        
+    return await convert_shopee_fallback_manual(original_url)
+
+async def convert_shopee_fallback_manual(original_url: str) -> str:
+    """Logica antiga de fallback baseada em Universal Link (sem TinyURL agora)."""
     import config
     SHOPEE_AFFILIATE_ID = getattr(config, 'SHOPEE_AFFILIATE_ID', None)
     SHOPEE_SOURCE_ID = getattr(config, 'SHOPEE_SOURCE_ID', None)
     
     if not SHOPEE_AFFILIATE_ID:
-        print("⚠️ SHOPEE_AFFILIATE_ID não configurado. Limpando apenas parâmetros.")
         return clean_tracking_params(original_url)
 
-    # Extrair Shop ID e Item ID
-    # Padrao 1: shopee.com.br/product/123/456
-    # Padrao 2: shopee.com.br/nome-do-produto-i.123.456
-    
     shop_id = None
     item_id = None
     
@@ -298,14 +356,12 @@ async def convert_shopee_to_affiliate(original_url: str) -> str:
             
     if shop_id and item_id:
         source_id = SHOPEE_SOURCE_ID if SHOPEE_SOURCE_ID else "python_bot"
-        # Formato Universal Link para abertura direta no APP com tracking
+        # Mantemos o linl shopee direto para evitar TinyURL no fallback tambem
         aff_url = (
             f"https://shopee.com.br/universal-link/product/{shop_id}/{item_id}"
             f"?utm_medium=affiliates&utm_source=an_{source_id}&utm_campaign=-&utm_content={SHOPEE_AFFILIATE_ID}"
         )
-        short_url = await shorten_url_tiny(aff_url)
-        print(f"✅ Link Shopee convertido via Universal Link e encurtado: {short_url}")
-        return short_url
+        return aff_url
         
     return clean_tracking_params(original_url)
 
@@ -337,7 +393,7 @@ async def convert_to_affiliate(url: str) -> str:
         if asin:
             # Reconstrói a URL no formato mais curto possível
             new_url = f"https://{parsed.netloc}/dp/{asin}?tag={AMAZON_TAG}"
-            print(f"✅ Link Amazon encurtado via ASIN ({asin}): {new_url}")
+            print(f"[OK] Link Amazon encurtado via ASIN ({asin}): {new_url}")
             return new_url
 
         # Fallback caso não ache ASIN (mantém limpeza de parâmetros)
