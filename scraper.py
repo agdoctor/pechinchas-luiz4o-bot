@@ -45,6 +45,35 @@ def get_random_browser() -> str:
     """Retorna um perfil de navegador aleatório suportado pelo curl_cffi."""
     return random.choice(["chrome110", "chrome116", "chrome120", "chrome124", "safari15_5"])
 
+async def download_image(url: str, session: Optional[AsyncSession] = None) -> Optional[str]:
+    """Downloads an image from a URL and returns the local path."""
+    if not url:
+        return None
+    
+    if url.startswith("//"):
+        url = "https:" + url
+        
+    try:
+        if not os.path.exists("downloads"):
+            os.makedirs("downloads")
+            
+        file_name = f"downloads/scraped_{random.randint(1000, 9999)}.jpg"
+        
+        if session:
+            res = await session.get(url, timeout=15)
+        else:
+            async with AsyncSession(impersonate="chrome120") as s:
+                res = await s.get(url, timeout=15)
+                
+        if res.status_code == 200:
+            with open(file_name, "wb") as f:
+                f.write(res.content)
+            return file_name
+    except Exception as e:
+        print(f"❌ Erro ao baixar imagem ({url[:50]}...): {e}")
+        
+    return None
+
 async def fetch_product_metadata(url: str) -> dict:
     """
     Acessa a URL e tenta extrair o título do produto e a imagem principal usando curl_cffi
@@ -197,21 +226,8 @@ async def fetch_product_metadata(url: str) -> dict:
                 # Finalização de sucesso
                 if metadata["title"]:
                     print(f"✅ Sucesso na tentativa {attempt + 1}!")
-                    
                     if metadata["image_url"]:
-                        img_url = str(metadata["image_url"])
-                        if img_url.startswith("//"): img_url = "https:" + img_url
-                        try:
-                            img_res = await s.get(img_url, timeout=15, proxy=proxy_dict)
-                            if img_res.status_code == 200:
-                                if not os.path.exists("downloads"): os.makedirs("downloads")
-                                file_name = f"downloads/scraped_{random.randint(1000, 9999)}.jpg"
-                                with open(file_name, "wb") as f:
-                                    f.write(img_res.content)
-                                metadata["local_image_path"] = file_name
-                                print(f"📸 Imagem salva: {file_name}")
-                        except Exception as e:
-                            print(f"❌ Erro ao baixar imagem: {e}")
+                        metadata["local_image_path"] = await download_image(metadata["image_url"], session=s)
                     return metadata
                     
         except Exception as e:

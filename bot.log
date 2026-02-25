@@ -1729,3 +1729,70 @@
 [24/02 11:23:45] Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8296324698)
 [24/02 11:23:48] Please enter the code you received: Failed to fetch updates - TelegramNetworkError: HTTP Client says - Request timeout error
 [24/02 11:25:02] Sleep for 1.174499 seconds and try again... (tryings = 1, bot id = 8296324698)
+[25/02 04:49:48] ==================================================INICIANDO SISTEMA PECHINCHAS==================================================Chave Gemini carregada (Inicio: AIza...3P08)Traceback (most recent call last):
+[25/02 04:49:52]   File "C:\Users\luizh\.gemini\antigravity\pechinchasdoluiz4o\pechinchas_bot\main.py", line 110, in <module>
+[25/02 04:49:52]     asyncio.run(main())
+[25/02 04:49:52]     ~~~~~~~~~~~^^^^^^^^
+[25/02 04:49:52]   File "C:\Users\luizh\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\runners.py", line 204, in run
+[25/02 04:49:52]     return runner.run(main)
+[25/02 04:49:52]            ~~~~~~~~~~^^^^^^
+[25/02 04:49:52]   File "C:\Users\luizh\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\runners.py", line 127, in run
+[25/02 04:49:52]     return self._loop.run_until_complete(task)
+[25/02 04:49:52]            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+[25/02 04:49:52]   File "C:\Users\luizh\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\base_events.py", line 719, in run_until_complete
+[25/02 04:49:52]     return future.result()
+[25/02 04:49:52]            ~~~~~~~~~~~~~^^
+[25/02 04:49:52]   File "C:\Users\luizh\.gemini\antigravity\pechinchasdoluiz4o\pechinchas_bot\main.py", line 84, in main
+[25/02 04:49:52]     from monitor import start_monitoring
+[25/02 04:49:52]   File "C:\Users\luizh\.gemini\antigravity\pechinchasdoluiz4o\pechinchas_bot\monitor.py", line 12, in <module>
+[25/02 04:49:52]     from links import process_and_replace_links
+[25/02 04:49:52]   File "C:\Users\luizh\.gemini\antigravity\pechinchasdoluiz4o\pechinchas_bot\links.py", line 59, in <module>
+[25/02 04:49:52]     import affiliate
+[25/02 04:49:52]   File "C:\Users\luizh\.gemini\antigravity\pechinchasdoluiz4o\pechinchas_bot\affiliate.py", line 257
+[25/02 04:49:52]     \"\"\"Encurtador de URL via TinyURL público.\"\"\"
+[25/02 04:49:52]      ^
+[25/02 04:49:52] SyntaxError: unexpected character after line continuation character
+[25/02 04:51:28] ==================================================INICIANDO SISTEMA PECHINCHAS==================================================Chave Gemini carregada (Inicio: AIza...3P08)📡 StringSession detectada (Início: 1AZWarzgBuzpE1z...)🚀 Iniciando: Dashboard Web🌐 Dashboard rodando na porta 8080🚀 Iniciando: Monitoramento⏳ Conectando o Userbot ao Telegram...🚀 Iniciando: Bot Admin🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)✅ Userbot conectado e autorizado!📋 Verificando filiação em 5 canais...🔗 Verificando canal: promoexemplos...✅ Userbot garantido no canal: promoexemplos🔗 Verificando canal: promocoesdodia...✅ Userbot garantido no canal: promocoesdodia🔗 Verificando canal: canalrodrigomoreira...✅ Userbot garantido no canal: canalrodrigomoreira🔗 Verificando canal: garimposdodepinho...✅ Userbot garantido no canal: garimposdodepinho🔗 Verificando canal: promotop...✅ Userbot garantido no canal: promotop🔍 Atualizando cache de IDs para 5 canais...✅ ID Resolvido: @promoexemplos -> -1003397866794✅ ID Resolvido: @promocoesdodia -> -1001007742949✅ ID Resolvido: @canalrodrigomoreira -> -1001467478798✅ ID Resolvido: @garimposdodepinho -> -1001616296909✅ ID Resolvido: @promotop -> -1001007742949✨ Cache atualizado com 4 IDs.✅ Monitoramento iniciado! Canais no Banco: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho', 'promotop']Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:51:39] Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8296324698)
+[25/02 04:51:45] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:51:45] Sleep for 1.305135 seconds and try again... (tryings = 1, bot id = 8296324698)
+[25/02 04:51:51] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:51:51] Sleep for 1.604970 seconds and try again... (tryings = 2, bot id = 8296324698)
+[25/02 04:52:00] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:52:00] Sleep for 2.300806 seconds and try again... (tryings = 3, bot id = 8296324698)
+[25/02 04:52:10] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:52:10] Sleep for 2.955343 seconds and try again... (tryings = 4, bot id = 8296324698)
+[25/02 04:52:18] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:52:18] Sleep for 3.926105 seconds and try again... (tryings = 5, bot id = 8296324698)
+[25/02 04:52:28] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:52:28] Sleep for 4.987465 seconds and try again... (tryings = 6, bot id = 8296324698)
+[25/02 04:52:48] ==================================================INICIANDO SISTEMA PECHINCHAS==================================================Chave Gemini carregada (Inicio: AIza...3P08)📡 StringSession detectada (Início: 1AZWarzgBuzpE1z...)🚀 Iniciando: Dashboard Web🌐 Dashboard rodando na porta 8080🚀 Iniciando: Monitoramento⏳ Conectando o Userbot ao Telegram...🚀 Iniciando: Bot Admin🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)✅ Userbot conectado e autorizado!📋 Verificando filiação em 5 canais...🔗 Verificando canal: promoexemplos...✅ Userbot garantido no canal: promoexemplos🔗 Verificando canal: promocoesdodia...✅ Userbot garantido no canal: promocoesdodia🔗 Verificando canal: canalrodrigomoreira...✅ Userbot garantido no canal: canalrodrigomoreira🔗 Verificando canal: garimposdodepinho...✅ Userbot garantido no canal: garimposdodepinho🔗 Verificando canal: promotop...✅ Userbot garantido no canal: promotop🔍 Atualizando cache de IDs para 5 canais...✅ ID Resolvido: @promoexemplos -> -1003397866794✅ ID Resolvido: @promocoesdodia -> -1001007742949✅ ID Resolvido: @canalrodrigomoreira -> -1001467478798✅ ID Resolvido: @garimposdodepinho -> -1001616296909✅ ID Resolvido: @promotop -> -1001007742949✨ Cache atualizado com 4 IDs.✅ Monitoramento iniciado! Canais no Banco: ['promoexemplos', 'promocoesdodia', 'canalrodrigomoreira', 'garimposdodepinho', 'promotop']Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:52:59] Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8296324698)
+[25/02 04:53:05] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:53:05] Sleep for 1.298408 seconds and try again... (tryings = 1, bot id = 8296324698)
+[25/02 04:53:12] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:53:12] Sleep for 1.740456 seconds and try again... (tryings = 2, bot id = 8296324698)
+[25/02 04:53:19] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:53:19] Sleep for 2.266215 seconds and try again... (tryings = 3, bot id = 8296324698)
+[25/02 04:53:26] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:53:26] Sleep for 2.768855 seconds and try again... (tryings = 4, bot id = 8296324698)
+[25/02 04:53:37] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:53:37] Sleep for 3.624011 seconds and try again... (tryings = 5, bot id = 8296324698)
+[25/02 04:53:45] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:53:45] Sleep for 4.646335 seconds and try again... (tryings = 6, bot id = 8296324698)
+[25/02 04:53:55] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:53:55] Sleep for 5.075573 seconds and try again... (tryings = 7, bot id = 8296324698)
+[25/02 04:54:06] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:54:06] Sleep for 4.982472 seconds and try again... (tryings = 8, bot id = 8296324698)
+[25/02 04:54:16] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:54:16] Sleep for 5.143375 seconds and try again... (tryings = 9, bot id = 8296324698)
+[25/02 04:54:26] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:54:26] Sleep for 5.063645 seconds and try again... (tryings = 10, bot id = 8296324698)
+[25/02 04:54:37] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:54:37] Sleep for 5.104249 seconds and try again... (tryings = 11, bot id = 8296324698)
+[25/02 04:54:47] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:54:47] Sleep for 4.997549 seconds and try again... (tryings = 12, bot id = 8296324698)
+[25/02 04:54:57] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:54:57] Sleep for 4.882349 seconds and try again... (tryings = 13, bot id = 8296324698)
+[25/02 04:55:07] Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[25/02 04:55:07] Sleep for 5.006860 seconds and try again... (tryings = 14, bot id = 8296324698)

@@ -439,23 +439,84 @@ async def start_monitoring():
                 except Exception as e:
                     print(f"Erro ao notificar admin sobre detecção: {e}")
             
+            # --- FASE 0: Extrair Mídia (Telegram ou Scraper) ---
             media_path = None
-            if event.message.media:
-                print("⏬ Baixando mídia associada...")
-                media_path = await event.message.download_media(file="downloads/")
-                print(f"✅ Mídia baixada: {media_path}")
-                
-                # Applica a marca d'água (se o arquivo watermark.png existir na raiz)
-                try:
-                    media_path = apply_watermark(media_path)
-                    print("🖌️ Marca d'água aplicada à imagem.")
-                except Exception as e:
-                    print(f"⚠️ Não foi possível aplicar marca d'água: {e}")
+            source_has_media = bool(event.message.media)
             
+            # Tenta baixar a mídia do Telegram primeiro (fallback)
+            if source_has_media:
+                print("⏬ Baixando mídia do Telegram...")
+                media_path = await event.message.download_media(file="downloads/")
+                print(f"✅ Mídia do Telegram baixada: {media_path}")
+
             # --- FASE 1: Extrair, Remover e Processar Links (Conversão e Expansão) ---
             print("🔗 Processando links e substituindo por placeholders...")
-            texto_com_placeholders, placeholder_map = await process_and_replace_links(mensagem_texto)
+            
+            # Extrair links de botões (Inline Keyboard) do canal original
+            original_button_links = []
+            if event.message.reply_markup:
+                from telethon.tl.types import ReplyInlineMarkup, KeyboardButtonUrl
+                if isinstance(event.message.reply_markup, ReplyInlineMarkup):
+                    for row in event.message.reply_markup.rows:
+                        for button in row.buttons:
+                            if isinstance(button, KeyboardButtonUrl):
+                                original_button_links.append(button.url)
+                                print(f"🔘 Link de botão detectado: {button.url}")
+
+            # Identificar o primeiro link de produto para tentar pegar imagem limpa
+            primeiro_link_produto = None
+            all_source_urls = extract_urls(mensagem_texto) + original_button_links
+            if all_source_urls:
+                from links import expand_url
+                # Pega o primeiro link que pareça de uma loja
+                for l in all_source_urls:
+                    if any(store in l.lower() for store in ["amazon", "mercadolivre", "shopee", "magazineluiza", "casasbahia"]):
+                        primeiro_link_produto = l
+                        break
+
+            # Se achamos um link de produto, tentamos pegar a imagem limpa da loja
+            if primeiro_link_produto:
+                print(f"🔍 Tentando buscar imagem limpa da loja: {primeiro_link_produto}")
+                from scraper import fetch_product_metadata
+                try:
+                    # Expandir se necessário para o scraper funcionar melhor
+                    expanded_for_img = await expand_url(primeiro_link_produto)
+                    metadata = await fetch_product_metadata(expanded_for_img)
+                    if metadata and metadata.get("local_image_path"):
+                        temp_clean_path = metadata["local_image_path"]
+                        print(f"📸 Imagem limpa encontrada na loja: {temp_clean_path}")
+                        
+                        # Se baixou a limpa, prioriza ela sobre a do Telegram
+                        if media_path and os.path.exists(media_path):
+                            try:
+                                os.remove(media_path)
+                            except: pass
+                        media_path = temp_clean_path
+                        print("✨ Usando imagem original do site (limpa de logos do concorrente).")
+                except Exception as e:
+                    print(f"⚠️ Falha ao tentar buscar imagem limpa: {e}")
+
+            # Aplica a marca d'água (se houver imagem, seja do telegram ou do scraper)
+            if media_path and os.path.exists(media_path):
+                try:
+                    from watermark import apply_watermark
+                    media_path = apply_watermark(media_path)
+                    print("🖌️ Marca d'água aplicada à imagem final.")
+                except Exception as e:
+                    print(f"⚠️ Não foi possível aplicar marca d'água: {e}")
+
+            # Se houver links nos botões, vamos injetá-los no texto (no final) para que o bot os processe e crie nossos próprios botões
+            texto_para_processar = mensagem_texto
+            if original_button_links:
+                # Adiciona os links dos botões ao final do texto para garantir que sejam capturados
+                links_str = "\n".join(original_button_links)
+                texto_para_processar += f"\n{links_str}"
+                print(f"➕ {len(original_button_links)} links de botões adicionados ao texto para processamento.")
+
+            from links import process_and_replace_links
+            texto_com_placeholders, placeholder_map = await process_and_replace_links(texto_para_processar)
             print(f"✅ {len(placeholder_map)} links processados.")
+
             
             # --- FASE 2: Reescrever Texto com Gemini ---
             print("🧠 Passando para o Gemini reescrever a copy...")
