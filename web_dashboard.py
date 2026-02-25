@@ -136,7 +136,7 @@ async def handle_index(request):
                 <div class="progress-bar" id="p-bar"></div>
             </div>
             <div class="check-icon" id="restart-check">✅</div>
-            <p id="restart-status" style="color:var(--text-dim); font-size:14px;">O bot está sendo sincronizado na Square Cloud.</p>
+            <p id="restart-status" style="color:var(--text-dim); font-size:14px;">O bot está sendo sincronizado no servidor.</p>
         </div>
         <main>
             <div id="tab-dashboard" class="tab-content active">
