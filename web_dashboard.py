@@ -430,11 +430,11 @@ async def handle_index(request):
 
                         // Simular progresso lento (aprox 25-30 segundos para nuvem)
                         let progress = 0;
-                        const interval = setInterval(async () => {
+                        const interval = setInterval(async () => {{
                             // Progresso mais lento e linear
                             progress += Math.random() * 3 + 1;
                             
-                            if(progress >= 95) {
+                            if(progress >= 95) {{
                                 progress = 95;
                                 clearInterval(interval);
                                 
@@ -442,39 +442,39 @@ async def handle_index(request):
                                 status.textContent = "Finalizando inicialização do servidor...";
                                 
                                 let attempts = 0;
-                                const checkBack = setInterval(async () => {
+                                const checkBack = setInterval(async () => {{
                                     attempts++;
-                                    try {
+                                    try {{
                                         const d = await api('status');
-                                        if (d.canais_count !== undefined) {
+                                        if (d.canais_count !== undefined) {{
                                             clearInterval(checkBack);
                                             finishRestart();
-                                        }
-                                    } catch(e) {
-                                        if (attempts > 15) { // Desiste após +15 segundos e tenta recarregar assim mesmo
+                                        }}
+                                    }} catch(e) {{
+                                        if (attempts > 15) {{ // Desiste após +15 segundos e tenta recarregar assim mesmo
                                             clearInterval(checkBack);
                                             finishRestart();
-                                        }
-                                    }
-                                }, 2000);
-                            }
+                                        }}
+                                    }}
+                                }}, 2000);
+                            }}
                             bar.style.width = progress + '%';
-                        }, 800);
+                        }}, 800);
 
-                        function finishRestart() {
+                        function finishRestart() {{
                             bar.style.width = '100%';
                             container.style.display = 'none';
                             check.style.display = 'block';
                             title.textContent = "Sistema Online!";
                             status.textContent = "Sincronização concluída. Recarregando...";
                             
-                            setTimeout(() => {
+                            setTimeout(() => {{
                                 // Forçar recarregamento total da página para limpar cache e renovar socket/token
                                 window.location.reload();
-                            }, 2000);
-                        }
-                    }
-                });
+                            }}, 2000);
+                        }}
+                    }}
+                }});
             }}
             async function toggleOnlyAdmins() {{
                 const v = document.getElementById('check-only-admins').checked ? '1' : '0';
@@ -1137,8 +1137,22 @@ async def start_web_server():
     runner = web.AppRunner(app)
     await runner.setup()
     site = web.TCPSite(runner, '0.0.0.0', port)
-    await site.start()
-    print(f"🌐 Dashboard rodando na porta {port}")
+    
+    # Retry loop para bind de porta (evita erro fatal se reiniciar muito rápido)
+    max_retries = 5
+    for attempt in range(max_retries):
+        try:
+            await site.start()
+            print(f"🌐 Dashboard rodando na porta {port}")
+            break
+        except OSError as e:
+            if e.errno == 10048 or "Address already in use" in str(e):
+                if attempt < max_retries - 1:
+                    print(f"⚠️ Porta {port} ocupada. Tentativa {attempt + 1}/{max_retries} - Aguardando 5s...")
+                    await asyncio.sleep(5)
+                    continue
+            print(f"❌ Erro fatal ao iniciar Dashboard na porta {port}: {e}")
+            raise
     try:
         while True: await asyncio.sleep(3600)
     except asyncio.CancelledError:

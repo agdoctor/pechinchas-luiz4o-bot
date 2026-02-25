@@ -204,8 +204,8 @@ async def start_monitoring():
             except Exception as rename_err:
                 print(f"❌ Não foi possível limpar o arquivo de sessão: {rename_err}")
             
-            print("⏸️ Aguardando 60 segundos antes de reiniciar o processo...")
-            await asyncio.sleep(60)
+            print("⏸️ Aguardando 5 minutos antes de reiniciar o processo para evitar Flood...")
+            await asyncio.sleep(300) # 5 minutos para acalmar os ânimos do Telegram
         return
 
     print("✅ Userbot conectado e autorizado!")

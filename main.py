@@ -13,7 +13,10 @@ class LoggerWriter:
 
     def write(self, message):
         if not message or message == '\n': 
-            self.terminal.write(message)
+            try:
+                self.terminal.write(message)
+            except UnicodeEncodeError:
+                self.terminal.write(message.encode(self.terminal.encoding, errors='backslashreplace').decode(self.terminal.encoding))
             return
             
         now = (datetime.now(timezone.utc) - timedelta(hours=3)).strftime("[%d/%m %H:%M:%S] ")
@@ -27,7 +30,12 @@ class LoggerWriter:
             if line.endswith('\n'):
                 self.at_start = True
         
-        self.terminal.write(formatted)
+        try:
+            self.terminal.write(formatted)
+        except UnicodeEncodeError:
+            # Fallback para terminais que não suportam certos caracteres (ex: Windows CMD sem UTF-8)
+            self.terminal.write(formatted.encode(self.terminal.encoding, errors='backslashreplace').decode(self.terminal.encoding))
+            
         try:
             with open(self.filename, "a", encoding="utf-8") as f:
                 f.write(formatted)
@@ -37,7 +45,10 @@ class LoggerWriter:
         self.terminal.flush()
 
 if sys.stdout.encoding.lower() != 'utf-8':
-    try: sys.stdout.reconfigure(encoding='utf-8')
+    try: 
+        import io
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
     except: pass
 
 sys.stdout = LoggerWriter("bot.log")

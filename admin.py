@@ -1230,16 +1230,19 @@ async def start_admin_bot():
     print("🤖 Painel Admin do Bot iniciado (Aguardando /admin no Telegram)")
     
     # Configurar menu de comandos
-    await bot.set_my_commands([
-        BotCommand(command="admin", description="Painel de Controle Admin"),
-        BotCommand(command="commands", description="Lista de Comandos Disponíveis"),
-        BotCommand(command="enviar", description="Enviar Promoção via Link"),
-        BotCommand(command="waid", description="Descobrir ID de Grupo WhatsApp"),
-        BotCommand(command="statusmonitor", description="Verificar Status do Monitoramento"),
-        BotCommand(command="ultimoslogs", description="Ver Últimas Linhas de Log"),
-        BotCommand(command="debug", description="Ligar/Desligar Logs Detalhados"),
-        BotCommand(command="log", description="Receber Arquivo de Log Completo"),
-    ])
+    try:
+        await bot.set_my_commands([
+            BotCommand(command="admin", description="Painel de Controle Admin"),
+            BotCommand(command="commands", description="Lista de Comandos Disponíveis"),
+            BotCommand(command="enviar", description="Enviar Promoção via Link"),
+            BotCommand(command="waid", description="Descobrir ID de Grupo WhatsApp"),
+            BotCommand(command="statusmonitor", description="Verificar Status do Monitoramento"),
+            BotCommand(command="ultimoslogs", description="Ver Últimas Linhas de Log"),
+            BotCommand(command="debug", description="Ligar/Desligar Logs Detalhados"),
+            BotCommand(command="log", description="Receber Arquivo de Log Completo"),
+        ])
+    except Exception as e:
+        print(f"⚠️ Erro ao configurar comandos do bot: {e}")
     
     # Configurar o Botão de Menu (Canto inferior esquerdo) para abrir o Mini App
     webapp_url = get_config("webapp_url")
