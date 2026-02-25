@@ -190,9 +190,21 @@ async def start_monitoring():
     except Exception as e:
         err_msg = str(e).lower()
         print(f"⚠️ Erro ao verificar autorização: {e}")
-        if "simultaneously" in err_msg:
-            print("🚨 CONFLITO DE SESSÃO DETECTADO!")
-            print("Aguardando 60 segundos antes de tentar novamente para evitar bloqueio...")
+        
+        if "simultaneously" in err_msg or "revoked" in err_msg or "expired" in err_msg:
+            print("🚨 CONFLITO CRÍTICO DE SESSÃO DETECTADO!")
+            print("Tentando remover arquivo de sessão local para forçar novo login via StringSession...")
+            try:
+                # O Telethon trava o arquivo .session. Precisamos desconectar antes de renomear.
+                await client.disconnect()
+                if os.path.exists("pechinchas_userbot.session"):
+                    backup_name = f"pechinchas_userbot.session.old_{int(asyncio.get_event_loop().time())}"
+                    os.rename("pechinchas_userbot.session", backup_name)
+                    print(f"✅ Arquivo de sessão renomeado para: {backup_name}")
+            except Exception as rename_err:
+                print(f"❌ Não foi possível limpar o arquivo de sessão: {rename_err}")
+            
+            print("⏸️ Aguardando 60 segundos antes de reiniciar o processo...")
             await asyncio.sleep(60)
         return
 

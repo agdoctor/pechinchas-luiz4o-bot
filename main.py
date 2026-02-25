@@ -1,106 +1,81 @@
 import asyncio
-from monitor import start_monitoring
-from admin import start_admin_bot
-from web_dashboard import start_web_server
-
+import os
 import sys
+import traceback
+from datetime import datetime, timedelta, timezone
+
+# Forçar UTF-8 para evitar erros de encode em logs de nuvem
 if sys.stdout.encoding.lower() != 'utf-8':
-    sys.stdout.reconfigure(encoding='utf-8')
+    try: sys.stdout.reconfigure(encoding='utf-8')
+    except: pass
 
-class LoggerWriter:
-    def __init__(self, filename):
-        self.terminal = sys.stdout
-        self.log_filename = filename
-        self.at_start_of_line = True
-        # Abre o log apenas quando necessário para evitar travas de escrita se o disco estiver lento
-        self._check_file()
+def get_now_br():
+    return (datetime.now(timezone.utc) - timedelta(hours=3)).strftime("[%d/%m %H:%M:%S]")
 
-    def _check_file(self):
-        try:
-            with open(self.log_filename, "a", encoding="utf-8") as f:
-                pass
-        except: pass
+def log_print(msg):
+    now = get_now_br()
+    text = f"{now} {msg}"
+    print(text)
+    try:
+        with open("bot.log", "a", encoding="utf-8") as f:
+            f.write(text + "\n")
+    except: pass
 
-    def write(self, message):
-        if not message: return
-        from datetime import datetime, timedelta, timezone
-        
-        try:
-            timestamp = (datetime.now(timezone.utc) - timedelta(hours=3)).strftime("[%d/%m %H:%M:%S] ")
-            
-            output = ""
-            lines = message.splitlines(keepends=True)
-            for line in lines:
-                if self.at_start_of_line and line.strip():
-                    output += timestamp
-                    self.at_start_of_line = False
-                output += line
-                if line.endswith('\n'):
-                    self.at_start_of_line = True
-
-            self.terminal.write(output)
-            # Escrita no arquivo de forma mais eficiente
-            with open(self.log_filename, "a", encoding="utf-8") as f:
-                f.write(output)
-        except:
-            self.terminal.write(message)
-
-    def flush(self):
-        if hasattr(self.terminal, "flush"): self.terminal.flush()
-
-sys.stdout = LoggerWriter("bot.log")
-sys.stderr = sys.stdout
-
-async def run_task_with_retry(name, coro_func, delay=5):
-    """Executa uma tarefa e a reinicia em caso de erro, sem derrubar as outras."""
+async def run_task_with_retry(name, coro_func, delay=10):
+    """Executa uma tarefa e a reinicia em caso de erro fatal."""
     while True:
         try:
-            print(f"🚀 Iniciando processo: {name}")
+            log_print(f"🚀 Iniciando: {name}")
             await coro_func()
-            print(f"ℹ️ Processo {name} finalizado voluntariamente.")
+            log_print(f"ℹ️ {name} finalizado.")
             break 
         except asyncio.CancelledError:
             break
         except Exception as e:
-            print(f"⚠️ Erro no processo {name}: {e}")
-            import traceback
+            log_print(f"❌ Erro em {name}: {e}")
             traceback.print_exc()
+            log_print(f"🔄 Reiniciando {name} em {delay}s...")
             await asyncio.sleep(delay)
 
 async def main():
-    print("="*60)
-    print("Bot Pechinchas do Luiz4o - Sistema de Monitoramento + Controle")
-    print("="*60)
+    log_print("="*50)
+    log_print("INICIANDO SISTEMA PECHINCHAS")
+    log_print("="*50)
     
-    # 1. Garante que o banco de dados está pronto
-    from database import init_db
-    init_db()
+    # 1. Banco de dados rápido
+    try:
+        from database import init_db
+        init_db()
+    except Exception as e:
+        log_print(f"⚠️ Erro no Banco de Dados: {e}")
 
-    # 2. Inicia o Dashboard Web PRIMEIRO para garantir que a porta 8080 seja vinculada antes do bot
-    # Isso evita os erros 408/502 caso o bot demore pra iniciar ou trave no login.
-    dashboard_task = asyncio.create_task(run_task_with_retry("Dashboard Web", start_web_server))
+    # 2. Imports das funções (dentro do main para evitar travas no topo)
+    from web_dashboard import start_web_server
+    from monitor import start_monitoring
+    from admin import start_admin_bot
+
+    # 3. Dashboard é PRIORIDADE ZERO. Sem ele a Square Cloud dá 408/502.
+    # Criamos em background e não aguardamos ele para iniciar os outros.
+    asyncio.create_task(run_task_with_retry("Dashboard Web", start_web_server, delay=5))
     
-    # Pequeno delay para o Dashboard bindar a porta
-    await asyncio.sleep(2)
+    # Pequeno respiro para bindar a porta
+    await asyncio.sleep(1)
 
-    # 3. Inicia as demais tarefas em background
+    # 4. Outros robôs
     tasks = [
-        dashboard_task,
-        asyncio.create_task(run_task_with_retry("Monitoramento", start_monitoring)),
-        asyncio.create_task(run_task_with_retry("Bot Admin", start_admin_bot))
+        asyncio.create_task(run_task_with_retry("Monitoramento (Userbot)", start_monitoring, delay=15)),
+        asyncio.create_task(run_task_with_retry("Bot Admin (Telegram)", start_admin_bot, delay=10))
     ]
     
+    # Mantém o main vivo
     try:
-         await asyncio.gather(*tasks)
+        await asyncio.gather(*tasks)
     except KeyboardInterrupt:
-        print("\nDesligando sistema...")
-    finally:
-        for t in tasks:
-            if not t.done(): t.cancel()
-        await asyncio.gather(*tasks, return_exceptions=True)
+        log_print("Desligando...")
+    except Exception as e:
+        log_print(f"Erro critico no loop main: {e}")
 
 if __name__ == "__main__":
     try:
         asyncio.run(main())
-    except KeyboardInterrupt:
-        pass
+    except KeyboardInterrupt: pass
