@@ -191,6 +191,20 @@ async def fetch_product_metadata(url: str) -> dict:
                     if any(low_title.startswith(gt) or low_title == gt for gt in generic_titles):
                         is_invalid = True
 
+                # --- NOVO: Fallback via API Shopee para metadados ---
+                if is_invalid and "shopee.com.br" in url:
+                    print("⚠️ Scraper bloqueado pela Shopee. Tentando API oficial para metadados...")
+                    try:
+                        from affiliate import get_shopee_product_info
+                        shopee_info = await get_shopee_product_info(url)
+                        if shopee_info and shopee_info.get("title"):
+                            metadata["title"] = shopee_info["title"]
+                            metadata["image_url"] = shopee_info.get("image", metadata["image_url"])
+                            print(f"✅ Metadados recuperados via API Shopee: {metadata['title'][:50]}...")
+                            is_invalid = False # Recuperado!
+                    except Exception as e:
+                        print(f"❌ Erro no fallback da API Shopee: {e}")
+
                 if is_invalid:
                     print(f"🚫 Bloqueio ou título genérico detectado: '{title[:50]}'")
                     if attempt < max_retries - 1:
