@@ -146,28 +146,31 @@ async def cmd_statusmonitor(message: Message):
         dialogs = await telethon_client.get_dialogs(limit=50)
         canais_db = database.get_canais()
         
-        texto = "📡 **Status do Monitoramento:**\n\n"
-        texto += f"✅ **Userbot Conectado!**\n\n"
-        texto += "**Canais no Banco de Dados:**\n"
+        texto = "📡 <b>Status do Monitoramento:</b>\n\n"
+        texto += f"✅ <b>Userbot Conectado!</b>\n\n"
+        texto += "<b>Canais no Banco de Dados:</b>\n"
         for c in canais_db:
-            texto += f"- `{c}`\n"
+            texto += f"- <code>{c}</code>\n"
             
-        texto += "\n**Diálogos Recentes do Userbot:**\n"
+        texto += "\n<b>Diálogos Recentes do Userbot:</b>\n"
         found_count = 0
+        from html import escape
         for d in dialogs:
             if d.is_channel:
                 username = getattr(d.entity, 'username', 'N/A')
                 chat_id = d.entity.id
+                title = escape(d.name)
                 
                 # Verifica se o ID ou Username está no monitoramento
                 is_monitored = "⭐" if (chat_id in monitored_ids_cache or (username and username.lower() in [c.lower() for c in canais_db])) else ""
                 
-                texto += f"- {d.name} (@{username}) `[ID: {chat_id}]` {is_monitored}\n"
+                texto += f"- {title} (@{username}) <code>[ID: {chat_id}]</code> {is_monitored}\n"
                 found_count += 1
                 if found_count >= 20: break
                 
-        await status_msg.edit_text(texto, parse_mode="Markdown")
+        await status_msg.edit_text(texto, parse_mode="HTML")
     except Exception as e:
+        print(f"Erro no statusmonitor: {e}")
         await status_msg.edit_text(f"❌ Erro ao buscar status: {e}")
 
 @dp.message(Command("testali"))
