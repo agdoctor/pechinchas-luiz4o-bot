@@ -291,8 +291,7 @@ async def handle_index(request):
                 </div>
             </div>
             <div id="tab-settings" class="tab-content">
-                <div class="card"><div class="card-title">⚙️ Geral</div><div id="settings-form"></div></div>
-                <div class="card" style="margin-top:0">
+                <div class="card">
                     <div class="card-title">🎨 Tema do Painel</div>
                     <p style="font-size:12px; color:var(--text-dim); margin-bottom:14px">Personalize as cores e o fundo do painel. As alterações são aplicadas em tempo real.</p>
 
@@ -319,6 +318,7 @@ async def handle_index(request):
 
                     <button class="primary" onclick="saveTheme()" style="width:100%">💾 Salvar Tema</button>
                 </div>
+                <div class="card" style="margin-top:0"><div class="card-title">⚙️ Geral</div><div id="settings-form"></div></div>
             </div>
             <div id="tab-moldura" class="tab-content">
                 <div class="card">

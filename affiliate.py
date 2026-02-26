@@ -372,23 +372,14 @@ async def convert_shopee_fallback_manual(original_url: str) -> str:
 
 async def get_shopee_product_info(url: str):
     """
-    Busca informações detalhadas do produto (título e imagem) via API oficial.
-    Requer SHOPEE_APP_ID e SHOPEE_APP_SECRET.
+    Busca informações detalhadas do produto Shopee com múltiplas estratégias:
+    1. Extrai título do slug da URL (instantâneo, sem API)
+    2. API REST pública da Shopee /api/v4/item/get (sem autenticação)
+    3. API Affiliate GraphQL (requer credenciais)
     """
-    import config
-    from database import get_config
-    import json
-    import time
-    import hashlib
-    
-    app_id = get_config("SHOPEE_APP_ID") or getattr(config, 'SHOPEE_APP_ID', None)
-    app_secret = get_config("SHOPEE_APP_SECRET") or getattr(config, 'SHOPEE_APP_SECRET', None)
-    
-    if not app_id or not app_secret:
-        print("[!] get_shopee_product_info: Credenciais da API Shopee (AppID/Secret) nao encontradas. Configure no Painel Web.")
-        return None
+    import json, time, hashlib
 
-    # --- Expandir links curtos (s.shopee.com.br, shope.ee, etc.) ---
+    # --- Expandir links curtos ---
     working_url = url
     if any(d in url for d in ['s.shopee', 'shope.ee', 'shopee.page.link']):
         try:
@@ -399,86 +390,125 @@ async def get_shopee_product_info(url: str):
         except Exception as e:
             print(f"[Shopee] Falha ao expandir URL curta: {e}")
 
-    # Extrair Item ID de varios formatos de URL
-    item_id = None
-
-    # Padrao 1: /produto-nome-i.SHOP_ID.ITEM_ID
+    # --- Extrair shop_id e item_id ---
+    shop_id, item_id = None, None
     m = re.search(r'-i\.(\d+)\.(\d+)', working_url)
     if m:
-        item_id = m.group(2)
-
+        shop_id, item_id = m.group(1), m.group(2)
     if not item_id:
-        # Padrao 2: /product/SHOP_ID/ITEM_ID
-        m = re.search(r'shopee\.com\.br/[^?]+/product/(\d+)/(\d+)', working_url)
-        if not m:
-            m = re.search(r'shopee\.com\.br/product/(\d+)/(\d+)', working_url)
+        m = re.search(r'shopee\.com\.br/[^?]*/(\d+)/(\d+)', working_url)
         if m:
-            item_id = m.group(2)
-
+            shop_id, item_id = m.group(1), m.group(2)
     if not item_id:
-        # Padrao 3: ?itemid=ITEM_ID no query string
-        m = re.search(r'[?&]itemid=(\d+)', working_url, re.IGNORECASE)
+        m = re.search(r'[?&]itemid=(\d+).*[?&]shopid=(\d+)', working_url, re.IGNORECASE)
         if m:
-            item_id = m.group(1)
+            item_id, shop_id = m.group(1), m.group(2)
 
-    if not item_id:
-        print(f"[Shopee API] Nao foi possivel extrair item_id da URL: {working_url[:120]}")
-        return None
+    print(f"[Shopee] shop_id={shop_id} item_id={item_id}")
 
-    print(f"[Shopee API] Buscando produto item_id={item_id}")
-
-    api_url = "https://open-api.affiliate.shopee.com.br/graphql"
-    
-    # Query para buscar detalhes do produto
-    # productOfferV2 e ideal porque aceita itemIds e retorna dados de afiliado
-    query = """
-    query ($itemIds: [Long]!) {
-      productOfferV2(itemIds: $itemIds) {
-        nodes {
-          itemName
-          imageUrl
-          price
-        }
-      }
-    }
-    """
-    variables = {"itemIds": [int(item_id)]}
-    body = json.dumps({"query": query, "variables": variables}, separators=(',', ':'))
-    timestamp = int(time.time())
-    
-    # Algoritmo Oficial: SHA256(AppId + Timestamp + Body + Secret)
-    base_str = f"{app_id}{timestamp}{body}{app_secret}"
-    signature = hashlib.sha256(base_str.encode('utf-8')).hexdigest()
-    
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"SHA256 Credential={app_id}, Signature={signature}, Timestamp={timestamp}"
-    }
-
+    # === ESTRATÉGIA 1: Título via slug da URL ===
+    # O nome do produto está diretamente no slug: /Nome-Do-Produto-i.SHOP.ITEM
+    slug_title = None
     try:
-        print(f"[Shopee API] Enviando requisicao para item {item_id}...")
-        async with httpx.AsyncClient(timeout=15.0) as client:
-            response = await client.post(api_url, headers=headers, content=body)
-            print(f"[Shopee API] Status: {response.status_code} | Resposta: {response.text[:400]}")
-            if response.status_code == 200:
-                data = response.json()
-                if "errors" in data:
-                    print(f"[Shopee API] Erros GraphQL: {data['errors']}")
-                nodes = data.get("data", {}).get("productOfferV2", {}).get("nodes", [])
-                if nodes:
-                    prod = nodes[0]
-                    return {
-                        "title": prod.get("itemName"),
-                        "image": prod.get("imageUrl")
-                    }
-                else:
-                    print(f"[Shopee API] Nodes vazio. Resposta completa: {str(data)[:500]}")
-            else:
-                print(f"[Shopee API] Erro HTTP ({response.status_code}): {response.text[:500]}")
+        path = working_url.split('?')[0].rstrip('/').split('/')[-1]
+        # Remove o sufixo -i.SHOP.ITEM
+        slug = re.sub(r'-i\.\d+\.\d+$', '', path)
+        # Converte hífens em espaços e capitaliza
+        slug_title = slug.replace('-', ' ').strip()
+        if len(slug_title) > 10:
+            print(f"[Shopee Slug] Título extraído: {slug_title[:80]}")
+        else:
+            slug_title = None
+    except Exception:
+        slug_title = None
+
+    # === ESTRATÉGIA 2: API REST pública da Shopee (sem auth) ===
+    rest_result = None
+    if item_id and shop_id:
+        try:
+            headers_rest = {
+                'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15',
+                'Referer': 'https://shopee.com.br/',
+                'Accept': 'application/json',
+                'x-api-source': 'pc',
+                'af-ac-enc-dat': '',
+            }
+            rest_url = f"https://shopee.com.br/api/v4/item/get?itemid={item_id}&shopid={shop_id}"
+            async with httpx.AsyncClient(timeout=12.0, follow_redirects=True) as client:
+                resp = await client.get(rest_url, headers=headers_rest)
+                print(f"[Shopee REST] Status: {resp.status_code}")
+                if resp.status_code == 200:
+                    data = resp.json()
+                    item_data = data.get('data') or data.get('item') or {}
+                    name = item_data.get('name') or item_data.get('title') or item_data.get('item_name')
+                    images = item_data.get('images') or item_data.get('image', [])
+                    if isinstance(images, list) and images:
+                        img_id = images[0]
+                        image_url = f"https://cf.shopee.com.br/file/{img_id}_tn" if img_id else None
+                    else:
+                        image_url = None
+                    if name:
+                        rest_result = {"title": name, "image": image_url}
+                        print(f"[Shopee REST] ✅ {name[:60]}")
+        except Exception as e:
+            print(f"[Shopee REST] Erro: {e}")
+
+    if rest_result:
+        return rest_result
+
+    # === ESTRATÉGIA 3: API Affiliate GraphQL (schema correto) ===
+    # Nota: productOfferV2 retorna ofertas do afiliado. Para buscar por item,
+    # a query correta é productDetailByItemId (se disponível) ou via productOffer
+    try:
+        import config
+        from database import get_config as _gc
+        app_id = _gc("SHOPEE_APP_ID") or getattr(config, 'SHOPEE_APP_ID', None)
+        app_secret = _gc("SHOPEE_APP_SECRET") or getattr(config, 'SHOPEE_APP_SECRET', None)
+
+        if app_id and app_secret and item_id:
+            # Query correta para o schema da Shopee BR Affiliate
+            query = """
+            query {
+              productOfferV2(page: {limit: 1, offset: 0}, keyword: \"""" + str(item_id) + """\") {
+                nodes {
+                  imageUrl
+                  itemId
+                  itemName
+                  priceMin
+                  offerLink
+                }
+              }
+            }
+            """
+            body = json.dumps({"query": query}, separators=(',', ':'))
+            timestamp = int(time.time())
+            base_str = f"{app_id}{timestamp}{body}{app_secret}"
+            signature = hashlib.sha256(base_str.encode('utf-8')).hexdigest()
+            gql_headers = {
+                "Content-Type": "application/json",
+                "Authorization": f"SHA256 Credential={app_id}, Signature={signature}, Timestamp={timestamp}"
+            }
+            async with httpx.AsyncClient(timeout=15.0) as client:
+                resp = await client.post("https://open-api.affiliate.shopee.com.br/graphql",
+                                         headers=gql_headers, content=body)
+                print(f"[Shopee GQL] Status: {resp.status_code} | {resp.text[:300]}")
+                if resp.status_code == 200:
+                    data = resp.json()
+                    nodes = data.get("data", {}).get("productOfferV2", {}).get("nodes", [])
+                    # Filtrar pelo item_id exato
+                    node = next((n for n in nodes if str(n.get('itemId')) == str(item_id)), nodes[0] if nodes else None)
+                    if node:
+                        return {"title": node.get("itemName"), "image": node.get("imageUrl")}
     except Exception as e:
-        print(f"[!] Erro ao buscar info Shopee via API: {e}")
-        
+        print(f"[Shopee GQL] Erro: {e}")
+
+    # === FALLBACK FINAL: Usar título do slug se disponível ===
+    if slug_title:
+        print(f"[Shopee] Usando título do slug como fallback: {slug_title[:60]}")
+        return {"title": slug_title, "image": None}
+
     return None
+
 
 async def convert_to_affiliate(url: str) -> str:
     """
