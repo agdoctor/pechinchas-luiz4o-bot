@@ -407,18 +407,18 @@ async def get_shopee_product_info(url: str):
     print(f"[Shopee] shop_id={shop_id} item_id={item_id}")
 
     # === ESTRATÉGIA 1: Título via slug da URL ===
-    # O nome do produto está diretamente no slug: /Nome-Do-Produto-i.SHOP.ITEM
     slug_title = None
     try:
         path = working_url.split('?')[0].rstrip('/').split('/')[-1]
-        # Remove o sufixo -i.SHOP.ITEM
         slug = re.sub(r'-i\.\d+\.\d+$', '', path)
-        # Converte hífens em espaços e capitaliza
-        slug_title = slug.replace('-', ' ').strip()
-        if len(slug_title) > 10:
-            print(f"[Shopee Slug] Título extraído: {slug_title[:80]}")
-        else:
-            slug_title = None
+        
+        # Ignora se o slug for puramente numérico (como em /product/123/456)
+        if not slug.isdigit():
+            slug_title = slug.replace('-', ' ').strip()
+            if len(slug_title) > 5:
+                print(f"[Shopee Slug] Título extraído: {slug_title[:80]}")
+            else:
+                slug_title = None
     except Exception:
         slug_title = None
 
