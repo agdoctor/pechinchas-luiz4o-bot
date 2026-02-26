@@ -553,10 +553,13 @@ async def get_shopee_product_info(url: str):
     except Exception as e:
         print(f"[Shopee GQL] Erro: {e}")
 
-    # === FALLBACK FINAL 1: Usar ttulo do slug se disponvel ===
-    if slug_title:
+    # === FALLBACK FINAL 1: Usar ttulo do slug se disponvel e confivel ===
+    # Critrio de confiana: ter pelo menos 2 espaos (3 palavras) ou ser longo (>15 chars)
+    if slug_title and (slug_title.count(' ') >= 2 or len(slug_title) > 15):
         print(f"[Shopee] Usando ttulo do slug como fallback: {slug_title[:60]}")
         return {"title": slug_title, "image": None}
+    elif slug_title:
+        print(f"[Shopee] Slug descartado por ser pouco descritivo: {slug_title}")
 
     # === FALLBACK FINAL 2: Google Search Snippet (ltimo recurso) ===
     if item_id and shop_id:
