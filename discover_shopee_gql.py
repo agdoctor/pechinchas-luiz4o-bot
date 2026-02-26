@@ -6,8 +6,9 @@ import hashlib
 import os
 
 # Mocking the configuration reading
-app_id = "20067640030" # From database or previous runs if possible
-app_secret = "R66P64MTWUNX3L56W4P3K7P7233V4UPN" # From database
+# Credentials will be loaded from database
+app_id = ""
+app_secret = ""
 
 async def discover_gql(item_id):
     fields = [
