@@ -14,7 +14,17 @@ async def expand_url(short_url: str) -> str:
             print(f"🔍 [Expand TLS] Usando curl_cffi para expandir: {short_url}")
             async with AsyncSession(impersonate="chrome120") as s:
                 response = await s.get(short_url, timeout=15, allow_redirects=True)
-                return str(response.url)
+                final_url = str(response.url)
+                
+                # --- RECUPERAÇÃO DE ANTI-BOT ML ---
+                if "/gz/account-verification" in final_url and "go=" in final_url:
+                    from urllib.parse import unquote, urlparse, parse_qs
+                    qs = parse_qs(urlparse(final_url).query)
+                    if 'go' in qs:
+                        recovered_url = unquote(qs['go'][0])
+                        print(f"[ML] Anti-Bot detectado no TLS! Recuperando: {recovered_url}")
+                        return recovered_url
+                return final_url
         except ImportError:
             # Fallback para httpx
             print(f"⚠️ [Expand] curl_cffi não disponível, usando httpx: {short_url}")
@@ -23,7 +33,17 @@ async def expand_url(short_url: str) -> str:
             }
             async with httpx.AsyncClient(follow_redirects=True, timeout=15.0, headers=headers) as client:
                 response = await client.get(short_url)
-                return str(response.url)
+                final_url = str(response.url)
+                
+                # --- RECUPERAÇÃO DE ANTI-BOT ML ---
+                if "/gz/account-verification" in final_url and "go=" in final_url:
+                    from urllib.parse import unquote, urlparse, parse_qs
+                    qs = parse_qs(urlparse(final_url).query)
+                    if 'go' in qs:
+                        recovered_url = unquote(qs['go'][0])
+                        print(f"[ML] Anti-Bot detectado no HTTPX! Recuperando: {recovered_url}")
+                        return recovered_url
+                return final_url
     except Exception as e:
         print(f"Erro ao expandir URL {short_url}: {e}")
         return short_url
