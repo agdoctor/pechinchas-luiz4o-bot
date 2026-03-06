@@ -1484,10 +1484,9 @@ async def handle_short_link_redirect(request):
     remote_ip = request.remote
     user_agent = request.headers.get('User-Agent', '')
 
-    # Se tiver CAPI (Token + Pixel), enviamos em background e redirecionamos instantaneamente
-    if fb_token and pixel_id and not ga_id:
+    # Se tiver CAPI (Token + Pixel), enviamos em background
+    if fb_token and pixel_id:
         asyncio.create_task(send_fb_capi_event(pixel_id, fb_token, original_url, remote_ip, user_agent))
-        return web.HTTPFound(original_url)
 
     # Se tiver apenas Pixel ou GA, precisa da página de ponte
     if pixel_id or ga_id:
@@ -1498,6 +1497,8 @@ async def handle_short_link_redirect(request):
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Carregando oferta...</title>
+            <meta http-equiv="refresh" content="{2 if ga_id else 0};url={original_url}">
+            
             <!-- Google Analytics -->
             {f'''<script async src="https://www.googletagmanager.com/gtag/js?id={ga_id}"></script>
             <script>
@@ -1510,21 +1511,21 @@ async def handle_short_link_redirect(request):
             <!-- Facebook Pixel -->
             {f'''<script>
                 !function(f,b,e,v,n,t,s)
-                {{{{if(f.fbq)return;n=f.fbq=function(){{{{n.callMethod?
-                n.callMethod.apply(n,arguments):n.queue.push(arguments)}}}};
+                {{if(f.fbq)return;n=f.fbq=function(){{n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)}};
                 if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
                 n.queue=[];t=b.createElement(e);t.async=!0;
                 t.src=v;s=b.getElementsByTagName(e)[0];
-                s.parentNode.insertBefore(t,s)}}}}(window, document,'script',
+                s.parentNode.insertBefore(t,s)}}(window, document,'script',
                 'https://connect.facebook.net/en_US/fbevents.js');
                 fbq('init', '{pixel_id}');
                 fbq('track', 'PageView');
             </script>''' if pixel_id else ''}
             
             <style>
-                body {{{{ background: #0d1117; color: white; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }}}}
-                .loader {{{{ border: 4px solid #f3f3f3; border-top: 4px solid #58a6ff; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }}}}
-                @keyframes spin {{{{ 0% {{{{ transform: rotate(0deg); }}}} 100% {{{{ transform: rotate(360deg); }}}} }}}}
+                body {{ background: #0d1117; color: white; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }}
+                .loader {{ border: 4px solid #f3f3f3; border-top: 4px solid #58a6ff; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }}
+                @keyframes spin {{ 0% {{ transform: rotate(0deg); }} 100% {{ transform: rotate(360deg); }} }}
             </style>
         </head>
         <body>
@@ -1534,9 +1535,10 @@ async def handle_short_link_redirect(request):
                 <small style="color: #8b949e;">Aguarde um instante.</small>
             </div>
             <script>
-                setTimeout(function() {{{{
+                // Backup via JS
+                setTimeout(function() {{
                     window.location.href = "{original_url}";
-                }}}}, {2000 if ga_id else 500});
+                }}, {2500 if ga_id else 500});
             </script>
         </body>
         </html>
@@ -1555,7 +1557,7 @@ async def start_web_server():
     app = web.Application()
     app.router.add_get('/', handle_index)
     app.router.add_get('/api/status', handle_status_api)
-    app.router.add_get('/{{code:[a-zA-Z0-9]{{6}}}}', handle_short_link_redirect)
+    app.router.add_get(r'/{code:[a-zA-Z0-9]{6}}', handle_short_link_redirect)
     app.router.add_post('/api/restart', handle_restart_api)
     app.router.add_route('*', '/api/canais', handle_canais_api)
     app.router.add_route('*', '/api/keywords', handle_keywords_api)
