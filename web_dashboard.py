@@ -10,6 +10,9 @@ import os
 import sys
 import json
 import asyncio
+import hashlib
+import aiohttp
+from time import time
 
 async def handle_index(request):
     token = request.query.get('token')
@@ -1015,6 +1018,10 @@ async def handle_index(request):
                     {{k:'preco_minimo',l:'Preço Mínimo'}},
                     {{k:'assinatura',l:'Assinatura'}},
                     {{k:'webapp_url',l:'WebApp URL'}},
+                    {{k:'shortener_domain',l:'🌐 Domínio do Encurtador (ex: oferta.seusite.com)'}},
+                    {{k:'fb_pixel_id',l:'🔵 Facebook Pixel ID'}},
+                    {{k:'fb_access_token',l:'🔑 Facebook Access Token (CAPI)'}},
+                    {{k:'google_analytics_id',l:'📊 Google Analytics ID (G-XXXXX)'}},
                     {{k:'whatsapp_enabled',l:'✅ Habilitar WhatsApp', t:'bool'}},
                     {{k:'green_api_instance_id',l:'ID Instância Green-API'}},
                     {{k:'green_api_token',l:'Token Green-API'}},
@@ -1430,11 +1437,125 @@ async def handle_rewrite_tg(request):
         traceback.print_exc()
         return web.json_response({"error": str(e)}, status=500)
 
+async def send_fb_capi_event(pixel_id, access_token, url, remote_ip, user_agent):
+    """Envia evento de PageView para a API de Conversões do Facebook."""
+    endpoint = f"https://graph.facebook.com/v18.0/{pixel_id}/events"
+    
+    # Hashing de dados para privacidade (Requisito da Meta)
+    ip_h = hashlib.sha256(remote_ip.encode()).hexdigest()
+    ua_h = hashlib.sha256(user_agent.encode()).hexdigest()
+    
+    payload = {
+        "data": [
+            {
+                "event_name": "PageView",
+                "event_time": int(time()),
+                "action_source": "website",
+                "event_source_url": url,
+                "user_data": {
+                    "client_ip_address": remote_ip,
+                    "client_user_agent": user_agent,
+                },
+            }
+        ],
+        "access_token": access_token
+    }
+    
+    async with aiohttp.ClientSession() as session:
+        try:
+            async with session.post(endpoint, json=payload) as resp:
+                res_text = await resp.text()
+                print(f"📡 FB CAPI Response: {res_text}")
+        except Exception as e:
+            print(f"❌ Erro ao enviar FB CAPI: {e}")
+
+async def handle_short_link_redirect(request):
+    code = request.match_info.get('code')
+    from database import get_original_url
+    original_url = get_original_url(code)
+    
+    if not original_url:
+        return web.Response(text="Link não encontrado ou expirado.", status=404)
+        
+    pixel_id = get_config("fb_pixel_id")
+    ga_id = get_config("google_analytics_id")
+    fb_token = get_config("fb_access_token")
+    
+    remote_ip = request.remote
+    user_agent = request.headers.get('User-Agent', '')
+
+    # Se tiver CAPI (Token + Pixel), enviamos em background e redirecionamos instantaneamente
+    if fb_token and pixel_id and not ga_id:
+        asyncio.create_task(send_fb_capi_event(pixel_id, fb_token, original_url, remote_ip, user_agent))
+        return web.HTTPFound(original_url)
+
+    # Se tiver apenas Pixel ou GA, precisa da página de ponte
+    if pixel_id or ga_id:
+        html = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Carregando oferta...</title>
+            <!-- Google Analytics -->
+            {f'''<script async src="https://www.googletagmanager.com/gtag/js?id={ga_id}"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){{dataLayer.push(arguments);}}
+                gtag('js', new Date());
+                gtag('config', '{ga_id}');
+            </script>''' if ga_id else ''}
+            
+            <!-- Facebook Pixel -->
+            {f'''<script>
+                !function(f,b,e,v,n,t,s)
+                {{{{if(f.fbq)return;n=f.fbq=function(){{{{n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)}}}};
+                if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                n.queue=[];t=b.createElement(e);t.async=!0;
+                t.src=v;s=b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t,s)}}}}(window, document,'script',
+                'https://connect.facebook.net/en_US/fbevents.js');
+                fbq('init', '{pixel_id}');
+                fbq('track', 'PageView');
+            </script>''' if pixel_id else ''}
+            
+            <style>
+                body {{{{ background: #0d1117; color: white; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }}}}
+                .loader {{{{ border: 4px solid #f3f3f3; border-top: 4px solid #58a6ff; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }}}}
+                @keyframes spin {{{{ 0% {{{{ transform: rotate(0deg); }}}} 100% {{{{ transform: rotate(360deg); }}}} }}}}
+            </style>
+        </head>
+        <body>
+            <div style="text-align: center;">
+                <div class="loader" style="margin: 0 auto 20px;"></div>
+                <p>Você está sendo redirecionado para a oferta...</p>
+                <small style="color: #8b949e;">Aguarde um instante.</small>
+            </div>
+            <script>
+                setTimeout(function() {{{{
+                    window.location.href = "{original_url}";
+                }}}}, {2000 if ga_id else 500});
+            </script>
+        </body>
+        </html>
+        """
+        # Se também tiver CAPI, dispara em background pra reforçar
+        if fb_token and pixel_id:
+            asyncio.create_task(send_fb_capi_event(pixel_id, fb_token, original_url, remote_ip, user_agent))
+            
+        return web.Response(text=html, content_type='text/html')
+
+    # Sem rastreio: Redirecionamento 301 Limpo e Rápido
+    return web.HTTPFound(original_url)
+
 async def start_web_server():
     if not get_config("console_token"): set_config("console_token", secrets.token_urlsafe(16))
     app = web.Application()
     app.router.add_get('/', handle_index)
     app.router.add_get('/api/status', handle_status_api)
+    app.router.add_get('/{{code:[a-zA-Z0-9]{{6}}}}', handle_short_link_redirect)
     app.router.add_post('/api/restart', handle_restart_api)
     app.router.add_route('*', '/api/canais', handle_canais_api)
     app.router.add_route('*', '/api/keywords', handle_keywords_api)

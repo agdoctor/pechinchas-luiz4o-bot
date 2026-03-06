@@ -81,6 +81,15 @@ def init_db():
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         ''')
+
+        # --- NOVAS TABELAS PARA TRACKING ---
+        c.execute('''
+            CREATE TABLE IF NOT EXISTS short_links (
+                code TEXT PRIMARY KEY,
+                original_url TEXT NOT NULL,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
     except:
         pass
         
@@ -290,6 +299,34 @@ def close_giveaway(giveaway_id: int, winner_id: int, winner_name: str):
               (winner_id, winner_name, giveaway_id))
     conn.commit()
     conn.close()
+
+# --- FUNÇÕES DE ENCURTADOR ---
+def create_short_link(original_url: str) -> str:
+    import secrets
+    import string
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    
+    # Gerar código único de 6 caracteres
+    chars = string.ascii_letters + string.digits
+    while True:
+        code = ''.join(secrets.choice(chars) for _ in range(6))
+        c.execute("SELECT 1 FROM short_links WHERE code = ?", (code,))
+        if not c.fetchone():
+            break
+            
+    c.execute("INSERT INTO short_links (code, original_url) VALUES (?, ?)", (code, original_url))
+    conn.commit()
+    conn.close()
+    return code
+
+def get_original_url(code: str) -> str:
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("SELECT original_url FROM short_links WHERE code = ?", (code,))
+    row = c.fetchone()
+    conn.close()
+    return row[0] if row else None
 
 # Aliases para compatibilidade com o literalmente_bot
 get_active_sorteios = get_active_giveaways
